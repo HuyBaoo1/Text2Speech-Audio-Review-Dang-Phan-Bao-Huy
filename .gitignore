@@ -26,3 +26,6 @@ models/
 *.pt
 *.pth
 *.safetensors
+
+#audio samples
+audio_samples/
