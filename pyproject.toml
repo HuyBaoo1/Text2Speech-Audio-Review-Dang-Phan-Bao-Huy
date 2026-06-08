@@ -1,0 +1,23 @@
+[project]
+name = "tts-audio-eval"
+version = "0.1.0"
+description = "Manual evaluation project for TTS data pipeline and ASR model comparison"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "scipy",
+    "soundfile",
+    "librosa",
+    "jiwer",
+    "transformers",
+    "torch",
+    "openai",
+    "python-dotenv",
+    "requests",
+    "tqdm",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,22 @@
+{
+  "sample_limit": 100,
+  "dataset_folder": "audio_samples/matched_audio",
+  "models": [
+    {
+      "provider": "local-whisper",
+      "model": "openai/whisper-small",
+      "role": "fast local baseline"
+    },
+    {
+      "provider": "local-whisper",
+      "model": "openai/whisper-medium",
+      "role": "stronger local baseline"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini-transcribe",
+      "role": "paid API/free-quota baseline",
+      "env": "OPENAI_API_KEY"
+    }
+  ]
+}

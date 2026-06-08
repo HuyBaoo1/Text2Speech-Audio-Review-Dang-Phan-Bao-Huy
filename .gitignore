@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Data and generated outputs
+audio_samples/
+outputs/*.csv
+outputs/*.json
+outputs/*.jsonl
+data/ground_truth/*.txt
+
+# Model/cache artifacts
+.cache/
+models/
+*.pt
+*.pth
+*.safetensors

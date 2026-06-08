@@ -1,0 +1,11 @@
+numpy
+scipy
+soundfile
+librosa
+jiwer
+transformers
+torch
+openai
+python-dotenv
+requests
+tqdm
