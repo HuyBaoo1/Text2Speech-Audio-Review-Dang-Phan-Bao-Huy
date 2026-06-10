@@ -21,7 +21,16 @@ try:
 except ImportError:
     pass
 
-from tts_data_pipeline.asr import compare_transcriptions, transcribe_openai_api, transcribe_whisper_local
+from tts_data_pipeline.asr import (
+    compare_transcriptions,
+    transcribe_azure_api,
+    transcribe_deepgram_api,
+    transcribe_elevenlabs_api,
+    transcribe_gemini_api,
+    transcribe_groq_api,
+    transcribe_openai_api,
+    transcribe_whisper_local,
+)
 from tts_data_pipeline.pipeline import normalize_text, scan_audio_files
 
 
@@ -68,11 +77,57 @@ def wav_duration(path: str) -> str:
         return ""
 
 
-def transcribe(path: str, provider: str, model: str, openai_api_key: str | None) -> str:
+def select_audio_paths(folder: str, limit: int, ground_truth: str, only_ground_truth: bool) -> list[str]:
+    audio_paths = scan_audio_files(folder, limit=None)
+    if only_ground_truth:
+        gt_dir = Path(ground_truth)
+        gt_stems = {
+            path.stem
+            for path in gt_dir.glob("*.txt")
+            if path.read_text(encoding="utf-8").strip()
+        }
+        audio_paths = [path for path in audio_paths if Path(path).stem in gt_stems]
+    return audio_paths[:limit] if limit else audio_paths
+
+
+def transcribe(
+    path: str,
+    provider: str,
+    model: str,
+    openai_api_key: str | None,
+    groq_api_key: str | None,
+    deepgram_api_key: str | None,
+    gemini_api_key: str | None,
+    elevenlabs_api_key: str | None,
+    azure_speech_key: str | None,
+    azure_speech_region: str | None,
+    language: str | None,
+) -> str:
     if provider == "local-whisper":
         return transcribe_whisper_local(path, model_name=model)
     if provider == "openai":
         return transcribe_openai_api(path, openai_api_key=openai_api_key, model=model)
+    if provider == "groq":
+        return transcribe_groq_api(path, groq_api_key=groq_api_key, model=model)
+    if provider == "deepgram":
+        return transcribe_deepgram_api(path, deepgram_api_key=deepgram_api_key, model=model, language=language)
+    if provider == "gemini":
+        return transcribe_gemini_api(path, gemini_api_key=gemini_api_key, model=model, language=language)
+    if provider == "elevenlabs":
+        return transcribe_elevenlabs_api(
+            path,
+            elevenlabs_api_key=elevenlabs_api_key,
+            model=model,
+            language=language,
+        )
+    if provider == "azure":
+        return transcribe_azure_api(
+            path,
+            azure_speech_key=azure_speech_key,
+            azure_speech_region=azure_speech_region,
+            model=model,
+            language=language,
+        )
     raise ValueError(f"Unsupported provider: {provider}")
 
 
@@ -86,15 +141,37 @@ def run_asr_evaluation(
     quality_csv: str,
     limit: int,
     openai_api_key: str | None,
+    groq_api_key: str | None,
+    deepgram_api_key: str | None,
+    gemini_api_key: str | None,
+    elevenlabs_api_key: str | None,
+    azure_speech_key: str | None,
+    azure_speech_region: str | None,
+    language: str | None,
+    only_ground_truth: bool,
 ) -> None:
     rows = []
-    audio_paths = scan_audio_files(folder, limit=limit)
+    audio_paths = select_audio_paths(folder, limit=limit, ground_truth=ground_truth, only_ground_truth=only_ground_truth)
     quality_index = load_quality_index(quality_csv)
     print(f"Running ASR on {len(audio_paths)} audio files from {folder}")
 
     for path in audio_paths:
         quality = quality_index.get(path, {})
-        hypothesis = normalize_text(transcribe(path, provider, model, openai_api_key))
+        hypothesis = normalize_text(
+            transcribe(
+                path,
+                provider,
+                model,
+                openai_api_key=openai_api_key,
+                groq_api_key=groq_api_key,
+                deepgram_api_key=deepgram_api_key,
+                gemini_api_key=gemini_api_key,
+                elevenlabs_api_key=elevenlabs_api_key,
+                azure_speech_key=azure_speech_key,
+                azure_speech_region=azure_speech_region,
+                language=language,
+            )
+        )
         reference = read_reference(ground_truth, path)
         wer_score = ""
         cer_score = ""
@@ -143,14 +220,26 @@ def run_asr_evaluation(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run ASR model comparison on the first N matched audio samples")
     parser.add_argument("--folder", default="audio_samples/matched_audio")
-    parser.add_argument("--provider", choices=["local-whisper", "openai"], default="local-whisper")
+    parser.add_argument(
+        "--provider",
+        choices=["local-whisper", "openai", "groq", "deepgram", "gemini", "elevenlabs", "azure"],
+        default="local-whisper",
+    )
     parser.add_argument("--model", default="openai/whisper-small")
     parser.add_argument("--ground-truth", default="data/ground_truth")
     parser.add_argument("--quality-csv", default="outputs/quality_report.csv")
     parser.add_argument("--output-csv", default="outputs/asr_eval.csv")
     parser.add_argument("--output-jsonl", default="outputs/asr_eval.jsonl")
     parser.add_argument("--limit", type=int, default=100)
+    parser.add_argument("--only-ground-truth", action="store_true", help="Run only audio files that have non-empty ground truth")
+    parser.add_argument("--language", default=os.getenv("ASR_LANGUAGE", "vi"))
     parser.add_argument("--openai-api-key", default=os.getenv("OPENAI_API_KEY") or os.getenv("OPEN_API_KEY"))
+    parser.add_argument("--groq-api-key", default=os.getenv("GROQ_API_KEY"))
+    parser.add_argument("--deepgram-api-key", default=os.getenv("DEEPGRAM_API_KEY"))
+    parser.add_argument("--gemini-api-key", default=os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"))
+    parser.add_argument("--elevenlabs-api-key", default=os.getenv("ELEVENLABS_API_KEY") or os.getenv("XI_API_KEY"))
+    parser.add_argument("--azure-speech-key", default=os.getenv("AZURE_SPEECH_KEY") or os.getenv("SPEECH_KEY"))
+    parser.add_argument("--azure-speech-region", default=os.getenv("AZURE_SPEECH_REGION") or os.getenv("SPEECH_REGION"))
     args = parser.parse_args()
     run_asr_evaluation(
         folder=args.folder,
@@ -162,4 +251,12 @@ if __name__ == "__main__":
         quality_csv=args.quality_csv,
         limit=args.limit,
         openai_api_key=args.openai_api_key,
+        groq_api_key=args.groq_api_key,
+        deepgram_api_key=args.deepgram_api_key,
+        gemini_api_key=args.gemini_api_key,
+        elevenlabs_api_key=args.elevenlabs_api_key,
+        azure_speech_key=args.azure_speech_key,
+        azure_speech_region=args.azure_speech_region,
+        language=args.language,
+        only_ground_truth=args.only_ground_truth,
     )

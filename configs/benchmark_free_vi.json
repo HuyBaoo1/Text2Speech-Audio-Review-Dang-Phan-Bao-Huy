@@ -1,0 +1,52 @@
+{
+  "description": "Vietnamese ASR benchmark. Local models are free; hosted APIs run only when their free-quota keys are configured.",
+  "dataset_folder": "audio_samples/matched_audio",
+  "ground_truth": "data/ground_truth",
+  "quality_csv": "outputs/quality_report.csv",
+  "limit": 100,
+  "only_ground_truth": true,
+  "models": [
+    {
+      "name": "phowhisper_small",
+      "provider": "local-whisper",
+      "model": "vinai/PhoWhisper-small",
+      "free": true,
+      "language": "vi"
+    },
+    {
+      "name": "groq_whisper_large_v3_turbo",
+      "provider": "groq",
+      "model": "whisper-large-v3-turbo",
+      "free_quota_env": "GROQ_API_KEY",
+      "language": "vi"
+    },
+    {
+      "name": "deepgram_nova3",
+      "provider": "deepgram",
+      "model": "nova-3",
+      "free_quota_env": "DEEPGRAM_API_KEY",
+      "language": "vi"
+    },
+    {
+      "name": "gemini_2_5_flash",
+      "provider": "gemini",
+      "model": "gemini-2.5-flash",
+      "free_quota_env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "name": "elevenlabs_scribe_v2",
+      "provider": "elevenlabs",
+      "model": "scribe_v2",
+      "free_quota_env": "ELEVENLABS_API_KEY",
+      "language": "vie"
+    },
+    {
+      "name": "azure_speech_vi_vn",
+      "provider": "azure",
+      "model": "azure-short-audio",
+      "free_quota_env": "AZURE_SPEECH_KEY",
+      "language": "vi-VN"
+    }
+  ]
+}

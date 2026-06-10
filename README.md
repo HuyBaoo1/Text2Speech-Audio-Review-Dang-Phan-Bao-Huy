@@ -164,10 +164,150 @@ $env:OPENAI_API_KEY="..."
 python scripts/run_asr_evaluation.py --provider openai --model gpt-4o-mini-transcribe --limit 100
 ```
 
+## Model/Provider Mới Để Test
+
+Các provider đã được thêm vào `scripts/run_asr_evaluation.py` và `configs/asr_models.json`.
+
+### 1. VinAI PhoWhisper Small
+
+Free/local, ưu tiên test tiếng Việt trước. Lần chạy đầu sẽ tải model từ Hugging Face.
+
+```bash
+python scripts/run_asr_evaluation.py ^
+  --provider local-whisper ^
+  --model vinai/PhoWhisper-small ^
+  --limit 11 ^
+  --output-csv outputs/asr_eval_phowhisper_small_11.csv ^
+  --output-jsonl outputs/asr_eval_phowhisper_small_11.jsonl
+```
+
+### 2. Groq Whisper Large V3 Turbo
+
+Hosted API, thường có free tier/quota. Thêm key vào `.env`:
+
+```env
+GROQ_API_KEY=...
+```
+
+Chạy:
+
+```bash
+python scripts/run_asr_evaluation.py ^
+  --provider groq ^
+  --model whisper-large-v3-turbo ^
+  --limit 100 ^
+  --output-csv outputs/asr_eval_groq_whisper_large_v3_turbo.csv ^
+  --output-jsonl outputs/asr_eval_groq_whisper_large_v3_turbo.jsonl
+```
+
+### 3. Deepgram Nova-3
+
+Hosted API, thường có free trial/quota. Thêm key vào `.env`:
+
+```env
+DEEPGRAM_API_KEY=...
+ASR_LANGUAGE=vi
+```
+
+Chạy:
+
+```bash
+python scripts/run_asr_evaluation.py ^
+  --provider deepgram ^
+  --model nova-3 ^
+  --language vi ^
+  --limit 100 ^
+  --output-csv outputs/asr_eval_deepgram_nova3.csv ^
+  --output-jsonl outputs/asr_eval_deepgram_nova3.jsonl
+```
+
+### 4. Gemini 2.5 Flash
+
+Gemini chạy qua Google AI Studio/API key. Thêm key vào `.env`:
+
+```env
+GEMINI_API_KEY=...
+```
+
+Chạy:
+
+```bash
+python scripts/run_asr_evaluation.py ^
+  --provider gemini ^
+  --model gemini-2.5-flash ^
+  --language Vietnamese ^
+  --limit 11 ^
+  --output-csv outputs/asr_eval_gemini_2_5_flash.csv ^
+  --output-jsonl outputs/asr_eval_gemini_2_5_flash.jsonl
+```
+
+### 5. ElevenLabs Scribe
+
+Thêm key vào `.env`:
+
+```env
+ELEVENLABS_API_KEY=...
+```
+
+Chạy:
+
+```bash
+python scripts/run_asr_evaluation.py ^
+  --provider elevenlabs ^
+  --model scribe_v2 ^
+  --language vie ^
+  --limit 100 ^
+  --output-csv outputs/asr_eval_elevenlabs_scribe_v2.csv ^
+  --output-jsonl outputs/asr_eval_elevenlabs_scribe_v2.jsonl
+```
+
+### 6. Azure Speech To Text
+
+Thêm key/region vào `.env`:
+
+```env
+AZURE_SPEECH_KEY=...
+AZURE_SPEECH_REGION=southeastasia
+```
+
+Chạy:
+
+```bash
+python scripts/run_asr_evaluation.py ^
+  --provider azure ^
+  --model azure-short-audio ^
+  --language vi-VN ^
+  --limit 100 ^
+  --output-csv outputs/asr_eval_azure_speech_vi_vn.csv ^
+  --output-jsonl outputs/asr_eval_azure_speech_vi_vn.jsonl
+```
+
+### Free-Quota Vietnamese Benchmark
+
+Script này chỉ chạy local/free hoặc provider có key trong `.env`; provider thiếu key sẽ bị skip.
+
+```bash
+python scripts/run_free_vi_benchmark.py
+```
+
+Nếu máy đang yếu hoặc không muốn tải local model, skip local:
+
+```bash
+python scripts/run_free_vi_benchmark.py --skip-local
+```
+
 6. Sau khi thêm ground truth thủ công, chấm lại report ASR đã có mà không gọi lại API:
 
 ```bash
 python scripts/score_existing_asr.py --input-csv outputs/asr_eval_openai.csv --output-csv outputs/asr_eval_openai_scored.csv
+```
+
+Ví dụ chấm lại Groq/Deepgram/VinAI sau khi chạy:
+
+```bash
+python scripts/score_existing_asr.py --input-csv outputs/asr_eval_groq_whisper_large_v3_turbo.csv --output-csv outputs/asr_eval_groq_whisper_large_v3_turbo_scored.csv
+python scripts/score_existing_asr.py --input-csv outputs/asr_eval_deepgram_nova3.csv --output-csv outputs/asr_eval_deepgram_nova3_scored.csv
+python scripts/score_existing_asr.py --input-csv outputs/asr_eval_phowhisper_small_11.csv --output-csv outputs/asr_eval_phowhisper_small_11_scored.csv
 ```
 
 ## Output chính

@@ -13,10 +13,54 @@
       "role": "stronger local baseline"
     },
     {
+      "provider": "local-whisper",
+      "model": "vinai/PhoWhisper-small",
+      "role": "free local Vietnamese baseline"
+    },
+    {
+      "provider": "local-whisper",
+      "model": "vinai/PhoWhisper-medium",
+      "role": "free local stronger Vietnamese baseline"
+    },
+    {
       "provider": "openai",
       "model": "gpt-4o-mini-transcribe",
       "role": "paid API/free-quota baseline",
       "env": "OPENAI_API_KEY"
+    },
+    {
+      "provider": "groq",
+      "model": "whisper-large-v3-turbo",
+      "role": "free-quota hosted Whisper baseline",
+      "env": "GROQ_API_KEY"
+    },
+    {
+      "provider": "deepgram",
+      "model": "nova-3",
+      "role": "free-quota hosted production ASR baseline",
+      "env": "DEEPGRAM_API_KEY",
+      "language": "vi"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-2.5-flash",
+      "role": "free-tier multimodal transcription baseline",
+      "env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "provider": "elevenlabs",
+      "model": "scribe_v2",
+      "role": "free-quota speech-to-text baseline",
+      "env": "ELEVENLABS_API_KEY",
+      "language": "vie"
+    },
+    {
+      "provider": "azure",
+      "model": "azure-short-audio",
+      "role": "Azure Speech free-tier baseline",
+      "env": "AZURE_SPEECH_KEY",
+      "language": "vi-VN"
     }
   ]
 }
