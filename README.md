@@ -2,13 +2,14 @@
 
 Project này dùng để đánh giá chất lượng audio/transcript cho dataset TTS trước khi mở rộng pipeline tự động thu thập dữ liệu từ internet, đặc biệt là YouTube.
 
-Nguồn data mặc định:
+Nguồn data chính:
 
 ```text
 audio_samples/matched_audio
+audio_samples/studio
 ```
 
-Các script mặc định xử lý 100 audio đầu tiên theo thứ tự tên file. Khi benchmark ASR, nên dùng `--only-ground-truth` để chỉ chạy những file đã có ground truth thủ công.
+Khi benchmark ASR, nên dùng `--only-ground-truth` để chỉ chạy những file đã có ground truth. Với model mới hoặc provider tốn quota, dùng `--limit 300`; `--limit 0` nghĩa là chạy toàn bộ tập đã chọn.
 
 ## Mục Tiêu
 
@@ -19,55 +20,17 @@ Các script mặc định xử lý 100 audio đầu tiên theo thứ tự tên f
 
 ## Kết Quả Hiện Tại
 
-Dataset:
-
-- Folder chính: `audio_samples/matched_audio`.
-- Tổng file `.wav` hiện có: 2,277.
-- Quality analysis đang chạy trên 100 audio đầu theo thứ tự tên file.
-- ASR scoring dùng những file đã có ground truth thủ công trong `data/ground_truth`.
-
-Audio quality:
-
-- PASS: 50/100 clips.
-- REVIEW: 50/100 clips.
-- Duration trung bình: 16.08s.
-- Duration ngắn nhất/dài nhất: 3.24s / 30.00s.
-- SNR trung bình: 46.13 dB.
-- Silence ratio trung bình: 0.296.
-
-ASR benchmark hiện tại:
-
-| Rank | Model | Provider | Rows | WER mean | WER p95 | CER mean | Ghi chú |
-| ---: | --- | --- | ---: | ---: | ---: | ---: | --- |
-| 1 | `gpt-4o-mini-transcribe` | OpenAI | 29 | 0.2044 | 0.4375 | 0.1295 | Tốt nhất theo WER trên scored subset hiện có. |
-| 2 | `whisper-large-v3-turbo` | Groq | 29 | 0.2234 | 0.4375 | 0.1158 | CER thấp nhất, rất gần OpenAI. |
-| 3 | `nova-3` | Deepgram | 29 | 0.2982 | 1.0000 | 0.2010 | Có 2 hypothesis rỗng, cần kiểm tra lỗi request/audio. |
-| 4 | `vinai/PhoWhisper-small` | local-whisper | 11 | 0.4317 | 0.9200 | 0.2207 | Baseline local/free, subset nhỏ hơn. |
-
-So sánh công bằng trên tập giao chung 11 file:
-
-| Rank | Model | Provider | Rows | WER mean | CER mean |
-| ---: | --- | --- | ---: | ---: | ---: |
-| 1 | `gpt-4o-mini-transcribe` | OpenAI | 11 | 0.2878 | 0.1842 |
-| 2 | `whisper-large-v3-turbo` | Groq | 11 | 0.3077 | 0.1841 |
-| 3 | `vinai/PhoWhisper-small` | local-whisper | 11 | 0.4317 | 0.2207 |
-| 4 | `nova-3` | Deepgram | 11 | 0.4700 | 0.3531 |
-
-Nhận định nhanh:
-
-- `gpt-4o-mini-transcribe` đang là lựa chọn tốt nhất ở bước đầu.
-- `whisper-large-v3-turbo` rất sát OpenAI, đặc biệt CER gần như tương đương trên tập giao chung.
-- `nova-3` chưa nên loại ngay, nhưng cần kiểm tra các dòng hypothesis rỗng và lỗi API/audio trước khi mở rộng.
-- Chưa nên chọn model production chỉ dựa vào WER/CER; cần thêm intent accuracy, slot F1, p95 latency, error rate và cost/hour cho use case AI oto.
-
-Report chi tiết:
-
-- `outputs/initial_audio_samples_evaluation.md`
-- `outputs/initial_audio_samples_model_summary.csv`
-- `outputs/initial_audio_samples_common_subset_summary.csv`
-- `outputs/evaluation_summary.md`
-- `outputs/benchmark_vi_models.md`
-- `outputs/benchmark_free_vi_summary.csv`
+- Ground-truth scoring đã bỏ qua mọi annotation trong dạng `<...>` trước khi tính WER/CER.
+- Kết quả API đã có được giữ lại trong `outputs/studio_full_asr_eval_*.csv/jsonl`; lần sau dùng `--resume` để không chạy lại audio đã xong.
+- `audio_samples/matched_audio`: benchmark ban đầu trên subset có ground-truth vẫn cho thấy OpenAI tốt nhất, Groq sát phía sau, Deepgram yếu hơn trên tập nhỏ. Chi tiết: `outputs/initial_audio_samples_evaluation.md`.
+- `audio_samples/studio`: đã chấm nhanh 300 audio đầu có ground-truth từ kết quả đã lưu, không gọi API thêm. Quality: PASS 16/300, REVIEW 284/300, duration TB 8.85s, SNR TB 50.00 dB, silence ratio TB 0.408.
+- Studio 300 ASR ranking:
+  - #1 OpenAI `gpt-4o-mini-transcribe`: 300/300 scored, WER 0.181432, CER 0.066774, không có hypothesis rỗng.
+  - #2 Groq `whisper-large-v3-turbo`: 300/300 scored, WER 0.213490, CER 0.085053, không có hypothesis rỗng.
+  - #3 Deepgram `nova-3`: 300/300 scored, WER 0.225865, CER 0.128594, có 21 hypothesis rỗng.
+  - #4 Gemini `gemini-2.5-flash`: 300/300 scored, WER 0.234580, CER 0.125562, có 8 hypothesis rỗng.
+- Nhận định: OpenAI đang là baseline tốt nhất cho tiếng Việt trên studio; Groq là lựa chọn free/quota tốt nhưng WER cao hơn; Deepgram/Gemini cần xem kỹ các dòng rỗng trước khi dùng làm transcript tự động cho TTS.
+- Report mới: `outputs/studio_300_benchmark_summary.md`, `outputs/studio_300_benchmark_summary.csv`, `outputs/studio_300_benchmark_summary.json`.
 
 ## Cấu Trúc Project
 
@@ -84,6 +47,7 @@ scripts/run_asr_evaluation.py        chạy ASR và xuất CSV/JSONL
 scripts/score_existing_asr.py        chấm lại ASR output khi có thêm ground truth
 scripts/run_free_vi_benchmark.py     chạy benchmark free/free-quota theo config
 scripts/generate_evaluation_summary.py sinh Markdown summary
+scripts/generate_studio_300_benchmark_summary.py sinh summary 300 audio studio từ output đã lưu
 src/tts_data_pipeline/               package lõi
 ```
 
@@ -111,7 +75,7 @@ ASR_LANGUAGE=vi
 
 ## Workflow Chính
 
-1. Tạo manifest manual review:
+1. Tạo manifest manual review nhanh:
 
 ```bash
 python scripts/create_manifest.py --folder audio_samples/matched_audio --limit 100
@@ -139,13 +103,13 @@ data/ground_truth/-aCDck13cRI_14.txt
 4. Chạy ASR trên những file đã có ground truth:
 
 ```bash
-python scripts/run_asr_evaluation.py --provider groq --model whisper-large-v3-turbo --only-ground-truth --output-csv outputs/asr_eval_groq_whisper_large_v3_turbo.csv
+python scripts/run_asr_evaluation.py --folder audio_samples/studio --provider groq --model whisper-large-v3-turbo --ground-truth data/ground_truth_studio --quality-csv outputs/studio_full_quality_report.csv --limit 300 --language vi --output-csv outputs/studio_300_asr_eval_groq_whisper_large_v3_turbo.csv --output-jsonl outputs/studio_300_asr_eval_groq_whisper_large_v3_turbo.jsonl --only-ground-truth --resume --checkpoint-every 10
 ```
 
-5. Chấm lại report ASR đã có mà không gọi API:
+5. Chấm lại Studio 300 từ các output đã có mà không gọi API:
 
 ```bash
-python scripts/score_existing_asr.py --input-csv outputs/asr_eval_openai.csv --output-csv outputs/asr_eval_openai_scored.csv
+python scripts/generate_studio_300_benchmark_summary.py
 ```
 
 6. Chạy benchmark free/free-quota:
@@ -167,7 +131,7 @@ python scripts/run_free_vi_benchmark.py --skip-local
 | `openai` | `gpt-4o-mini-transcribe` | `OPENAI_API_KEY` | API baseline hiện đang tốt nhất. |
 | `groq` | `whisper-large-v3-turbo` | `GROQ_API_KEY` | Hosted Whisper nhanh, kết quả gần OpenAI. |
 | `deepgram` | `nova-3` | `DEEPGRAM_API_KEY` | Production ASR API, đã benchmark. |
-| `gemini` | `gemini-2.5-flash` | `GEMINI_API_KEY` | Đã tích hợp, hiện bị HTTP 429 free quota/rate limit. |
+| `gemini` | `gemini-2.5-flash` | `GEMINI_API_KEY` | Đã tích hợp, đã có kết quả Studio 300. |
 | `elevenlabs` | `scribe_v2` | `ELEVENLABS_API_KEY` | Đã tích hợp, chờ key. |
 | `azure` | `azure-short-audio` | `AZURE_SPEECH_KEY`, `AZURE_SPEECH_REGION` | Đã tích hợp, chờ key. |
 | `local-whisper` | `vinai/PhoWhisper-small` | none | Local/free Vietnamese baseline. |
@@ -176,10 +140,10 @@ python scripts/run_free_vi_benchmark.py --skip-local
 Ví dụ chạy từng provider:
 
 ```bash
-python scripts/run_asr_evaluation.py --provider openai --model gpt-4o-mini-transcribe --only-ground-truth --output-csv outputs/asr_eval_openai_new.csv
-python scripts/run_asr_evaluation.py --provider groq --model whisper-large-v3-turbo --only-ground-truth --output-csv outputs/asr_eval_groq_whisper_large_v3_turbo.csv
-python scripts/run_asr_evaluation.py --provider deepgram --model nova-3 --language vi --only-ground-truth --output-csv outputs/asr_eval_deepgram_nova3.csv
-python scripts/run_asr_evaluation.py --provider gemini --model gemini-2.5-flash --language Vietnamese --only-ground-truth --output-csv outputs/asr_eval_gemini_2_5_flash.csv
+python scripts/run_asr_evaluation.py --provider openai --model gpt-4o-mini-transcribe --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_openai_new.csv
+python scripts/run_asr_evaluation.py --provider groq --model whisper-large-v3-turbo --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_groq_whisper_large_v3_turbo.csv
+python scripts/run_asr_evaluation.py --provider deepgram --model nova-3 --language vi --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_deepgram_nova3.csv
+python scripts/run_asr_evaluation.py --provider gemini --model gemini-2.5-flash --language Vietnamese --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_gemini_2_5_flash.csv
 python scripts/run_asr_evaluation.py --provider elevenlabs --model scribe_v2 --language vie --only-ground-truth --output-csv outputs/asr_eval_elevenlabs_scribe_v2.csv
 python scripts/run_asr_evaluation.py --provider azure --model azure-short-audio --language vi-VN --only-ground-truth --output-csv outputs/asr_eval_azure_speech_vi_vn.csv
 python scripts/run_asr_evaluation.py --provider local-whisper --model vinai/PhoWhisper-small --only-ground-truth --output-csv outputs/asr_eval_phowhisper_small.csv

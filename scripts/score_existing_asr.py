@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from tts_data_pipeline.asr import compare_transcriptions
-from tts_data_pipeline.pipeline import normalize_text
+from tts_data_pipeline.pipeline import normalize_text, strip_ground_truth_annotations
 
 
 FIELDNAMES = [
@@ -35,7 +35,7 @@ def read_reference(ground_truth_dir: str, source_file: str) -> str | None:
     ref_path = Path(ground_truth_dir) / f"{Path(source_file).stem}.txt"
     if not ref_path.exists():
         return None
-    reference = normalize_text(ref_path.read_text(encoding="utf-8"))
+    reference = normalize_text(strip_ground_truth_annotations(ref_path.read_text(encoding="utf-8")))
     return reference or None
 
 
