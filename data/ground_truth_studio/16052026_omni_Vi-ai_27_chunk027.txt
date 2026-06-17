@@ -1,0 +1,1 @@
+Vào những năm hai ngàn không trăm hai mươi, Core Web Vitals, đã trở nên ngày càng quan trọng, đối với các trang web thương mại điện tử, Tập trung vào việc, cải thiện trải nghiệm người dùng và hiệu suất trang web, Các chỉ số này đánh giá tốc độ tải trang, khả năng tương tác, và độ ổn định của thị giác, ảnh hưởng trực tiếp đến sự hài lòng của người dùng và thứ hạng tìm kiếm

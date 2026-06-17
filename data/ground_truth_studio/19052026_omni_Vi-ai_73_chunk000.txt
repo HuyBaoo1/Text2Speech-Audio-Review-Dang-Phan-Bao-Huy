@@ -1,0 +1,1 @@
+Ký hiệu được sử dụng, để mô tả, giới hạn trên của thời gian chạy, của một thuật toán, là ký hiệu Big O, Nó đưa ra giới hạn tối đa về độ phức tạp thời gian, giúp chúng ta hình dung được kịch bản tệ nhất về mặt hiệu suất

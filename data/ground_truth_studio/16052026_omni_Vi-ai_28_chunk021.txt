@@ -1,0 +1,1 @@
+Một thuật toán học máy phổ biến được dùng để giải quyết các bài toán phân loại là máy vector hỗ trợ, SVM

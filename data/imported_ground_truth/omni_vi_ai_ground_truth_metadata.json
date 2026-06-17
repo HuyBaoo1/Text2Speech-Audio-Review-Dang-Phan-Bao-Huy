@@ -1,0 +1,18 @@
+{
+  "sourceUrl": "https://docs.google.com/spreadsheets/d/1DxWbnP1QLKmalj1zvwyFp1I3bIr0sa2wi4So2y4SGiA/edit?gid=182648600",
+  "sourceSheetId": "1DxWbnP1QLKmalj1zvwyFp1I3bIr0sa2wi4So2y4SGiA",
+  "sourceGid": "182648600",
+  "importedAtUtc": "2026-06-15T05:08:01.701520+00:00",
+  "rawCsv": "data/imported_ground_truth/google_sheet_1DxWbnP1QLKmalj1zvwyFp1I3bIr0sa2wi4So2y4SGiA_gid182648600_raw.csv",
+  "normalizedCsv": "data/imported_ground_truth/omni_vi_ai_ground_truth.csv",
+  "normalizedRows": 2546,
+  "skippedRows": 0,
+  "duplicateAudioStemCount": 0,
+  "duplicateAudioStemExamples": [],
+  "skippedRowExamples": [],
+  "notes": [
+    "Raw sheet rows use audio_stem|first_text in the first CSV column and continuation text across later columns.",
+    "The normalized CSV reconstructs reference_text by joining non-empty text parts with comma+space.",
+    "audio_file is derived as audio_stem + .wav for future matching with imported audio files."
+  ]
+}

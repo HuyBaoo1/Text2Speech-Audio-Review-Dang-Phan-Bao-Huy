@@ -1,0 +1,1 @@
+Nó nổi tiếng với những tính năng mạnh mẽ như, ràng buộc dữ liệu hai chiều, Two Way, Data Binding, giúp xây dựng các ứng dụng đơn trang SPA một cách hiệu quả

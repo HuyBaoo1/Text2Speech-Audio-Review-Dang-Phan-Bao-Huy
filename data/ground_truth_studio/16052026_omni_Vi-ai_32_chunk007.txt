@@ -1,0 +1,1 @@
+Máy tính có thể xử lý một lượng lớn dữ liệu với tốc độ cực nhanh, lưu được khối lượng thông tin khổng lồ, trong một không gian rất nhỏ, và thực hiện các phép tính phức tạp mà không hề sai sót

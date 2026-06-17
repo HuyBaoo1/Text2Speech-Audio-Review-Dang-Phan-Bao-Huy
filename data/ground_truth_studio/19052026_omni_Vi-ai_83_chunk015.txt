@@ -1,0 +1,1 @@
+Dưới đây, là một số, thuật toán học máy phổ biến, Hồi quy tuyến tính, Linear Regression, hồi quy logistic, Logistic Regression

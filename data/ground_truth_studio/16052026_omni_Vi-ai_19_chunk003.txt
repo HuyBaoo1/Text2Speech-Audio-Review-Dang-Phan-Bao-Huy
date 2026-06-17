@@ -1,0 +1,1 @@
+Mình là trợ lý giọng nói nên không thể viết mã lập trình trực tiếp được, Để giải quyết việc này bạn nên tập trung vào việc xác định bảng chứa thông tin sản phẩm, Thường thì, bạn sẽ cần chọn các cột liên quan, và lọc kết quả với điều kiện, giá lớn hơn năm mươi đô la trong câu truy vấn của mình

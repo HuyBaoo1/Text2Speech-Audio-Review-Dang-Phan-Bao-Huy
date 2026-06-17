@@ -1,0 +1,1 @@
+Dãy Fibonacci, bắt đầu bằng số không, và số một, Mỗi số tiếp theo, là tổng của hai số, đứng trước nó, Dãy số đó là, không, một, một, hai, ba, năm, tám, Vì vậy, số thứ bảy trong dãy, Fibonacci là, tám

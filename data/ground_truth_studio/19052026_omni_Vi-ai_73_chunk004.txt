@@ -1,0 +1,1 @@
+Mình là trợ lý giọng nói nên không thể trực tiếp viết mã nguồn được đâu, Tuy nhiên, bạn có thể bắt đầu bằng cách, khởi tạo một mảng rỗng, sau đó dùng một vòng lặp, để thêm các số từ một đến mười, theo thứ tự tăng dần vào mảng đó, Vậy là bạn sẽ có một mảng chứa các số từ một đến mười rồi

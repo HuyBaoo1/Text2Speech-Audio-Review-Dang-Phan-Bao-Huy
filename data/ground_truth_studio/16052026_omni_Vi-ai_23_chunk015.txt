@@ -1,0 +1,1 @@
+Độ phức tạp tăng nhanh nhất, được biểu diễn bằng ký hiệu Big O, với tốc độ tăng trưởng cao hơn, thông thường là O, N, chấm than, Ký hiệu này tăng nhanh hơn, các ký hiệu Big O phổ biến khác như là, ô en ô lốc en, ô en lốc en hay là ô ô en hai

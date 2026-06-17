@@ -1,0 +1,1 @@
+Dạ, gộp PDF là nối nhiều file tài liệu nhỏ lại thành một file duy nhất, Còn tách PDF, là chia một file lớn, thành các trang, hoặc các phần nhỏ hơn, để dễ quản lý và chia sẻ đó ạ

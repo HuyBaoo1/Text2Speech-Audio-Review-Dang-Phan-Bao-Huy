@@ -1,0 +1,1 @@
+Fortran, là ngôn ngữ lập trình được phát triển vào những năm một ngàn chín trăm năm mươi, và được coi là một trong những ngôn ngữ lập trình, bậc cao đầu tiên đó ạ, Nó chủ yếu được dùng cho các tính toán khoa học và kỹ thuật

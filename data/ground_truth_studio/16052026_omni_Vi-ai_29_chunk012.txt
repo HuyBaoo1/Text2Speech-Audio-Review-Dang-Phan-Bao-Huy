@@ -1,0 +1,1 @@
+Trong ngôn ngữ lập trình Rust, từ khóa được sử dụng để định nghĩa một, biến có thể thay đổi giá trị, sau khi gán lần đầu là, mut ạ

@@ -1,0 +1,1 @@
+Phím tắt cho chức năng sao chép trên hầu hết các bàn phím thường là Control C, đối với Windows, và Command C, đối với macOS, Thao tác này cho phép bạn sao chép văn bản, hoặc các mục đã chọn vào bộ nhớ tạm

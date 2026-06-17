@@ -1,0 +1,27 @@
+{
+  "description": "Studio clean-audio Vietnamese ASR benchmark. Hosted APIs run only when free-quota keys are configured.",
+  "dataset_folder": "audio_samples/studio",
+  "ground_truth": "data/ground_truth_studio",
+  "quality_csv": "outputs/studio_quality_report.csv",
+  "limit": 100,
+  "only_ground_truth": true,
+  "output_dir": "outputs",
+  "output_prefix": "studio_asr_eval",
+  "summary_csv": "outputs/studio_benchmark_free_vi_summary.csv",
+  "models": [
+    {
+      "name": "groq_whisper_large_v3_turbo",
+      "provider": "groq",
+      "model": "whisper-large-v3-turbo",
+      "free_quota_env": "GROQ_API_KEY",
+      "language": "vi"
+    },
+    {
+      "name": "deepgram_nova3",
+      "provider": "deepgram",
+      "model": "nova-3",
+      "free_quota_env": "DEEPGRAM_API_KEY",
+      "language": "vi"
+    }
+  ]
+}

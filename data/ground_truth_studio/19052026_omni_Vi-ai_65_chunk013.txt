@@ -1,0 +1,1 @@
+Dạ vâng, BTT thường viết tắt là, Backpropagation Through Time, một phương pháp được sử dụng trong việc huấn luyện các mạng thần kinh tái phát, RNN đấy ạ

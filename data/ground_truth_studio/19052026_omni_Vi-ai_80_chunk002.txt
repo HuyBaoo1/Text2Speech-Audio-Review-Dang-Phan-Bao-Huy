@@ -1,0 +1,1 @@
+Thuật toán lượng tử nổi tiếng với việc phân tích hiệu quả các số nguyên lớn và gây ra mối đe dọa, cho các phương pháp mã hóa cổ điển là thuật toán Shor

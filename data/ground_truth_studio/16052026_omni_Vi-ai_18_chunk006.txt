@@ -1,0 +1,1 @@
+Có vẻ như bạn đang mô tả một thuật toán ha, cụ thể là thuật toán tìm đường, Các thuật toán là tập hợp các hướng dẫn được thiết kế để thực hiện các nhiệm vụ cụ thể, và thuật toán tìm đường, giúp tìm ra lộ trình hiệu quả nhất để đạt được mục tiêu, Chúng không có cảm xúc hay quan điểm cá nhân, mà chỉ hoạt động dựa trên dữ liệu đầu vào thôi ạ.

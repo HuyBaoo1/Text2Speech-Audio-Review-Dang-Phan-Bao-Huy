@@ -1,0 +1,1 @@
+Một điểm then chốt của việc sử dụng Node.js so với PHP, trong phát triển web, là Node.js, cho phép lập trình bất đồng bộ, không gây tắc nghẽn, <uhm>, Điều này giúp cải thiện hiệu suất, và khả năng mở rộng, đặc biệt là đối với các ứng dụng, cần xử lý một lượng lớn kết nối, đồng thời như ứng dụng thời gian thực và, API.

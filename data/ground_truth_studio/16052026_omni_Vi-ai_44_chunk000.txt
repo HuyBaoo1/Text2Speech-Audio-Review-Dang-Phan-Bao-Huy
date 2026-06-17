@@ -1,0 +1,1 @@
+Kỹ thuật hiển vi sử dụng chùm electron để tạo ra hình ảnh chi tiết của mẫu vật, được gọi là, hiển vi điện tử ạ, Có hai loại chính là hiển vi điện tử truyền qua, TEM, và hiển vi điện tử quét, SEM, Cả hai đều cho độ phân giải cao hơn nhiều so với kính hiển vi quang học thông thường

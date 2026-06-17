@@ -1,0 +1,1 @@
+Ngôn ngữ lập trình, thường được sử dụng để phát triển các trò chơi điện tử thùng, vào những năm một ngàn chín trăm tám mươi, là Assembly, Nó cho phép, kiểm soát phần cứng ở mức thấp, và đạt hiệu suất cao, Điều này, cực kỳ quan trọng trong nguồn tài nguyên máy tính hạn chế vào thời điểm đó

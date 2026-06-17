@@ -1,0 +1,1 @@
+Loại kết cấu được dùng, để thêm các chi tiết bề mặt nhỏ, như nếp nhăn, lỗ chân lông hay vết xước, mà không làm tăng số lượng đa giác được gọi là, Normal map, bạn nhé

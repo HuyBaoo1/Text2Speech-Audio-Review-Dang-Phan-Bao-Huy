@@ -1,0 +1,1 @@
+Bước đột phá trong kỹ thuật y sinh liên quan đến việc sử dụng công nghệ in ba D, để tạo ra các bộ phận giả và mô cấy theo yêu cầu được gọi là in sinh học ba D, <uhm>, Kỹ thuật đổi mới này cho phép tạo ra các thiết bị y tế cá nhân hóa, hoàn toàn phù hợp với giải phẫu riêng biệt của từng bệnh nhân, từ đó tăng cường sự thoải mái và chức năng sử dụng

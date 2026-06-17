@@ -1,0 +1,1 @@
+Để sắp xếp các số theo thứ tự tăng dần, bạn bắt đầu từ số nhỏ nhất đến số lớn nhất, Vậy thứ tự sẽ là hai, bốn, bảy và, chín

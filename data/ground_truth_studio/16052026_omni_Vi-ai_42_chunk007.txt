@@ -1,0 +1,1 @@
+Để tìm ngày của ba tuần kể từ bây giờ, bạn hãy lấy ngày hiện tại và cộng thêm hai mươi mốt ngày vào, Ví dụ, nếu hôm nay là ngày một tháng mười, cộng thêm hai mươi mốt ngày, sẽ là, hai mươi hai tháng mười

@@ -1,0 +1,1 @@
+Một công cụ tiềm năng của robot hỗ trợ phẫu thuật, là giúp tăng độ chính xác trong các thủ thuật tinh vi, chẳng hạn như, khâu cắt mạch máu nhỏ hoặc thực hiện các chuyển động phức tạp, trong phẫu thuật xâm lấn tối thiểu, Điều này có thể giúp giảm thiểu sai sót của con người, và cải thiện, kết quả điều trị cho bệnh nhân nữa.

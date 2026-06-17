@@ -1,0 +1,1 @@
+Thuật ngữ dùng để mô tả một khối mã thực hiện một nhiệm vụ cụ thể, và, có thể được gọi nhiều lần trong một chương trình C cộng cộng chính là function, hàm mã

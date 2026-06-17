@@ -21,10 +21,10 @@ Các script mặc định xử lý 100 audio đầu tiên theo thứ tự tên f
 
 Dataset:
 
-- 100 audio đầu từ `audio_samples/matched_audio`.
-- 19 file ground truth trong `data/ground_truth`.
-- 18 file ground truth có nội dung và được dùng để scoring.
-- 1 file ground truth đang rỗng: `data/ground_truth/-aCDck13cRI_69.txt`.
+- Folder chính: `audio_samples/matched_audio`.
+- Tổng file `.wav` hiện có: 2,277.
+- Quality analysis đang chạy trên 100 audio đầu theo thứ tự tên file.
+- ASR scoring dùng những file đã có ground truth thủ công trong `data/ground_truth`.
 
 Audio quality:
 
@@ -33,28 +33,38 @@ Audio quality:
 - Duration trung bình: 16.08s.
 - Duration ngắn nhất/dài nhất: 3.24s / 30.00s.
 - SNR trung bình: 46.13 dB.
+- Silence ratio trung bình: 0.296.
 
-ASR benchmark:
+ASR benchmark hiện tại:
 
-| Model | Provider | Status | GT matched | WER avg | CER avg |
-| --- | --- | --- | ---: | ---: | ---: |
-| `gpt-4o-mini-transcribe` | OpenAI | existing API result, rescored | 18 | 0.2238 | 0.1390 |
-| `whisper-large-v3-turbo` | Groq | ok | 18 | 0.2565 | 0.1427 |
-| `nova-3` | Deepgram | ok | 18 | 0.3620 | 0.2537 |
-| `vinai/PhoWhisper-small` | local-whisper | previous 11-file run only; 18-file CPU run failed | 11 | 0.4317 | 0.2207 |
-| `gemini-2.5-flash` | Gemini | failed: HTTP 429 quota/rate limit | 0 |  |  |
-| `scribe_v2` | ElevenLabs | missing key | 0 |  |  |
-| `azure-short-audio` | Azure Speech | missing key | 0 |  |  |
+| Rank | Model | Provider | Rows | WER mean | WER p95 | CER mean | Ghi chú |
+| ---: | --- | --- | ---: | ---: | ---: | ---: | --- |
+| 1 | `gpt-4o-mini-transcribe` | OpenAI | 29 | 0.2044 | 0.4375 | 0.1295 | Tốt nhất theo WER trên scored subset hiện có. |
+| 2 | `whisper-large-v3-turbo` | Groq | 29 | 0.2234 | 0.4375 | 0.1158 | CER thấp nhất, rất gần OpenAI. |
+| 3 | `nova-3` | Deepgram | 29 | 0.2982 | 1.0000 | 0.2010 | Có 2 hypothesis rỗng, cần kiểm tra lỗi request/audio. |
+| 4 | `vinai/PhoWhisper-small` | local-whisper | 11 | 0.4317 | 0.9200 | 0.2207 | Baseline local/free, subset nhỏ hơn. |
 
-Current ranking:
+So sánh công bằng trên tập giao chung 11 file:
 
-1. `gpt-4o-mini-transcribe`: tốt nhất hiện tại trên subset 18 ground truth.
-2. `whisper-large-v3-turbo`: rất gần OpenAI về CER, đáng mở rộng nếu còn free quota.
-3. `nova-3`: chạy được nhưng kém hơn trên subset này.
-4. `vinai/PhoWhisper-small`: baseline local/free hữu ích, nhưng cần môi trường local ổn định hơn.
+| Rank | Model | Provider | Rows | WER mean | CER mean |
+| ---: | --- | --- | ---: | ---: | ---: |
+| 1 | `gpt-4o-mini-transcribe` | OpenAI | 11 | 0.2878 | 0.1842 |
+| 2 | `whisper-large-v3-turbo` | Groq | 11 | 0.3077 | 0.1841 |
+| 3 | `vinai/PhoWhisper-small` | local-whisper | 11 | 0.4317 | 0.2207 |
+| 4 | `nova-3` | Deepgram | 11 | 0.4700 | 0.3531 |
+
+Nhận định nhanh:
+
+- `gpt-4o-mini-transcribe` đang là lựa chọn tốt nhất ở bước đầu.
+- `whisper-large-v3-turbo` rất sát OpenAI, đặc biệt CER gần như tương đương trên tập giao chung.
+- `nova-3` chưa nên loại ngay, nhưng cần kiểm tra các dòng hypothesis rỗng và lỗi API/audio trước khi mở rộng.
+- Chưa nên chọn model production chỉ dựa vào WER/CER; cần thêm intent accuracy, slot F1, p95 latency, error rate và cost/hour cho use case AI oto.
 
 Report chi tiết:
 
+- `outputs/initial_audio_samples_evaluation.md`
+- `outputs/initial_audio_samples_model_summary.csv`
+- `outputs/initial_audio_samples_common_subset_summary.csv`
 - `outputs/evaluation_summary.md`
 - `outputs/benchmark_vi_models.md`
 - `outputs/benchmark_free_vi_summary.csv`

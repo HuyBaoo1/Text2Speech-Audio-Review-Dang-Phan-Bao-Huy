@@ -1,0 +1,1 @@
+Để tính tổng chi phí, bạn cần cộng, thuế bán hàng vào số tiền gốc, Đầu tiên, hãy tính số tiền thuế bằng cách nhân năm phẩy năm mươi lăm đô, với bảy phẩy năm phần trăm, Sau đó, cộng số tiền đó vào năm phẩy năm mươi lăm đô, để ra tổng chi phí cuối cùng bạn nha.

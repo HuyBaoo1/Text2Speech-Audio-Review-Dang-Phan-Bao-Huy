@@ -1,0 +1,1 @@
+Để tính tổng chi phí cho năm món đồ với giá mười đô mỗi món hả, Bạn chỉ cần lấy số lượng nhân với đơn giá thôi à, Vậy là năm món nhân với mười đô la là bằng năm mươi đô, Do đó thì tổng chi phí sẽ là năm mươi đô bạn nha.

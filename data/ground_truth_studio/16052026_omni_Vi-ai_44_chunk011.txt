@@ -1,0 +1,1 @@
+Phép toán này sẽ áp dụng một hàm lên các phần tử của một mảng ạ

@@ -82,9 +82,11 @@ def run_benchmark(config_path: str, only_configured: bool, skip_local: bool) -> 
             results.append({"name": name, "provider": provider, "model": model, "status": f"missing_{env_name}"})
             continue
 
-        output_csv = Path("outputs") / f"asr_eval_{name}.csv"
-        output_jsonl = Path("outputs") / f"asr_eval_{name}.jsonl"
-        scored_csv = Path("outputs") / f"asr_eval_{name}_scored.csv"
+        output_dir = Path(config.get("output_dir", "outputs"))
+        output_prefix = config.get("output_prefix", "asr_eval")
+        output_csv = output_dir / f"{output_prefix}_{name}.csv"
+        output_jsonl = output_dir / f"{output_prefix}_{name}.jsonl"
+        scored_csv = output_dir / f"{output_prefix}_{name}_scored.csv"
         command = [
             sys.executable,
             "scripts/run_asr_evaluation.py",
@@ -104,8 +106,8 @@ def run_benchmark(config_path: str, only_configured: bool, skip_local: bool) -> 
             item.get("language", os.getenv("ASR_LANGUAGE", "vi")),
             "--output-csv",
             str(output_csv),
-            "--output-jsonl",
-            str(output_jsonl),
+                "--output-jsonl",
+                str(output_jsonl),
         ]
         if config.get("only_ground_truth"):
             command.append("--only-ground-truth")
@@ -119,7 +121,7 @@ def run_benchmark(config_path: str, only_configured: bool, skip_local: bool) -> 
                 "--output-csv",
                 str(scored_csv),
                 "--output-jsonl",
-                str(Path("outputs") / f"asr_eval_{name}_scored.jsonl"),
+                str(output_dir / f"{output_prefix}_{name}_scored.jsonl"),
                 "--ground-truth",
                 config["ground_truth"],
             ]
@@ -127,7 +129,7 @@ def run_benchmark(config_path: str, only_configured: bool, skip_local: bool) -> 
         summary = score_summary(scored_csv)
         results.append({"name": name, "provider": provider, "model": model, "status": status, **summary})
 
-    output = ROOT / "outputs" / "benchmark_free_vi_summary.csv"
+    output = ROOT / config.get("summary_csv", "outputs/benchmark_free_vi_summary.csv")
     output.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = ["name", "provider", "model", "status", "matched", "wer_avg", "cer_avg", "wer_min", "wer_max"]
     with open(output, "w", encoding="utf-8", newline="") as f:

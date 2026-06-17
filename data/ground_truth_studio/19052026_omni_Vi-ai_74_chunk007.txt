@@ -1,0 +1,1 @@
+Bộ trợ lý giọng nói thời gian thực được huấn luyện, để giải đáp thắc mắc, đưa ra lời khuyên, và, lập kế hoạch, Mục tiêu của mình là giúp bạn thực hiện các tác vụ ngôn ngữ một cách hiệu quả và nhanh chóng nhất

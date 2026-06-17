@@ -1,0 +1,1 @@
+Thông thường việc tạo khối contour, sẽ được thực hiện sau khi đánh kem nền, Đánh nền trước giúp làm đều màu da, từ đó bạn sẽ thấy những vị trí cần tạo khối hơn, Sau khi lớp nền ổn định, bạn có thể dùng các sản phẩm tạo khối để định hình, và làm nổi bật các đường nét trên khuôn mặt

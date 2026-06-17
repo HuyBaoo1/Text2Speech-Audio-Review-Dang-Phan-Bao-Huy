@@ -1,0 +1,1 @@
+Một kỹ thuật phổ biến được sử dụng để phát hiện những thay đổi trong luồng dữ liệu trong học máy được gọi là phát hiện điểm thay đổi, Change Point Detection, Phương pháp này, giúp xác định các mốc thời gian, mà tại đó xảy ra những sự dịch chuyển đáng kể trong mô hình dữ liệu

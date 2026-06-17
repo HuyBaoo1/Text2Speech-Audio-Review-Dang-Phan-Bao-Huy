@@ -1,0 +1,1 @@
+Một thuật toán phổ biến được dùng để tìm đường đi ngắn nhất trong đồ thị có trọng số không âm chính là thuật toán Dijkstra

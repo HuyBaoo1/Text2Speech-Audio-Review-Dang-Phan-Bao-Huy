@@ -1,0 +1,1 @@
+Bạn có thể dùng máy tính bỏ túi, hoặc là tra bảng lượng giác ha, Để ước tính nhanh, bạn chỉ cần nhập tám độ vào hàm sin trên máy tính, là tra kết quả ngay luôn

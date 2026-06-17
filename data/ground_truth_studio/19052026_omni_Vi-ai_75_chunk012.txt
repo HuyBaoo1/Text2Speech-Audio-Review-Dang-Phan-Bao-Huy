@@ -1,0 +1,1 @@
+Công cụ thường được sử dụng để dịch ngược, và sửa đổi mã nguồn của trò chơi được gọi là, Minecraft Forge, Nó hỗ trợ, tạo ra các bản mod, tùy chỉnh, bằng cách cung cấp một khung làm việc, và nhiều tiện ích cho các nhà phát triển á

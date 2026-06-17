@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import os
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
@@ -41,7 +42,15 @@ def scan_audio_files(folder: str, limit: Optional[int] = 100, extensions: Option
 
 
 def load_audio(path: str, target_sr: int = 22050) -> Tuple[np.ndarray, int]:
-    import librosa
+    import importlib
+
+    try:
+        librosa = importlib.import_module("librosa")
+    except ImportError as exc:
+        raise ImportError(
+            "The 'librosa' package is required to load audio. "
+            "Install it with 'pip install librosa'."
+        ) from exc
 
     audio, sr = librosa.load(path, sr=target_sr, mono=False)
     return audio, sr
@@ -83,6 +92,13 @@ def compute_audio_metrics(audio: np.ndarray, sr: int) -> Dict[str, float]:
         "clipping_ratio": float(np.mean([item["clipping_ratio"] for item in stats])),
         "dc_offset": float(np.mean([item["dc_offset"] for item in stats])),
     }
+
+
+ANGLE_BRACKET_ANNOTATION_RE = re.compile(r"<[^>]*>")
+
+
+def strip_ground_truth_annotations(text: str) -> str:
+    return ANGLE_BRACKET_ANNOTATION_RE.sub(" ", text)
 
 
 def normalize_text(text: str) -> str:

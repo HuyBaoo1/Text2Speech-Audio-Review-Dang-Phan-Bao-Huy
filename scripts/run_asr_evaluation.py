@@ -31,7 +31,7 @@ from tts_data_pipeline.asr import (
     transcribe_openai_api,
     transcribe_whisper_local,
 )
-from tts_data_pipeline.pipeline import normalize_text, scan_audio_files
+from tts_data_pipeline.pipeline import normalize_text, scan_audio_files, strip_ground_truth_annotations
 
 
 FIELDNAMES = [
@@ -55,7 +55,7 @@ def read_reference(ground_truth: str, audio_path: str) -> str | None:
     ref_path = Path(ground_truth) / f"{Path(audio_path).stem}.txt"
     if not ref_path.exists():
         return None
-    return normalize_text(ref_path.read_text(encoding="utf-8"))
+    return normalize_text(strip_ground_truth_annotations(ref_path.read_text(encoding="utf-8")))
 
 
 def load_quality_index(quality_csv: str) -> dict[str, dict[str, str]]:
@@ -131,6 +131,53 @@ def transcribe(
     raise ValueError(f"Unsupported provider: {provider}")
 
 
+def is_error_row(row: dict[str, str]) -> bool:
+    return row.get("manual_notes", "").startswith("ERROR:")
+
+
+def prefer_resume_row(current: dict[str, str] | None, candidate: dict[str, str]) -> dict[str, str]:
+    if current is None:
+        return candidate
+    if is_error_row(current) and not is_error_row(candidate):
+        return candidate
+    if not is_error_row(current) and is_error_row(candidate):
+        return current
+    return candidate
+
+
+def load_existing_rows(output_csv: str) -> list[dict[str, str]]:
+    path = Path(output_csv)
+    if not path.exists():
+        return []
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        rows = list(csv.DictReader(f))
+
+    deduped_by_source: dict[str, dict[str, str]] = {}
+    passthrough_rows: list[dict[str, str]] = []
+    for row in rows:
+        source_file = row.get("source_file")
+        if not source_file:
+            passthrough_rows.append(row)
+            continue
+        deduped_by_source[source_file] = prefer_resume_row(deduped_by_source.get(source_file), row)
+    return passthrough_rows + list(deduped_by_source.values())
+
+
+def write_outputs(output_csv: str, output_jsonl: str, rows: list[dict[str, str]]) -> None:
+    output_path = Path(output_csv)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+        writer.writeheader()
+        writer.writerows(rows)
+
+    jsonl_path = Path(output_jsonl)
+    jsonl_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(jsonl_path, "w", encoding="utf-8") as f:
+        for row in rows:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
 def run_asr_evaluation(
     folder: str,
     provider: str,
@@ -149,76 +196,90 @@ def run_asr_evaluation(
     azure_speech_region: str | None,
     language: str | None,
     only_ground_truth: bool,
+    resume: bool,
+    checkpoint_every: int,
 ) -> None:
-    rows = []
+    rows = load_existing_rows(output_csv) if resume else []
+    completed = {
+        row["source_file"]
+        for row in rows
+        if row.get("source_file") and not row.get("manual_notes", "").startswith("ERROR:")
+    }
     audio_paths = select_audio_paths(folder, limit=limit, ground_truth=ground_truth, only_ground_truth=only_ground_truth)
     quality_index = load_quality_index(quality_csv)
     print(f"Running ASR on {len(audio_paths)} audio files from {folder}")
+    if resume:
+        print(f"Resume enabled: loaded {len(rows)} deduped rows, skipping {len(completed)} completed files")
 
-    for path in audio_paths:
+    processed_since_checkpoint = 0
+    for index, path in enumerate(audio_paths, start=1):
+        source_file = Path(path).name
+        if source_file in completed:
+            continue
         quality = quality_index.get(path, {})
-        hypothesis = normalize_text(
-            transcribe(
-                path,
-                provider,
-                model,
-                openai_api_key=openai_api_key,
-                groq_api_key=groq_api_key,
-                deepgram_api_key=deepgram_api_key,
-                gemini_api_key=gemini_api_key,
-                elevenlabs_api_key=elevenlabs_api_key,
-                azure_speech_key=azure_speech_key,
-                azure_speech_region=azure_speech_region,
-                language=language,
+        error_note = ""
+        try:
+            hypothesis = normalize_text(
+                transcribe(
+                    path,
+                    provider,
+                    model,
+                    openai_api_key=openai_api_key,
+                    groq_api_key=groq_api_key,
+                    deepgram_api_key=deepgram_api_key,
+                    gemini_api_key=gemini_api_key,
+                    elevenlabs_api_key=elevenlabs_api_key,
+                    azure_speech_key=azure_speech_key,
+                    azure_speech_region=azure_speech_region,
+                    language=language,
+                )
             )
-        )
+        except Exception as exc:
+            hypothesis = ""
+            error_note = f"ERROR: {type(exc).__name__}: {str(exc)[:300]}"
+            print(f"{Path(path).name}: {error_note}")
+
         reference = read_reference(ground_truth, path)
         wer_score = ""
         cer_score = ""
 
-        if reference:
+        if reference and not error_note:
             stats = compare_transcriptions(reference, hypothesis)
             wer_score = f"{stats['wer']:.6f}"
             cer_score = f"{stats['cer']:.6f}"
 
-        rows.append(
-            {
-                "path": path,
-                "source_file": Path(path).name,
-                "provider": provider,
-                "model": model,
-                "duration": quality.get("duration") or wav_duration(path),
-                "pass_quality_gate": quality.get("pass_quality_gate", ""),
-                "reference": reference or "",
-                "hypothesis": hypothesis,
-                "wer": wer_score,
-                "cer": cer_score,
-                "manual_accept": "",
-                "manual_error_tags": "",
-                "manual_notes": "",
-            }
-        )
-        print(f"{Path(path).name}: {hypothesis[:120]}")
+        row = {
+            "path": path,
+            "source_file": source_file,
+            "provider": provider,
+            "model": model,
+            "duration": quality.get("duration") or wav_duration(path),
+            "pass_quality_gate": quality.get("pass_quality_gate", ""),
+            "reference": reference or "",
+            "hypothesis": hypothesis,
+            "wer": wer_score,
+            "cer": cer_score,
+            "manual_accept": "",
+            "manual_error_tags": "",
+            "manual_notes": error_note,
+        }
+        rows = [existing for existing in rows if existing.get("source_file") != source_file]
+        rows.append(row)
+        if not error_note:
+            print(f"{source_file}: {hypothesis[:120]}")
+        processed_since_checkpoint += 1
+        if checkpoint_every > 0 and processed_since_checkpoint >= checkpoint_every:
+            write_outputs(output_csv, output_jsonl, rows)
+            print(f"Checkpoint: {len(rows)} rows written after source index {index}")
+            processed_since_checkpoint = 0
 
-    output_path = Path(output_csv)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
-        writer.writeheader()
-        writer.writerows(rows)
-
-    jsonl_path = Path(output_jsonl)
-    jsonl_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(jsonl_path, "w", encoding="utf-8") as f:
-        for row in rows:
-            f.write(json.dumps(row, ensure_ascii=False) + "\n")
-
+    write_outputs(output_csv, output_jsonl, rows)
     print(f"Wrote {output_csv}")
     print(f"Wrote {output_jsonl}")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run ASR model comparison on the first N matched audio samples")
+    parser = argparse.ArgumentParser(description="Run ASR model comparison on matched audio samples")
     parser.add_argument("--folder", default="audio_samples/matched_audio")
     parser.add_argument(
         "--provider",
@@ -230,8 +291,10 @@ if __name__ == "__main__":
     parser.add_argument("--quality-csv", default="outputs/quality_report.csv")
     parser.add_argument("--output-csv", default="outputs/asr_eval.csv")
     parser.add_argument("--output-jsonl", default="outputs/asr_eval.jsonl")
-    parser.add_argument("--limit", type=int, default=100)
+    parser.add_argument("--limit", type=int, default=0, help="Maximum files to run; 0 means the full selected dataset")
     parser.add_argument("--only-ground-truth", action="store_true", help="Run only audio files that have non-empty ground truth")
+    parser.add_argument("--resume", action="store_true", help="Resume from an existing output CSV and skip completed files")
+    parser.add_argument("--checkpoint-every", type=int, default=10, help="Write output every N new rows; use 0 to write only at end")
     parser.add_argument("--language", default=os.getenv("ASR_LANGUAGE", "vi"))
     parser.add_argument("--openai-api-key", default=os.getenv("OPENAI_API_KEY") or os.getenv("OPEN_API_KEY"))
     parser.add_argument("--groq-api-key", default=os.getenv("GROQ_API_KEY"))
@@ -259,4 +322,6 @@ if __name__ == "__main__":
         azure_speech_region=args.azure_speech_region,
         language=args.language,
         only_ground_truth=args.only_ground_truth,
+        resume=args.resume,
+        checkpoint_every=args.checkpoint_every,
     )

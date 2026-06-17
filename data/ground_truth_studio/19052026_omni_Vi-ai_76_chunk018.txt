@@ -1,0 +1,1 @@
+Trong Unreal Engine năm, ngôn ngữ kịch bản chính được sử dụng, để tạo logic cho trò chơi này là, Blueprint, Đây là một ngôn ngữ lập trình trực quan, đối với các nhu cầu nâng cao hoặc đặc thù hơn, Các nhà phát triển cũng có thể sử dụng C cộng cộng để viết mã cho trò chơi này

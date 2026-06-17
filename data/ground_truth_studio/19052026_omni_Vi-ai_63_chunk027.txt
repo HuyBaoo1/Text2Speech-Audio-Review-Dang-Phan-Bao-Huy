@@ -1,0 +1,1 @@
+Hả, Một ví dụ về nhiệm vụ của AI á hả, Là nhận diện hình ảnh bạn ơi, Việc này bao gồm dạy máy tính cách nhận biết, và phân loại các vật thể, con người, hoặc các yếu tố khác trong một bức ảnh, Bằng cách phân tích dữ liệu hình ảnh, AI có thể nhận diện các quy luật, và đưa ra dự đoán dựa trên những gì, nó đã học được đó bạn

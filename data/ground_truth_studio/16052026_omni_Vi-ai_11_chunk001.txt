@@ -1,0 +1,1 @@
+Để tính tổng chi phí của một món hàng giá năm đô la, với thuế sáu phần trăm, trước tiên, bạn hãy tìm số tiền thuế bằng cách tính sáu phần trăm của năm đô la, sau đó, cộng kết quả đó vào giá gốc là xong ạ
