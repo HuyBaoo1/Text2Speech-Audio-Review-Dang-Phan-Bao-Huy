@@ -26,6 +26,9 @@ KEY_ALIASES = {
     "GEMINI_API_KEY": ["GEMINI_API_KEY", "GOOGLE_API_KEY"],
     "ELEVENLABS_API_KEY": ["ELEVENLABS_API_KEY", "XI_API_KEY"],
     "AZURE_SPEECH_KEY": ["AZURE_SPEECH_KEY", "SPEECH_KEY"],
+    "IFLYTEK_APP_ID": ["IFLYTEK_APP_ID"],
+    "IFLYTEK_API_KEY": ["IFLYTEK_API_KEY"],
+    "IFLYTEK_API_SECRET": ["IFLYTEK_API_SECRET"],
 }
 
 
@@ -37,6 +40,14 @@ def has_key(env_name: str | None) -> bool:
         if value and not value.startswith("put-your"):
             return True
     return False
+
+
+def missing_env_names(item: dict[str, object]) -> list[str]:
+    required = item.get("required_env") or item.get("free_quota_env")
+    if not required:
+        return []
+    env_names = required if isinstance(required, list) else [str(required)]
+    return [env_name for env_name in env_names if not has_key(str(env_name))]
 
 
 def score_summary(scored_csv: Path) -> dict[str, str]:
@@ -69,7 +80,6 @@ def run_benchmark(config_path: str, only_configured: bool, skip_local: bool) -> 
         name = item["name"]
         provider = item["provider"]
         model = item["model"]
-        env_name = item.get("free_quota_env")
         is_local = provider == "local-whisper"
 
         if skip_local and is_local:
@@ -77,9 +87,11 @@ def run_benchmark(config_path: str, only_configured: bool, skip_local: bool) -> 
             results.append({"name": name, "provider": provider, "model": model, "status": "skipped_local"})
             continue
 
-        if only_configured and not is_local and not has_key(env_name):
-            print(f"SKIP {name}: missing {env_name}")
-            results.append({"name": name, "provider": provider, "model": model, "status": f"missing_{env_name}"})
+        missing_env = missing_env_names(item)
+        if only_configured and not is_local and missing_env:
+            missing_label = "+".join(missing_env)
+            print(f"SKIP {name}: missing {missing_label}")
+            results.append({"name": name, "provider": provider, "model": model, "status": f"missing_{missing_label}"})
             continue
 
         output_dir = Path(config.get("output_dir", "outputs"))
@@ -106,8 +118,11 @@ def run_benchmark(config_path: str, only_configured: bool, skip_local: bool) -> 
             item.get("language", os.getenv("ASR_LANGUAGE", "vi")),
             "--output-csv",
             str(output_csv),
-                "--output-jsonl",
-                str(output_jsonl),
+            "--output-jsonl",
+            str(output_jsonl),
+            "--resume",
+            "--checkpoint-every",
+            "10",
         ]
         if config.get("only_ground_truth"):
             command.append("--only-ground-truth")

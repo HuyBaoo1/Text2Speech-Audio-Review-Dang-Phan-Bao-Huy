@@ -49,6 +49,14 @@
       "language": "Vietnamese"
     },
     {
+      "provider": "iflytek",
+      "model": "iat-niche",
+      "role": "iFLYTEK short speech recognition baseline for Vietnamese/small-language ASR",
+      "env": "IFLYTEK_API_KEY",
+      "required_env": ["IFLYTEK_APP_ID", "IFLYTEK_API_KEY", "IFLYTEK_API_SECRET"],
+      "language": "vi"
+    },
+    {
       "provider": "elevenlabs",
       "model": "scribe_v2",
       "role": "free-quota speech-to-text baseline",

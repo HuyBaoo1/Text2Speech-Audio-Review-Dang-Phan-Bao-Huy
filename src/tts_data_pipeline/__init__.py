@@ -7,6 +7,7 @@ from .asr import (
     transcribe_elevenlabs_api,
     transcribe_gemini_api,
     transcribe_groq_api,
+    transcribe_iflytek_api,
     transcribe_openai_api,
     transcribe_whisper_local,
 )
@@ -25,6 +26,7 @@ __all__ = [
     "transcribe_elevenlabs_api",
     "transcribe_gemini_api",
     "transcribe_groq_api",
+    "transcribe_iflytek_api",
     "transcribe_openai_api",
     "transcribe_whisper_local",
 ]

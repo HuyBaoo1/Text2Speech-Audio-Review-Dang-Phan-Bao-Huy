@@ -70,6 +70,11 @@ GEMINI_API_KEY=...
 ELEVENLABS_API_KEY=...
 AZURE_SPEECH_KEY=...
 AZURE_SPEECH_REGION=southeastasia
+IFLYTEK_APP_ID=...
+IFLYTEK_API_KEY=...
+IFLYTEK_API_SECRET=...
+IFLYTEK_LANGUAGE=vi
+IFLYTEK_HOST_URL=wss://iat-niche-api.xfyun.cn/v2/iat
 ASR_LANGUAGE=vi
 ```
 
@@ -132,6 +137,7 @@ python scripts/run_free_vi_benchmark.py --skip-local
 | `groq` | `whisper-large-v3-turbo` | `GROQ_API_KEY` | Hosted Whisper nhanh, kết quả gần OpenAI. |
 | `deepgram` | `nova-3` | `DEEPGRAM_API_KEY` | Production ASR API, đã benchmark. |
 | `gemini` | `gemini-2.5-flash` | `GEMINI_API_KEY` | Đã tích hợp, đã có kết quả Studio 300. |
+| `iflytek` | `iat-niche` | `IFLYTEK_APP_ID`, `IFLYTEK_API_KEY`, `IFLYTEK_API_SECRET` | iFLYTEK short speech recognition WebSocket, chờ key để test Studio 300. |
 | `elevenlabs` | `scribe_v2` | `ELEVENLABS_API_KEY` | Đã tích hợp, chờ key. |
 | `azure` | `azure-short-audio` | `AZURE_SPEECH_KEY`, `AZURE_SPEECH_REGION` | Đã tích hợp, chờ key. |
 | `local-whisper` | `vinai/PhoWhisper-small` | none | Local/free Vietnamese baseline. |
@@ -144,6 +150,7 @@ python scripts/run_asr_evaluation.py --provider openai --model gpt-4o-mini-trans
 python scripts/run_asr_evaluation.py --provider groq --model whisper-large-v3-turbo --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_groq_whisper_large_v3_turbo.csv
 python scripts/run_asr_evaluation.py --provider deepgram --model nova-3 --language vi --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_deepgram_nova3.csv
 python scripts/run_asr_evaluation.py --provider gemini --model gemini-2.5-flash --language Vietnamese --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_gemini_2_5_flash.csv
+python scripts/run_asr_evaluation.py --folder audio_samples/studio --provider iflytek --model iat-niche --ground-truth data/ground_truth_studio --quality-csv outputs/studio_full_quality_report.csv --language vi --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/studio_300_asr_eval_iflytek_iat_niche.csv --output-jsonl outputs/studio_300_asr_eval_iflytek_iat_niche.jsonl
 python scripts/run_asr_evaluation.py --provider elevenlabs --model scribe_v2 --language vie --only-ground-truth --output-csv outputs/asr_eval_elevenlabs_scribe_v2.csv
 python scripts/run_asr_evaluation.py --provider azure --model azure-short-audio --language vi-VN --only-ground-truth --output-csv outputs/asr_eval_azure_speech_vi_vn.csv
 python scripts/run_asr_evaluation.py --provider local-whisper --model vinai/PhoWhisper-small --only-ground-truth --output-csv outputs/asr_eval_phowhisper_small.csv

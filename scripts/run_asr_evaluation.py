@@ -28,6 +28,7 @@ from tts_data_pipeline.asr import (
     transcribe_elevenlabs_api,
     transcribe_gemini_api,
     transcribe_groq_api,
+    transcribe_iflytek_api,
     transcribe_openai_api,
     transcribe_whisper_local,
 )
@@ -101,6 +102,9 @@ def transcribe(
     elevenlabs_api_key: str | None,
     azure_speech_key: str | None,
     azure_speech_region: str | None,
+    iflytek_app_id: str | None,
+    iflytek_api_key: str | None,
+    iflytek_api_secret: str | None,
     language: str | None,
 ) -> str:
     if provider == "local-whisper":
@@ -125,6 +129,15 @@ def transcribe(
             path,
             azure_speech_key=azure_speech_key,
             azure_speech_region=azure_speech_region,
+            model=model,
+            language=language,
+        )
+    if provider == "iflytek":
+        return transcribe_iflytek_api(
+            path,
+            iflytek_app_id=iflytek_app_id,
+            iflytek_api_key=iflytek_api_key,
+            iflytek_api_secret=iflytek_api_secret,
             model=model,
             language=language,
         )
@@ -194,6 +207,9 @@ def run_asr_evaluation(
     elevenlabs_api_key: str | None,
     azure_speech_key: str | None,
     azure_speech_region: str | None,
+    iflytek_app_id: str | None,
+    iflytek_api_key: str | None,
+    iflytek_api_secret: str | None,
     language: str | None,
     only_ground_truth: bool,
     resume: bool,
@@ -231,6 +247,9 @@ def run_asr_evaluation(
                     elevenlabs_api_key=elevenlabs_api_key,
                     azure_speech_key=azure_speech_key,
                     azure_speech_region=azure_speech_region,
+                    iflytek_app_id=iflytek_app_id,
+                    iflytek_api_key=iflytek_api_key,
+                    iflytek_api_secret=iflytek_api_secret,
                     language=language,
                 )
             )
@@ -283,7 +302,7 @@ if __name__ == "__main__":
     parser.add_argument("--folder", default="audio_samples/matched_audio")
     parser.add_argument(
         "--provider",
-        choices=["local-whisper", "openai", "groq", "deepgram", "gemini", "elevenlabs", "azure"],
+        choices=["local-whisper", "openai", "groq", "deepgram", "gemini", "elevenlabs", "azure", "iflytek"],
         default="local-whisper",
     )
     parser.add_argument("--model", default="openai/whisper-small")
@@ -303,6 +322,9 @@ if __name__ == "__main__":
     parser.add_argument("--elevenlabs-api-key", default=os.getenv("ELEVENLABS_API_KEY") or os.getenv("XI_API_KEY"))
     parser.add_argument("--azure-speech-key", default=os.getenv("AZURE_SPEECH_KEY") or os.getenv("SPEECH_KEY"))
     parser.add_argument("--azure-speech-region", default=os.getenv("AZURE_SPEECH_REGION") or os.getenv("SPEECH_REGION"))
+    parser.add_argument("--iflytek-app-id", default=os.getenv("IFLYTEK_APP_ID"))
+    parser.add_argument("--iflytek-api-key", default=os.getenv("IFLYTEK_API_KEY"))
+    parser.add_argument("--iflytek-api-secret", default=os.getenv("IFLYTEK_API_SECRET"))
     args = parser.parse_args()
     run_asr_evaluation(
         folder=args.folder,
@@ -320,6 +342,9 @@ if __name__ == "__main__":
         elevenlabs_api_key=args.elevenlabs_api_key,
         azure_speech_key=args.azure_speech_key,
         azure_speech_region=args.azure_speech_region,
+        iflytek_app_id=args.iflytek_app_id,
+        iflytek_api_key=args.iflytek_api_key,
+        iflytek_api_secret=args.iflytek_api_secret,
         language=args.language,
         only_ground_truth=args.only_ground_truth,
         resume=args.resume,

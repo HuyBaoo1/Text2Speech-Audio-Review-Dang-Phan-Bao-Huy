@@ -2,8 +2,8 @@
   "description": "Studio clean-audio Vietnamese ASR benchmark. Hosted APIs run only when free-quota keys are configured.",
   "dataset_folder": "audio_samples/studio",
   "ground_truth": "data/ground_truth_studio",
-  "quality_csv": "outputs/studio_quality_report.csv",
-  "limit": 100,
+  "quality_csv": "outputs/studio_full_quality_report.csv",
+  "limit": 300,
   "only_ground_truth": true,
   "output_dir": "outputs",
   "output_prefix": "studio_asr_eval",
@@ -21,6 +21,14 @@
       "provider": "deepgram",
       "model": "nova-3",
       "free_quota_env": "DEEPGRAM_API_KEY",
+      "language": "vi"
+    },
+    {
+      "name": "iflytek_iat_niche",
+      "provider": "iflytek",
+      "model": "iat-niche",
+      "free_quota_env": "IFLYTEK_API_KEY",
+      "required_env": ["IFLYTEK_APP_ID", "IFLYTEK_API_KEY", "IFLYTEK_API_SECRET"],
       "language": "vi"
     }
   ]

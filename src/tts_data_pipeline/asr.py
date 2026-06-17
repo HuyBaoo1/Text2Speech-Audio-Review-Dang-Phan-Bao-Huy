@@ -1,10 +1,16 @@
 from __future__ import annotations
 
 import base64
+import hashlib
+import hmac
+import json
 import os
+import time
+from email.utils import formatdate
 from functools import lru_cache
 from pathlib import Path
 from typing import TYPE_CHECKING, Dict, Optional
+from urllib.parse import urlencode, urlparse
 
 if TYPE_CHECKING:
     from transformers import Pipeline
@@ -215,6 +221,127 @@ def transcribe_azure_api(
     if payload.get("NBest"):
         return payload["NBest"][0].get("Display", "").strip()
     return payload.get("DisplayText", "").strip()
+
+
+def _iflytek_auth_url(host_url: str, api_key: str, api_secret: str) -> str:
+    parsed = urlparse(host_url)
+    request_line = f"GET {parsed.path} HTTP/1.1"
+    date = formatdate(timeval=None, localtime=False, usegmt=True)
+    signature_origin = f"host: {parsed.netloc}\ndate: {date}\n{request_line}"
+    signature_sha = hmac.new(
+        api_secret.encode("utf-8"),
+        signature_origin.encode("utf-8"),
+        digestmod=hashlib.sha256,
+    ).digest()
+    signature = base64.b64encode(signature_sha).decode("utf-8")
+    authorization_origin = (
+        f'api_key="{api_key}", algorithm="hmac-sha256", '
+        f'headers="host date request-line", signature="{signature}"'
+    )
+    params = {
+        "authorization": base64.b64encode(authorization_origin.encode("utf-8")).decode("utf-8"),
+        "date": date,
+        "host": parsed.netloc,
+    }
+    return f"{host_url}?{urlencode(params)}"
+
+
+def _audio_to_pcm16_16k_mono(audio_path: str) -> bytes:
+    import librosa
+    import numpy as np
+
+    audio, _ = librosa.load(audio_path, sr=16000, mono=True)
+    audio = np.clip(audio, -1.0, 1.0)
+    return (audio * 32767.0).astype("<i2").tobytes()
+
+
+def _extract_iflytek_text(payload: dict[str, object], join_with_space: bool) -> str:
+    result = payload.get("data", {}).get("result", {})  # type: ignore[union-attr]
+    words = result.get("ws", []) if isinstance(result, dict) else []
+    parts: list[str] = []
+    for word in words:
+        if not isinstance(word, dict):
+            continue
+        candidates = word.get("cw", [])
+        if isinstance(candidates, list) and candidates:
+            first = candidates[0]
+            if isinstance(first, dict):
+                parts.append(str(first.get("w", "")))
+    return (" " if join_with_space else "").join(parts)
+
+
+def transcribe_iflytek_api(
+    audio_path: str,
+    iflytek_app_id: Optional[str] = None,
+    iflytek_api_key: Optional[str] = None,
+    iflytek_api_secret: Optional[str] = None,
+    model: str = "iat-niche",
+    language: Optional[str] = "vi",
+) -> str:
+    app_id = (iflytek_app_id or os.getenv("IFLYTEK_APP_ID") or "").strip()
+    api_key = (iflytek_api_key or os.getenv("IFLYTEK_API_KEY") or "").strip()
+    api_secret = (iflytek_api_secret or os.getenv("IFLYTEK_API_SECRET") or "").strip()
+    if not app_id or not api_key or not api_secret:
+        raise ValueError("IFLYTEK_APP_ID, IFLYTEK_API_KEY, and IFLYTEK_API_SECRET must be set.")
+
+    import websocket
+
+    chosen_language = (language or os.getenv("IFLYTEK_LANGUAGE") or "vi").strip()
+    endpoint = (os.getenv("IFLYTEK_HOST_URL") or "").strip()
+    if not endpoint:
+        endpoint = "wss://iat-niche-api.xfyun.cn/v2/iat" if chosen_language not in {"zh_cn", "en_us", "en"} else "wss://iat-api.xfyun.cn/v2/iat"
+
+    business = {
+        "domain": "iat",
+        "language": chosen_language,
+    }
+    if chosen_language == "zh_cn":
+        business["accent"] = os.getenv("IFLYTEK_ACCENT", "mandarin")
+
+    pcm_audio = _audio_to_pcm16_16k_mono(audio_path)
+    if len(pcm_audio) > 16000 * 2 * 60:
+        raise ValueError("iFLYTEK iat supports audio up to 60 seconds.")
+
+    auth_url = _iflytek_auth_url(endpoint, api_key, api_secret)
+    ws = websocket.create_connection(auth_url, timeout=180)
+    chunks = [pcm_audio[index : index + 1280] for index in range(0, len(pcm_audio), 1280)]
+    transcript_parts: list[str] = []
+    try:
+        for index, chunk in enumerate(chunks):
+            status = 0 if index == 0 else 1
+            payload = {
+                "data": {
+                    "status": status,
+                    "format": "audio/L16;rate=16000",
+                    "encoding": "raw",
+                    "audio": base64.b64encode(chunk).decode("utf-8"),
+                }
+            }
+            if index == 0:
+                payload["common"] = {"app_id": app_id}
+                payload["business"] = business
+            ws.send(json.dumps(payload, ensure_ascii=False))
+            time.sleep(0.04)
+
+        ws.send(json.dumps({"data": {"status": 2}}, ensure_ascii=False))
+        while True:
+            message = ws.recv()
+            if not message:
+                break
+            payload = json.loads(message)
+            code = int(payload.get("code", 0))
+            if code != 0:
+                raise RuntimeError(f"iFLYTEK transcription failed with code {code}: {payload.get('message', '')}")
+            text = _extract_iflytek_text(payload, join_with_space=chosen_language != "zh_cn")
+            if text:
+                transcript_parts.append(text)
+            data = payload.get("data", {})
+            if isinstance(data, dict) and data.get("status") == 2:
+                break
+    finally:
+        ws.close()
+
+    return (" " if chosen_language != "zh_cn" else "").join(transcript_parts).strip()
 
 
 def compare_transcriptions(reference: str, hypothesis: str) -> Dict[str, float | str]:
