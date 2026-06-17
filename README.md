@@ -1,193 +1,152 @@
-﻿# TTS Audio Manual Evaluation
+﻿# TTS Audio Benchmark & Data Review
 
-Project này dùng để đánh giá chất lượng audio/transcript cho dataset TTS trước khi mở rộng pipeline tự động thu thập dữ liệu từ internet, đặc biệt là YouTube.
+Project này dùng để đánh giá chất lượng audio/transcript và benchmark ASR cho pipeline tạo dataset training TTS tiếng Việt.
 
-Nguồn data chính:
+Mục tiêu chính:
 
-```text
-audio_samples/matched_audio
-audio_samples/studio
-```
+- So sánh ASR model/API trên dữ liệu thật.
+- Chọn model transcript tốt nhất cho data pipeline TTS.
+- Đánh giá nhanh chất lượng audio, transcript, empty output, WER/CER.
+- Giữ checkpoint để không chạy lại audio đã benchmark.
 
-Khi benchmark ASR, nên dùng `--only-ground-truth` để chỉ chạy những file đã có ground truth. Với model mới hoặc provider tốn quota, dùng `--limit 300`; `--limit 0` nghĩa là chạy toàn bộ tập đã chọn.
+## Current Verdict
 
-## Mục Tiêu
+- **Model nên chọn:** `openai:gpt-4o-mini-transcribe`
+  - Studio full: **WER 0.1764**, **CER 0.0684**
+  - Coverage: `2546/2546`
+  - Empty output trên Studio 300: `0`
+- **Model backup tốt nhất:** `groq:whisper-large-v3-turbo`
+  - Studio full: **WER 0.2053**, **CER 0.0909**
+  - Coverage: `2546/2546`
+  - Empty output trên Studio 300: `0`
+- **Chưa chọn làm model chính:** Deepgram, Gemini, iFLYTEK
+  - Deepgram/Gemini có nhiều empty output hơn.
+  - iFLYTEK hiện fail auth: `401 apikey not found`.
 
-- Xác định tiêu chí audio/transcript đủ tốt để training TTS.
-- Xây pipeline đánh giá chất lượng audio trước khi đưa vào dataset.
-- So sánh ASR local open-source và API model trên cùng một tập sample.
-- Tạo manifest để manual review: usable/reject, lỗi transcript, speaker, language, source.
+Report chính: [`Benchmark_final_result.md`](Benchmark_final_result.md)
 
-## Kết Quả Hiện Tại
+## Dataset
 
-- Ground-truth scoring đã bỏ qua mọi annotation trong dạng `<...>` trước khi tính WER/CER.
-- Kết quả API đã có được giữ lại trong `outputs/studio_full_asr_eval_*.csv/jsonl`; lần sau dùng `--resume` để không chạy lại audio đã xong.
-- `audio_samples/matched_audio`: benchmark ban đầu trên subset có ground-truth vẫn cho thấy OpenAI tốt nhất, Groq sát phía sau, Deepgram yếu hơn trên tập nhỏ. Chi tiết: `outputs/initial_audio_samples_evaluation.md`.
-- `audio_samples/studio`: đã chấm nhanh 300 audio đầu có ground-truth từ kết quả đã lưu, không gọi API thêm. Quality: PASS 16/300, REVIEW 284/300, duration TB 8.85s, SNR TB 50.00 dB, silence ratio TB 0.408.
-- Studio 300 ASR ranking:
-  - #1 OpenAI `gpt-4o-mini-transcribe`: 300/300 scored, WER 0.181432, CER 0.066774, không có hypothesis rỗng.
-  - #2 Groq `whisper-large-v3-turbo`: 300/300 scored, WER 0.213490, CER 0.085053, không có hypothesis rỗng.
-  - #3 Deepgram `nova-3`: 300/300 scored, WER 0.225865, CER 0.128594, có 21 hypothesis rỗng.
-  - #4 Gemini `gemini-2.5-flash`: 300/300 scored, WER 0.234580, CER 0.125562, có 8 hypothesis rỗng.
-- Nhận định: OpenAI đang là baseline tốt nhất cho tiếng Việt trên studio; Groq là lựa chọn free/quota tốt nhưng WER cao hơn; Deepgram/Gemini cần xem kỹ các dòng rỗng trước khi dùng làm transcript tự động cho TTS.
-- Report mới: `outputs/studio_300_benchmark_summary.md`, `outputs/studio_300_benchmark_summary.csv`, `outputs/studio_300_benchmark_summary.json`.
+| Dataset | Audio | Ground truth | Mục đích |
+| --- | ---: | ---: | --- |
+| `audio_samples/matched_audio` | 2277 | 32 | Dữ liệu internet/YouTube ban đầu |
+| `audio_samples/studio` | 2548 | 2546 | Dữ liệu sạch chính để chọn model |
 
-## Cấu Trúc Project
+Khi scoring, annotation dạng `<...>` trong ground-truth được bỏ qua trước khi tính WER/CER.
 
-```text
-configs/asr_models.json              danh sách model thử nghiệm
-configs/benchmark_free_vi.json       cấu hình benchmark free/free-quota cho tiếng Việt
-data/manual_eval_manifest.csv        sheet review thủ công
-data/ground_truth/                   transcript thủ công: <audio_stem>.txt
-docs/                                notes về data quality, pipeline, ASR protocol
-outputs/                             report sinh ra từ scripts
-scripts/create_manifest.py           tạo manifest cho 100 sample đầu
-scripts/run_quality_analysis.py      phân tích chất lượng audio
-scripts/run_asr_evaluation.py        chạy ASR và xuất CSV/JSONL
-scripts/score_existing_asr.py        chấm lại ASR output khi có thêm ground truth
-scripts/run_free_vi_benchmark.py     chạy benchmark free/free-quota theo config
-scripts/generate_evaluation_summary.py sinh Markdown summary
-scripts/generate_studio_300_benchmark_summary.py sinh summary 300 audio studio từ output đã lưu
-src/tts_data_pipeline/               package lõi
-```
+## Benchmark Summary
+
+### Studio Full
+
+| Rank | Model | Coverage | WER | CER | Kết luận |
+| ---: | --- | ---: | ---: | ---: | --- |
+| 1 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | **0.1764** | **0.0684** | Best overall |
+| 2 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Best backup |
+| 3 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER ổn, CER kém hơn |
+| 4 | Gemini `gemini-2.5-flash` | 1619/2546 | 0.2096 | 0.1094 | Chưa chạy full |
+
+### Studio 300
+
+| Rank | Model | Empty | WER | CER |
+| ---: | --- | ---: | ---: | ---: |
+| 1 | OpenAI `gpt-4o-mini-transcribe` | **0** | **0.1814** | **0.0668** |
+| 2 | Groq `whisper-large-v3-turbo` | **0** | 0.2135 | 0.0851 |
+| 3 | Deepgram `nova-3` | 21 | 0.2259 | 0.1286 |
+| 4 | Gemini `gemini-2.5-flash` | 8 | 0.2346 | 0.1256 |
+
+### matched_audio
+
+| Rank | Model | Rows | WER | CER | Empty |
+| ---: | --- | ---: | ---: | ---: | ---: |
+| 1 | OpenAI `gpt-4o-mini-transcribe` | 29 | **0.2044** | 0.1295 | 0 |
+| 2 | Groq `whisper-large-v3-turbo` | 29 | 0.2234 | **0.1158** | 0 |
+| 3 | Deepgram `nova-3` | 29 | 0.2982 | 0.2010 | 2 |
+| 4 | Local `vinai/PhoWhisper-small` | 11 | 0.4317 | 0.2207 | 0 |
+
+## Supported Providers
+
+| Provider | Model | Env key |
+| --- | --- | --- |
+| `openai` | `gpt-4o-mini-transcribe` | `OPENAI_API_KEY` |
+| `groq` | `whisper-large-v3-turbo` | `GROQ_API_KEY` |
+| `deepgram` | `nova-3` | `DEEPGRAM_API_KEY` |
+| `gemini` | `gemini-2.5-flash` | `GEMINI_API_KEY` |
+| `iflytek` | `iat-niche` | `IFLYTEK_APP_ID`, `IFLYTEK_API_KEY`, `IFLYTEK_API_SECRET` |
+| `elevenlabs` | `scribe_v2` | `ELEVENLABS_API_KEY` |
+| `azure` | `azure-short-audio` | `AZURE_SPEECH_KEY`, `AZURE_SPEECH_REGION` |
+| `local-whisper` | `vinai/PhoWhisper-small` | none |
 
 ## Setup
 
-```bash
+```powershell
 cd /d D:\TTS-audio
 python -m venv .venv
 .\.venv\Scripts\activate
 python -m pip install -r requirements.txt
 ```
 
-File `.env` hỗ trợ các key sau:
+Create `.env` from `.env.example` and fill only the providers you want to test.
 
 ```env
-OPENAI_API_KEY=...
-GROQ_API_KEY=...
-DEEPGRAM_API_KEY=...
-GEMINI_API_KEY=...
-ELEVENLABS_API_KEY=...
-AZURE_SPEECH_KEY=...
-AZURE_SPEECH_REGION=southeastasia
-IFLYTEK_APP_ID=...
-IFLYTEK_API_KEY=...
-IFLYTEK_API_SECRET=...
+OPENAI_API_KEY=
+GROQ_API_KEY=
+DEEPGRAM_API_KEY=
+GEMINI_API_KEY=
+IFLYTEK_APP_ID=
+IFLYTEK_API_KEY=
+IFLYTEK_API_SECRET=
 IFLYTEK_LANGUAGE=vi
 IFLYTEK_HOST_URL=wss://iat-niche-api.xfyun.cn/v2/iat
 ASR_LANGUAGE=vi
 ```
 
-## Workflow Chính
+`.env` is ignored by git.
 
-1. Tạo manifest manual review nhanh:
+## Common Commands
 
-```bash
-python scripts/create_manifest.py --folder audio_samples/matched_audio --limit 100
+Run one provider on Studio 300:
+
+```powershell
+python scripts\run_asr_evaluation.py --folder audio_samples\studio --provider openai --model gpt-4o-mini-transcribe --ground-truth data\ground_truth_studio --quality-csv outputs\studio_full_quality_report.csv --language vi --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs\studio_300_asr_eval_openai_gpt_4o_mini.csv --output-jsonl outputs\studio_300_asr_eval_openai_gpt_4o_mini.jsonl
 ```
 
-2. Chạy quality analysis:
+Run iFLYTEK after fixing key/service:
 
-```bash
-python scripts/run_quality_analysis.py --folder audio_samples/matched_audio --limit 100
-python scripts/summarize_reports.py
+```powershell
+python scripts\run_asr_evaluation.py --folder audio_samples\studio --provider iflytek --model iat-niche --ground-truth data\ground_truth_studio --quality-csv outputs\studio_full_quality_report.csv --language vi --limit 1200 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs\studio_1200_asr_eval_iflytek_iat_niche.csv --output-jsonl outputs\studio_1200_asr_eval_iflytek_iat_niche.jsonl
 ```
 
-3. Tạo ground truth thủ công:
+Regenerate Studio 300 summary from saved outputs:
+
+```powershell
+python scripts\generate_studio_300_benchmark_summary.py
+```
+
+Score an existing ASR CSV without calling API:
+
+```powershell
+python scripts\score_existing_asr.py --input-csv outputs\asr_eval_openai.csv --output-csv outputs\asr_eval_openai_scored.csv --ground-truth data\ground_truth
+```
+
+## Project Structure
 
 ```text
-data/ground_truth/<audio_stem>.txt
+Benchmark_final_result.md                 final benchmark report
+configs/                                  benchmark/provider configs
+data/ground_truth/                        manual GT for matched_audio
+data/ground_truth_studio/                 GT for studio data
+docs/                                     notes about data quality / ASR protocol
+outputs/                                  generated reports and benchmark outputs
+scripts/run_asr_evaluation.py             main ASR benchmark runner
+scripts/score_existing_asr.py             rescore saved ASR outputs
+scripts/generate_studio_300_benchmark_summary.py
+src/tts_data_pipeline/                    core package
 ```
 
-Ví dụ:
+## Key Artifacts
 
-```text
-data/ground_truth/-aCDck13cRI_14.txt
-```
-
-4. Chạy ASR trên những file đã có ground truth:
-
-```bash
-python scripts/run_asr_evaluation.py --folder audio_samples/studio --provider groq --model whisper-large-v3-turbo --ground-truth data/ground_truth_studio --quality-csv outputs/studio_full_quality_report.csv --limit 300 --language vi --output-csv outputs/studio_300_asr_eval_groq_whisper_large_v3_turbo.csv --output-jsonl outputs/studio_300_asr_eval_groq_whisper_large_v3_turbo.jsonl --only-ground-truth --resume --checkpoint-every 10
-```
-
-5. Chấm lại Studio 300 từ các output đã có mà không gọi API:
-
-```bash
-python scripts/generate_studio_300_benchmark_summary.py
-```
-
-6. Chạy benchmark free/free-quota:
-
-```bash
-python scripts/run_free_vi_benchmark.py
-```
-
-Nếu không muốn chạy local model:
-
-```bash
-python scripts/run_free_vi_benchmark.py --skip-local
-```
-
-## Model/Provider Đã Hỗ Trợ
-
-| Provider | Model | Key | Ghi chú |
-| --- | --- | --- | --- |
-| `openai` | `gpt-4o-mini-transcribe` | `OPENAI_API_KEY` | API baseline hiện đang tốt nhất. |
-| `groq` | `whisper-large-v3-turbo` | `GROQ_API_KEY` | Hosted Whisper nhanh, kết quả gần OpenAI. |
-| `deepgram` | `nova-3` | `DEEPGRAM_API_KEY` | Production ASR API, đã benchmark. |
-| `gemini` | `gemini-2.5-flash` | `GEMINI_API_KEY` | Đã tích hợp, đã có kết quả Studio 300. |
-| `iflytek` | `iat-niche` | `IFLYTEK_APP_ID`, `IFLYTEK_API_KEY`, `IFLYTEK_API_SECRET` | iFLYTEK short speech recognition WebSocket, chờ key để test Studio 300. |
-| `elevenlabs` | `scribe_v2` | `ELEVENLABS_API_KEY` | Đã tích hợp, chờ key. |
-| `azure` | `azure-short-audio` | `AZURE_SPEECH_KEY`, `AZURE_SPEECH_REGION` | Đã tích hợp, chờ key. |
-| `local-whisper` | `vinai/PhoWhisper-small` | none | Local/free Vietnamese baseline. |
-| `local-whisper` | `openai/whisper-small` | none | Local/free Whisper baseline. |
-
-Ví dụ chạy từng provider:
-
-```bash
-python scripts/run_asr_evaluation.py --provider openai --model gpt-4o-mini-transcribe --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_openai_new.csv
-python scripts/run_asr_evaluation.py --provider groq --model whisper-large-v3-turbo --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_groq_whisper_large_v3_turbo.csv
-python scripts/run_asr_evaluation.py --provider deepgram --model nova-3 --language vi --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_deepgram_nova3.csv
-python scripts/run_asr_evaluation.py --provider gemini --model gemini-2.5-flash --language Vietnamese --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/asr_eval_gemini_2_5_flash.csv
-python scripts/run_asr_evaluation.py --folder audio_samples/studio --provider iflytek --model iat-niche --ground-truth data/ground_truth_studio --quality-csv outputs/studio_full_quality_report.csv --language vi --limit 300 --only-ground-truth --resume --checkpoint-every 10 --output-csv outputs/studio_300_asr_eval_iflytek_iat_niche.csv --output-jsonl outputs/studio_300_asr_eval_iflytek_iat_niche.jsonl
-python scripts/run_asr_evaluation.py --provider elevenlabs --model scribe_v2 --language vie --only-ground-truth --output-csv outputs/asr_eval_elevenlabs_scribe_v2.csv
-python scripts/run_asr_evaluation.py --provider azure --model azure-short-audio --language vi-VN --only-ground-truth --output-csv outputs/asr_eval_azure_speech_vi_vn.csv
-python scripts/run_asr_evaluation.py --provider local-whisper --model vinai/PhoWhisper-small --only-ground-truth --output-csv outputs/asr_eval_phowhisper_small.csv
-```
-
-## Quality Gate
-
-Quality gate ban đầu:
-
-- duration trong khoảng 1-20s
-- SNR >= 20dB
-- silence ratio <= 0.35
-- clipping ratio <= 0.001
-- absolute DC offset <= 0.02
-
-Gate này dùng để ưu tiên review, không phải luật tuyệt đối. Clip fail gate vẫn có thể dùng nếu nghe tốt sau khi trim/normalize.
-
-## Manual Decision
-
-Trong `data/manual_eval_manifest.csv`, dùng:
-
-- `usable_for_tts=yes`: sạch, single speaker, transcript khớp, có thể dùng training.
-- `usable_for_tts=maybe`: cần trim/denoise/sửa transcript.
-- `usable_for_tts=no`: loại khỏi dataset.
-
-Các `reject_reason` nên dùng ngắn và nhất quán:
-
-```text
-music_overlap, multi_speaker, low_snr, clipping, bad_transcript,
-too_short, too_long, non_speech, license_risk
-```
-
-## Output Chính
-
-- `outputs/quality_report.csv`: audio metrics và quality gate.
-- `outputs/asr_eval_*.csv`: transcript từ từng provider/model.
-- `outputs/asr_eval_*_scored.csv`: WER/CER sau khi ghép ground truth.
-- `outputs/evaluation_summary.md`: tổng hợp chất lượng audio và benchmark ASR.
-- `outputs/benchmark_vi_models.md`: benchmark tiếng Việt mới nhất.
-- `data/manual_eval_manifest.csv`: bảng điều phối review dataset.
+- `Benchmark_final_result.md`
+- `outputs/studio_full_benchmark_checkpoint_state.md`
+- `outputs/studio_300_benchmark_summary.md`
+- `outputs/initial_audio_samples_evaluation.md`
+- `outputs/studio_1200_iflytek_evaluation_result.md`
