@@ -46,7 +46,7 @@ Ghi chú: khi scoring, annotation dạng `<...>` trong ground-truth được b�
 | Rank | Model | Coverage | WER | CER | Kết luận |
 | ---: | --- | ---: | ---: | ---: | --- |
 | 1 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | **0.1764** | **0.0684** | Best overall |
-| 2 | ElevenLabs `scribe_v2` | 980/2546 | **0.1179** | **0.0398** | Best partial, hết quota free |
+| 2 | ElevenLabs `scribe_v2` | 980/2546 | **0.1179** | **0.0398** | Best partial |
 | 3 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Best backup |
 | 4 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER ổn, CER kém hơn |
 | 5 | Gemini `gemini-2.5-flash` | 1619/2546 | 0.2096 | 0.1094 | Chưa chạy full |
