@@ -10,8 +10,10 @@
   - Studio full: **WER 0.2053**, **CER 0.0909**
   - Chạy đủ `2546/2546` file studio
   - Không có empty output trong Studio 300
-- **Chưa chọn làm model chính:** Deepgram, Gemini, iFLYTEK
+- **Chưa chọn làm model chính:** Deepgram, Gemini, Azure, ElevenLabs, iFLYTEK
   - Deepgram/Gemini có nhiều empty output hơn
+  - Azure có WER cao hơn và lỗi API nhiều trong full run
+  - ElevenLabs key hiện thiếu permission `speech_to_text`
   - iFLYTEK chưa benchmark được vì lỗi auth `401 apikey not found`
 
 Ghi chú: khi tính WER/CER, ground-truth đã bỏ qua annotation dạng `<...>`.
@@ -33,6 +35,7 @@ Bảng quan trọng nhất vì dùng gần như toàn bộ ground-truth studio.
 | 2 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Best backup |
 | 3 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER ổn, CER kém hơn |
 | 4 | Gemini `gemini-2.5-flash` | 1619/2546 | 0.2096 | 0.1094 | Chưa chạy full |
+| 5 | Azure `azure-short-audio` | 1632/2546 | 0.2361 | 0.1011 | Nhiều lỗi API |
 
 ## 2. Studio 300
 
@@ -72,6 +75,14 @@ Tập này nhỏ hơn, dùng để kiểm tra thêm trên dữ liệu internet/Y
 - Lỗi: `401 Unauthorized`, `apikey not found`
 - Kết luận: chưa thể so sánh WER/CER cho iFLYTEK cho tới khi key/endpoint đúng service.
 
+## ElevenLabs
+
+- Model: `elevenlabs:scribe_v2`
+- Đã thử: `350` dòng trước khi dừng
+- Thành công: `0`
+- Lỗi chính: key thiếu permission `speech_to_text`
+- Kết luận: chưa thể so sánh WER/CER cho ElevenLabs cho tới khi key có quyền Speech-to-Text.
+
 ## Final Recommendation
 
 - Dùng **OpenAI `gpt-4o-mini-transcribe`** để tạo transcript chính.
@@ -88,3 +99,4 @@ Tập này nhỏ hơn, dùng để kiểm tra thêm trên dữ liệu internet/Y
 - `outputs/studio_300_benchmark_summary.md`
 - `outputs/initial_audio_samples_evaluation.md`
 - `outputs/studio_1200_iflytek_evaluation_result.md`
+- `outputs/studio_full_azure_elevenlabs_evaluation_result.md`

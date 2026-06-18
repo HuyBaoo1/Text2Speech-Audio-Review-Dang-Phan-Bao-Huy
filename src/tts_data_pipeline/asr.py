@@ -165,7 +165,7 @@ def transcribe_elevenlabs_api(
     model: str = "scribe_v2",
     language: Optional[str] = "vie",
 ) -> str:
-    api_key = elevenlabs_api_key or os.getenv("ELEVENLABS_API_KEY") or os.getenv("XI_API_KEY")
+    api_key = (elevenlabs_api_key or os.getenv("ELEVENLABS_API_KEY") or os.getenv("XI_API_KEY") or "").strip()
     if not api_key:
         raise ValueError("ELEVENLABS_API_KEY or XI_API_KEY is not set.")
 
@@ -183,7 +183,8 @@ def transcribe_elevenlabs_api(
             files={"file": (Path(audio_path).name, audio_file)},
             timeout=180,
         )
-    response.raise_for_status()
+    if response.status_code >= 400:
+        raise RuntimeError(f"ElevenLabs transcription failed with HTTP {response.status_code}: {response.text[:300]}")
     payload = response.json()
     return payload.get("text", "").strip()
 
