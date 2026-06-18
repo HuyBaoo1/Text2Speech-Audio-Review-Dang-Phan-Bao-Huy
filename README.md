@@ -11,15 +11,9 @@ Project này dùng để đánh giá chất lượng audio/transcript và benchm
 
 ## Current Verdict
 
-- **Model nên chọn:** OpenAI `gpt-4o-mini-transcribe`
-  - Studio full: **WER 0.1764**, **CER 0.0684**
-  - Coverage: `2546/2546`
-  - Empty output trên Studio 300: `0`
+- **Model nên chọn:** OpenAI `gpt-4o-mini-transcribe`, ElevenLabs `scribe_v2`
 
 - **Model backup tốt nhất:** Groq `whisper-large-v3-turbo`
-  - Studio full: **WER 0.2053**, **CER 0.0909**
-  - Coverage: `2546/2546`
-  - Empty output trên Studio 300: `0`
 
 - **Chưa nên chọn làm model chính:**
   - Deepgram: WER gần Groq nhưng CER kém hơn.
