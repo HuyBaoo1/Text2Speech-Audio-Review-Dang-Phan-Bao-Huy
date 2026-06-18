@@ -36,10 +36,12 @@ Interpretation:
 
 | Metric | Value |
 | --- | ---: |
-| Attempted rows saved | 350 |
-| Successful transcripts | 0 |
-| Error rows | 350 |
-| WER/CER | unavailable |
+| Current-key scored rows | 980 |
+| Current-key quota errors | 193 |
+| Remaining rows not re-run after quota stop | 1373 |
+| Empty scored hypotheses | 0 |
+| WER mean | 0.117916 |
+| CER mean | 0.039755 |
 
 API review:
 
@@ -47,14 +49,15 @@ API review:
 - Auth header used: `xi-api-key`
 - Model used: `scribe_v2`
 - Previous direct probe error: `missing_permissions`, exact permission missing: `speech_to_text`
-- Latest direct Speech-to-Text probe with the new key reached the correct endpoint but failed with `detected_unusual_activity`.
-- Latest ElevenLabs message: Free Tier access is disabled for the account; upgrade to a paid subscription to continue.
+- Previous Speech-to-Text probe reached the correct endpoint but failed with `detected_unusual_activity`.
+- Previous ElevenLabs message: Free Tier access is disabled for the account; upgrade to a paid subscription to continue.
+- Latest retest with the newest key succeeded for 980 studio files, then stopped because the account exhausted free quota with `quota_exceeded`.
 
 Interpretation:
 
 - The ElevenLabs adapter is structurally correct.
-- The current blocker is account/key access, not request format.
-- Do not run full ElevenLabs benchmark until the account has active Speech-to-Text access.
+- The current blocker is free quota, not request format.
+- ElevenLabs `scribe_v2` is the strongest partial result so far, but needs paid/quota-stable access before it can replace OpenAI for a full pipeline.
 
 Resume command after fixing key permission:
 

@@ -29,3 +29,6 @@ models/
 
 #audio samples
 audio_samples/
+
+
+TTS-audio.code-workspace

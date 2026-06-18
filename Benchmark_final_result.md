@@ -13,7 +13,7 @@
 - **Chưa chọn làm model chính:** Deepgram, Gemini, Azure, ElevenLabs, iFLYTEK
   - Deepgram/Gemini có nhiều empty output hơn
   - Azure có WER cao hơn và lỗi API nhiều trong full run
-  - ElevenLabs key hiện thiếu permission `speech_to_text`
+  - ElevenLabs có WER/CER tốt nhất trên 980 file đã score nhưng hết quota free trước khi chạy full
   - iFLYTEK chưa benchmark được vì lỗi auth `401 apikey not found`
 
 Ghi chú: khi tính WER/CER, ground-truth đã bỏ qua annotation dạng `<...>`.
@@ -32,10 +32,11 @@ Bảng quan trọng nhất vì dùng gần như toàn bộ ground-truth studio.
 | Rank | Model | Coverage | WER | CER | Kết luận |
 | ---: | --- | ---: | ---: | ---: | --- |
 | 1 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | **0.1764** | **0.0684** | Best overall |
-| 2 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Best backup |
-| 3 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER ổn, CER kém hơn |
-| 4 | Gemini `gemini-2.5-flash` | 1619/2546 | 0.2096 | 0.1094 | Chưa chạy full |
-| 5 | Azure `azure-short-audio` | 1632/2546 | 0.2361 | 0.1011 | Nhiều lỗi API |
+| 2 | ElevenLabs `scribe_v2` | 980/2546 | **0.1179** | **0.0398** | Best partial, hết quota free |
+| 3 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Best backup |
+| 4 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER ổn, CER kém hơn |
+| 5 | Gemini `gemini-2.5-flash` | 1619/2546 | 0.2096 | 0.1094 | Chưa chạy full |
+| 6 | Azure `azure-short-audio` | 1632/2546 | 0.2361 | 0.1011 | Nhiều lỗi API |
 
 ## 2. Studio 300
 
@@ -78,15 +79,18 @@ Tập này nhỏ hơn, dùng để kiểm tra thêm trên dữ liệu internet/Y
 ## ElevenLabs
 
 - Model: `elevenlabs:scribe_v2`
-- Đã thử: `350` dòng trước khi dừng
-- Thành công: `0`
-- Lỗi chính: key thiếu permission `speech_to_text`
-- Kết luận: chưa thể so sánh WER/CER cho ElevenLabs cho tới khi key có quyền Speech-to-Text.
+- Thành công: `980/2546` file studio
+- Empty scored hypotheses: `0`
+- WER: `0.1179`
+- CER: `0.0398`
+- Lỗi chính sau khi chạy được: hết free quota, `quota_exceeded`
+- Kết luận: chất lượng transcript rất mạnh trên phần đã score, nhưng chưa đủ full coverage để thay OpenAI nếu chỉ dùng free quota.
 
 ## Final Recommendation
 
 - Dùng **OpenAI `gpt-4o-mini-transcribe`** để tạo transcript chính.
 - Dùng **Groq `whisper-large-v3-turbo`** làm model backup hoặc lựa chọn tiết kiệm hơn.
+- Test tiếp **ElevenLabs `scribe_v2`** nếu có paid/quota cao hơn vì partial WER/CER đang tốt nhất.
 - Luôn filter trước khi đưa transcript vào dataset TTS:
   - empty output
   - WER/CER cao bất thường
