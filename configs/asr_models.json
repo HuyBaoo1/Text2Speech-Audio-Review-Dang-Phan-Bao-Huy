@@ -49,6 +49,41 @@
       "language": "Vietnamese"
     },
     {
+      "provider": "gemini",
+      "model": "gemini-2.5-pro",
+      "role": "Gemini 2.5 Pro multimodal transcription",
+      "env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3",
+      "role": "Gemini 3 multimodal transcription",
+      "env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3.1-pro",
+      "role": "Gemini 3.1 Pro multimodal transcription",
+      "env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash",
+      "role": "Gemini 3.5 Flash multimodal transcription",
+      "env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "role": "Gemini 3.1 Flash Lite lightweight multimodal transcription",
+      "env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
       "provider": "iflytek",
       "model": "iat-niche",
       "role": "iFLYTEK short speech recognition baseline for Vietnamese/small-language ASR",

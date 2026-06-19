@@ -35,6 +35,41 @@
       "language": "Vietnamese"
     },
     {
+      "name": "gemini_2_5_pro",
+      "provider": "gemini",
+      "model": "gemini-2.5-pro",
+      "free_quota_env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "name": "gemini_3",
+      "provider": "gemini",
+      "model": "gemini-3",
+      "free_quota_env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "name": "gemini_3_1_pro",
+      "provider": "gemini",
+      "model": "gemini-3.1-pro",
+      "free_quota_env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "name": "gemini_3_5_flash",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash",
+      "free_quota_env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
+      "name": "gemini_3_1_flash_lite",
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "free_quota_env": "GEMINI_API_KEY",
+      "language": "Vietnamese"
+    },
+    {
       "name": "iflytek_iat_niche",
       "provider": "iflytek",
       "model": "iat-niche",

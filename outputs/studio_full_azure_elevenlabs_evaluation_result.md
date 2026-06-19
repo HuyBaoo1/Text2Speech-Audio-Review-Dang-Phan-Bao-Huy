@@ -36,12 +36,12 @@ Interpretation:
 
 | Metric | Value |
 | --- | ---: |
-| Current-key scored rows | 980 |
-| Current-key quota errors | 193 |
-| Remaining rows not re-run after quota stop | 1373 |
+| Scored rows | 2544 |
+| Error rows | 0 |
+| Ground-truth annotation-only rows skipped | 2 |
 | Empty scored hypotheses | 0 |
-| WER mean | 0.117916 |
-| CER mean | 0.039755 |
+| WER mean | 0.123340 |
+| CER mean | 0.045047 |
 
 API review:
 
@@ -51,13 +51,13 @@ API review:
 - Previous direct probe error: `missing_permissions`, exact permission missing: `speech_to_text`
 - Previous Speech-to-Text probe reached the correct endpoint but failed with `detected_unusual_activity`.
 - Previous ElevenLabs message: Free Tier access is disabled for the account; upgrade to a paid subscription to continue.
-- Latest retest with the newest key succeeded for 980 studio files, then stopped because the account exhausted free quota with `quota_exceeded`.
+- Latest retest after enabling Speech-to-Text permission completed the scoreable studio set.
 
 Interpretation:
 
 - The ElevenLabs adapter is structurally correct.
-- The current blocker is free quota, not request format.
-- ElevenLabs `scribe_v2` is the strongest partial result so far, but needs paid/quota-stable access before it can replace OpenAI for a full pipeline.
+- ElevenLabs `scribe_v2` is the strongest ASR result so far on studio by WER/CER.
+- Two files were not scored because their ground-truth becomes empty after stripping `<...>` annotations.
 
 Resume command after fixing key permission:
 
