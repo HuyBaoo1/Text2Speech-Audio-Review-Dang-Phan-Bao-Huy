@@ -1,0 +1,63 @@
+{
+  "description": "Run the requested OpenAI/Groq ASR comparison concurrently. Each model writes an independent resumable checkpoint.",
+  "dataset_folder": "audio_samples/studio",
+  "ground_truth": "data/ground_truth_studio",
+  "quality_csv": "outputs/studio_full_quality_report.csv",
+  "limit": 0,
+  "only_ground_truth": true,
+  "language": "vi",
+  "output_dir": "outputs",
+  "output_prefix": "openai_parallel_asr_eval",
+  "checkpoint_every": 1,
+  "max_workers": 4,
+  "provider_concurrency": {
+    "openai": 2,
+    "groq": 1
+  },
+  "max_retries": 5,
+  "retry_delay": 3,
+  "state_json": "openai_parallel_benchmark_state.json",
+  "summary_csv": "openai_parallel_benchmark_summary.csv",
+  "summary_md": "openai_parallel_benchmark.md",
+  "readme_marker": "OPENAI_PARALLEL_BENCHMARK",
+  "models": [
+    {
+      "name": "gpt_4o_transcribe",
+      "label": "OpenAI `gpt-4o-transcribe`",
+      "provider": "openai",
+      "model": "gpt-4o-transcribe",
+      "required_env": "OPENAI_API_KEY",
+      "concurrency_group": "openai",
+      "language": "vi"
+    },
+    {
+      "name": "whisper_large_v3",
+      "label": "Groq `whisper-large-v3`",
+      "provider": "groq",
+      "model": "whisper-large-v3",
+      "required_env": "GROQ_API_KEY",
+      "concurrency_group": "groq",
+      "request_delay": 3.2,
+      "language": "vi"
+    },
+    {
+      "name": "whisper_large_v3_turbo",
+      "label": "Groq `whisper-large-v3-turbo`",
+      "provider": "groq",
+      "model": "whisper-large-v3-turbo",
+      "required_env": "GROQ_API_KEY",
+      "concurrency_group": "groq",
+      "request_delay": 3.2,
+      "language": "vi"
+    },
+    {
+      "name": "gpt_realtime_2",
+      "label": "OpenAI `gpt-realtime-2`",
+      "provider": "openai-realtime",
+      "model": "gpt-realtime-2",
+      "required_env": "OPENAI_API_KEY",
+      "concurrency_group": "openai",
+      "language": "vi"
+    }
+  ]
+}

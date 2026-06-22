@@ -18,6 +18,25 @@ audio_samples/
 outputs/*.csv
 outputs/*.json
 outputs/*.jsonl
+outputs/*openai_parallel_asr_eval_*.log
+outputs/*openai_parallel_benchmark.md
+outputs/*openai_parallel_benchmark_runner_*.log
+outputs/*openai_parallel_benchmark_runner.pid
+outputs/groq_*_benchmark.md
+outputs/groq_*_benchmark_runner_*.log
+outputs/groq_*_benchmark_runner.pid
+outputs/groq_studio_readme_update.log
+outputs/groq_studio_readme_update.pid
+outputs/groq_studio_progress.md
+outputs/groq_studio_progress_monitor.pid
+outputs/groq_studio_progress_monitor_*.log
+outputs/groq_studio_v3_only_runner_*.log
+outputs/groq_studio_v3_only_runner.pid
+outputs/groq_studio_v3_readme_update.log
+outputs/groq_studio_v3_readme_update.pid
+outputs/combined_matched_missing.md
+outputs/combined_matched_missing_runner_*.log
+outputs/combined_matched_missing_runner.pid
 data/ground_truth/*.txt
 
 # Model/cache artifacts

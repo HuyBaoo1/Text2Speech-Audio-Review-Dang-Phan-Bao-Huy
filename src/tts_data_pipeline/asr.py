@@ -49,6 +49,107 @@ def transcribe_openai_api(
     return transcription.text.strip()
 
 
+def transcribe_openai_realtime_api(
+    audio_path: str,
+    openai_api_key: Optional[str] = None,
+    model: str = "gpt-realtime-2",
+    language: Optional[str] = "vi",
+) -> str:
+    """Ask a Realtime model to return a verbatim transcript for one audio file.
+
+    Realtime models are not accepted by ``/audio/transcriptions``.  This adapter
+    sends PCM16 audio over a dedicated WebSocket session and collects the text
+    response.  It deliberately creates one session per file: that makes a
+    stopped benchmark safely resumable from its per-file checkpoint.
+    """
+    api_key = openai_api_key or os.getenv("OPENAI_API_KEY") or os.getenv("OPEN_API_KEY")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY is not set.")
+
+    import websocket
+    import librosa
+    import numpy as np
+
+    audio, _ = librosa.load(audio_path, sr=24000, mono=True)
+    pcm16 = (np.clip(audio, -1.0, 1.0) * 32767.0).astype("<i2").tobytes()
+    url = f"wss://api.openai.com/v1/realtime?model={model}"
+    ws = websocket.create_connection(
+        url,
+        # The Realtime API is GA; sending the retired beta header is rejected.
+        header=[f"Authorization: Bearer {api_key}"],
+        timeout=180,
+    )
+    prompt_language = language or "the audio's original language"
+    instruction = (
+        f"Transcribe the input audio verbatim in {prompt_language}. "
+        "Return only the transcript; do not translate, summarize, or add commentary."
+    )
+    text_parts: list[str] = []
+    try:
+        ws.send(
+            json.dumps(
+                {
+                    "type": "session.update",
+                    "session": {
+                        "type": "realtime",
+                        "output_modalities": ["text"],
+                        "instructions": instruction,
+                        "audio": {
+                            "input": {
+                                "format": {"type": "audio/pcm", "rate": 24000},
+                                "turn_detection": None,
+                            }
+                        },
+                    },
+                }
+            )
+        )
+        # Do not append audio until the server confirms the GA session settings.
+        # Otherwise the first buffer can be interpreted with the default format.
+        while True:
+            event = json.loads(ws.recv())
+            event_type = event.get("type", "")
+            if event_type == "session.updated":
+                break
+            if event_type == "error":
+                error = event.get("error", {})
+                raise RuntimeError(f"OpenAI Realtime failed: {error.get('message', error)}")
+        # Keep events comfortably below the Realtime event-size limit.
+        for offset in range(0, len(pcm16), 24_000):
+            ws.send(
+                json.dumps(
+                    {
+                        "type": "input_audio_buffer.append",
+                        "audio": base64.b64encode(pcm16[offset : offset + 24_000]).decode("ascii"),
+                    }
+                )
+            )
+        ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+        ws.send(
+            json.dumps(
+                {
+                    "type": "response.create",
+                    "response": {"output_modalities": ["text"], "instructions": instruction},
+                }
+            )
+        )
+
+        while True:
+            event = json.loads(ws.recv())
+            event_type = event.get("type", "")
+            if event_type in {"response.output_text.delta", "response.text.delta"}:
+                text_parts.append(event.get("delta", ""))
+            elif event_type == "error":
+                error = event.get("error", {})
+                raise RuntimeError(f"OpenAI Realtime failed: {error.get('message', error)}")
+            elif event_type in {"response.done", "response.completed"}:
+                break
+    finally:
+        ws.close()
+
+    return "".join(text_parts).strip()
+
+
 def transcribe_groq_api(
     audio_path: str,
     groq_api_key: Optional[str] = None,

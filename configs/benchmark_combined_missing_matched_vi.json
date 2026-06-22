@@ -1,0 +1,53 @@
+{
+  "description": "Fill only missing matched_audio checkpoints required for the combined all-model benchmark.",
+  "dataset_folder": "audio_samples/matched_audio",
+  "ground_truth": "data/ground_truth",
+  "quality_csv": "outputs/quality_report.csv",
+  "limit": 0,
+  "only_ground_truth": true,
+  "language": "vi",
+  "output_dir": "outputs",
+  "output_prefix": "combined_matched_asr_eval",
+  "checkpoint_every": 1,
+  "max_workers": 3,
+  "provider_concurrency": {
+    "elevenlabs": 1,
+    "deepgram": 1,
+    "azure": 1
+  },
+  "max_retries": 5,
+  "retry_delay": 3,
+  "state_json": "combined_matched_missing_state.json",
+  "summary_csv": "combined_matched_missing_summary.csv",
+  "summary_md": "combined_matched_missing.md",
+  "readme_marker": "DO_NOT_UPDATE_README",
+  "models": [
+    {
+      "name": "elevenlabs_scribe_v2",
+      "label": "ElevenLabs `scribe_v2`",
+      "provider": "elevenlabs",
+      "model": "scribe_v2",
+      "required_env": "ELEVENLABS_API_KEY",
+      "concurrency_group": "elevenlabs",
+      "language": "vie"
+    },
+    {
+      "name": "deepgram_nova3",
+      "label": "Deepgram `nova-3`",
+      "provider": "deepgram",
+      "model": "nova-3",
+      "required_env": "DEEPGRAM_API_KEY",
+      "concurrency_group": "deepgram",
+      "language": "vi"
+    },
+    {
+      "name": "azure_speech_vi_vn",
+      "label": "Azure `azure-short-audio`",
+      "provider": "azure",
+      "model": "azure-short-audio",
+      "required_env": ["AZURE_SPEECH_KEY", "AZURE_SPEECH_REGION"],
+      "concurrency_group": "azure",
+      "language": "vi-VN"
+    }
+  ]
+}

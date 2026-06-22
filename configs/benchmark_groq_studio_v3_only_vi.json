@@ -1,0 +1,32 @@
+{
+  "description": "Resume only the new Groq Whisper Large V3 Studio benchmark; Turbo uses its completed historical Studio result.",
+  "dataset_folder": "audio_samples/studio",
+  "ground_truth": "data/ground_truth_studio",
+  "quality_csv": "outputs/studio_full_quality_report.csv",
+  "limit": 0,
+  "only_ground_truth": true,
+  "language": "vi",
+  "output_dir": "outputs",
+  "output_prefix": "openai_parallel_asr_eval",
+  "checkpoint_every": 1,
+  "max_workers": 1,
+  "provider_concurrency": {"groq": 1},
+  "max_retries": 8,
+  "retry_delay": 3,
+  "state_json": "groq_studio_v3_only_state.json",
+  "summary_csv": "groq_studio_v3_only_summary.csv",
+  "summary_md": "groq_studio_v3_only.md",
+  "readme_marker": "DO_NOT_UPDATE_README",
+  "models": [
+    {
+      "name": "whisper_large_v3",
+      "label": "Groq `whisper-large-v3`",
+      "provider": "groq",
+      "model": "whisper-large-v3",
+      "required_env": "GROQ_API_KEY",
+      "concurrency_group": "groq",
+      "request_delay": 3.5,
+      "language": "vi"
+    }
+  ]
+}

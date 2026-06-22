@@ -1,0 +1,43 @@
+{
+  "description": "Resumable Groq Whisper comparison on matched_audio Vietnamese ground truth.",
+  "dataset_folder": "audio_samples/matched_audio",
+  "ground_truth": "data/ground_truth",
+  "quality_csv": "outputs/quality_report.csv",
+  "limit": 0,
+  "only_ground_truth": true,
+  "language": "vi",
+  "output_dir": "outputs",
+  "output_prefix": "matched_openai_parallel_asr_eval",
+  "checkpoint_every": 1,
+  "max_workers": 1,
+  "provider_concurrency": {"groq": 1},
+  "max_retries": 8,
+  "retry_delay": 3,
+  "state_json": "groq_matched_benchmark_state.json",
+  "summary_csv": "groq_matched_benchmark_summary.csv",
+  "summary_md": "groq_matched_benchmark.md",
+  "report_title": "Groq Whisper matched_audio Benchmark",
+  "readme_marker": "GROQ_MATCHED_BENCHMARK",
+  "models": [
+    {
+      "name": "whisper_large_v3",
+      "label": "Groq `whisper-large-v3`",
+      "provider": "groq",
+      "model": "whisper-large-v3",
+      "required_env": "GROQ_API_KEY",
+      "concurrency_group": "groq",
+      "request_delay": 3.5,
+      "language": "vi"
+    },
+    {
+      "name": "whisper_large_v3_turbo",
+      "label": "Groq `whisper-large-v3-turbo`",
+      "provider": "groq",
+      "model": "whisper-large-v3-turbo",
+      "required_env": "GROQ_API_KEY",
+      "concurrency_group": "groq",
+      "request_delay": 3.5,
+      "language": "vi"
+    }
+  ]
+}

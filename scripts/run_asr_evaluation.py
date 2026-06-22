@@ -3,6 +3,8 @@ import csv
 import json
 import os
 import sys
+import tempfile
+import time
 import wave
 from pathlib import Path
 
@@ -30,6 +32,7 @@ from tts_data_pipeline.asr import (
     transcribe_groq_api,
     transcribe_iflytek_api,
     transcribe_openai_api,
+    transcribe_openai_realtime_api,
     transcribe_whisper_local,
 )
 from tts_data_pipeline.pipeline import normalize_text, scan_audio_files, strip_ground_truth_annotations
@@ -111,6 +114,13 @@ def transcribe(
         return transcribe_whisper_local(path, model_name=model)
     if provider == "openai":
         return transcribe_openai_api(path, openai_api_key=openai_api_key, model=model)
+    if provider == "openai-realtime":
+        return transcribe_openai_realtime_api(
+            path,
+            openai_api_key=openai_api_key,
+            model=model,
+            language=language,
+        )
     if provider == "groq":
         return transcribe_groq_api(path, groq_api_key=groq_api_key, model=model)
     if provider == "deepgram":
@@ -177,18 +187,37 @@ def load_existing_rows(output_csv: str) -> list[dict[str, str]]:
 
 
 def write_outputs(output_csv: str, output_jsonl: str, rows: list[dict[str, str]]) -> None:
+    def replace_checkpoint(temp_path: Path, destination: Path) -> None:
+        for attempt in range(6):
+            try:
+                os.replace(temp_path, destination)
+                return
+            except PermissionError:
+                if attempt == 5:
+                    raise
+                time.sleep(0.2 * (attempt + 1))
+
     output_path = Path(output_csv)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "w", encoding="utf-8-sig", newline="") as f:
+    # Write then replace so a timeout never leaves a partially-written checkpoint.
+    with tempfile.NamedTemporaryFile(
+        "w", encoding="utf-8-sig", newline="", delete=False, dir=output_path.parent, suffix=".tmp"
+    ) as f:
+        csv_temp = Path(f.name)
         writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
         writer.writeheader()
         writer.writerows(rows)
+    replace_checkpoint(csv_temp, output_path)
 
     jsonl_path = Path(output_jsonl)
     jsonl_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(jsonl_path, "w", encoding="utf-8") as f:
+    with tempfile.NamedTemporaryFile(
+        "w", encoding="utf-8", delete=False, dir=jsonl_path.parent, suffix=".tmp"
+    ) as f:
+        jsonl_temp = Path(f.name)
         for row in rows:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
+    replace_checkpoint(jsonl_temp, jsonl_path)
 
 
 def run_asr_evaluation(
@@ -214,6 +243,9 @@ def run_asr_evaluation(
     only_ground_truth: bool,
     resume: bool,
     checkpoint_every: int,
+    max_retries: int,
+    retry_delay: float,
+    request_delay: float,
 ) -> None:
     rows = load_existing_rows(output_csv) if resume else []
     completed = {
@@ -234,29 +266,41 @@ def run_asr_evaluation(
             continue
         quality = quality_index.get(path, {})
         error_note = ""
-        try:
-            hypothesis = normalize_text(
-                transcribe(
-                    path,
-                    provider,
-                    model,
-                    openai_api_key=openai_api_key,
-                    groq_api_key=groq_api_key,
-                    deepgram_api_key=deepgram_api_key,
-                    gemini_api_key=gemini_api_key,
-                    elevenlabs_api_key=elevenlabs_api_key,
-                    azure_speech_key=azure_speech_key,
-                    azure_speech_region=azure_speech_region,
-                    iflytek_app_id=iflytek_app_id,
-                    iflytek_api_key=iflytek_api_key,
-                    iflytek_api_secret=iflytek_api_secret,
-                    language=language,
+        for attempt in range(max_retries + 1):
+            try:
+                hypothesis = normalize_text(
+                    transcribe(
+                        path,
+                        provider,
+                        model,
+                        openai_api_key=openai_api_key,
+                        groq_api_key=groq_api_key,
+                        deepgram_api_key=deepgram_api_key,
+                        gemini_api_key=gemini_api_key,
+                        elevenlabs_api_key=elevenlabs_api_key,
+                        azure_speech_key=azure_speech_key,
+                        azure_speech_region=azure_speech_region,
+                        iflytek_app_id=iflytek_app_id,
+                        iflytek_api_key=iflytek_api_key,
+                        iflytek_api_secret=iflytek_api_secret,
+                        language=language,
+                    )
                 )
-            )
-        except Exception as exc:
-            hypothesis = ""
-            error_note = f"ERROR: {type(exc).__name__}: {str(exc)[:300]}"
-            print(f"{Path(path).name}: {error_note}")
+                break
+            except Exception as exc:
+                retryable = (
+                    getattr(exc, "status_code", None) in {408, 409, 429, 500, 502, 503, 504}
+                    or any(token in str(exc).lower() for token in ("rate limit", "timeout", "connection", "temporar"))
+                )
+                if retryable and attempt < max_retries:
+                    delay = retry_delay * (2**attempt)
+                    print(f"{Path(path).name}: retry {attempt + 1}/{max_retries} after {delay:.1f}s ({type(exc).__name__})")
+                    time.sleep(delay)
+                    continue
+                hypothesis = ""
+                error_note = f"ERROR: {type(exc).__name__}: {str(exc)[:300]}"
+                print(f"{Path(path).name}: {error_note}")
+                break
 
         reference = read_reference(ground_truth, path)
         wer_score = ""
@@ -291,6 +335,8 @@ def run_asr_evaluation(
             write_outputs(output_csv, output_jsonl, rows)
             print(f"Checkpoint: {len(rows)} rows written after source index {index}")
             processed_since_checkpoint = 0
+        if request_delay > 0:
+            time.sleep(request_delay)
 
     write_outputs(output_csv, output_jsonl, rows)
     print(f"Wrote {output_csv}")
@@ -302,7 +348,7 @@ if __name__ == "__main__":
     parser.add_argument("--folder", default="audio_samples/matched_audio")
     parser.add_argument(
         "--provider",
-        choices=["local-whisper", "openai", "groq", "deepgram", "gemini", "elevenlabs", "azure", "iflytek"],
+        choices=["local-whisper", "openai", "openai-realtime", "groq", "deepgram", "gemini", "elevenlabs", "azure", "iflytek"],
         default="local-whisper",
     )
     parser.add_argument("--model", default="openai/whisper-small")
@@ -314,6 +360,9 @@ if __name__ == "__main__":
     parser.add_argument("--only-ground-truth", action="store_true", help="Run only audio files that have non-empty ground truth")
     parser.add_argument("--resume", action="store_true", help="Resume from an existing output CSV and skip completed files")
     parser.add_argument("--checkpoint-every", type=int, default=10, help="Write output every N new rows; use 0 to write only at end")
+    parser.add_argument("--max-retries", type=int, default=3, help="Retry transient API/rate-limit failures this many times")
+    parser.add_argument("--retry-delay", type=float, default=3.0, help="Initial retry delay in seconds; retries use exponential backoff")
+    parser.add_argument("--request-delay", type=float, default=0.0, help="Wait this many seconds after each audio request")
     parser.add_argument("--language", default=os.getenv("ASR_LANGUAGE", "vi"))
     parser.add_argument("--openai-api-key", default=os.getenv("OPENAI_API_KEY") or os.getenv("OPEN_API_KEY"))
     parser.add_argument("--groq-api-key", default=os.getenv("GROQ_API_KEY"))
@@ -349,4 +398,7 @@ if __name__ == "__main__":
         only_ground_truth=args.only_ground_truth,
         resume=args.resume,
         checkpoint_every=args.checkpoint_every,
+        max_retries=args.max_retries,
+        retry_delay=args.retry_delay,
+        request_delay=args.request_delay,
     )
