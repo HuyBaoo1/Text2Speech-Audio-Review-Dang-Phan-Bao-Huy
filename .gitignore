@@ -34,6 +34,16 @@ outputs/groq_studio_v3_only_runner_*.log
 outputs/groq_studio_v3_only_runner.pid
 outputs/groq_studio_v3_readme_update.log
 outputs/groq_studio_v3_readme_update.pid
+outputs/gemini_2_5_pro_studio.md
+outputs/gemini_2_5_pro_runner_*.log
+outputs/gemini_2_5_pro_runner.pid
+outputs/gemini_2_5_pro_progress.md
+outputs/gemini_2_5_pro_progress_monitor.pid
+outputs/gemini_2_5_pro_progress_monitor_*.log
+outputs/gemini_2_5_pro_readme_update.log
+outputs/gemini_2_5_pro_readme_update.pid
+outputs/azure_checkpoint_retry.pid
+outputs/azure_checkpoint_retry_*.log
 outputs/combined_matched_missing.md
 outputs/combined_matched_missing_runner_*.log
 outputs/combined_matched_missing_runner.pid

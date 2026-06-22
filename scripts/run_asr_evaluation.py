@@ -288,9 +288,20 @@ def run_asr_evaluation(
                 )
                 break
             except Exception as exc:
+                response = getattr(exc, "response", None)
+                status_code = getattr(exc, "status_code", None) or getattr(response, "status_code", None)
+                error_text = str(exc).lower()
+                hard_quota_error = any(
+                    marker in error_text
+                    for marker in ("insufficient_quota", "exceeded your current quota", "quota exceeded")
+                )
                 retryable = (
-                    getattr(exc, "status_code", None) in {408, 409, 429, 500, 502, 503, 504}
-                    or any(token in str(exc).lower() for token in ("rate limit", "timeout", "connection", "temporar"))
+                    not hard_quota_error
+                    and status_code in {408, 409, 429, 500, 502, 503, 504}
+                    or any(
+                        token in error_text
+                        for token in ("http 429", "rate limit", "too many requests", "timeout", "connection", "temporar")
+                    ) and not hard_quota_error
                 )
                 if retryable and attempt < max_retries:
                     delay = retry_delay * (2**attempt)

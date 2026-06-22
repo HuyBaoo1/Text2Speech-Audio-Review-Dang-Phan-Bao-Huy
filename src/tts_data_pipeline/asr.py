@@ -3,9 +3,11 @@ from __future__ import annotations
 import base64
 import hashlib
 import hmac
+import io
 import json
 import os
 import time
+import wave
 from email.utils import formatdate
 from functools import lru_cache
 from pathlib import Path
@@ -314,11 +316,12 @@ def transcribe_azure_api(
     headers = {
         "Ocp-Apim-Subscription-Key": api_key,
         "Accept": "application/json",
-        "Content-Type": "audio/wav; codecs=audio/pcm",
+        "Content-Type": "audio/wav; codecs=audio/pcm; samplerate=16000",
     }
-    with open(audio_path, "rb") as audio_file:
-        response = requests.post(url, params=params, headers=headers, data=audio_file, timeout=120)
-    response.raise_for_status()
+    audio_payload = _audio_to_wav_pcm16_16k_mono(audio_path)
+    response = requests.post(url, params=params, headers=headers, data=audio_payload, timeout=120)
+    if response.status_code >= 400:
+        raise RuntimeError(f"Azure transcription failed with HTTP {response.status_code}: {response.text[:300]}")
     payload = response.json()
     if payload.get("NBest"):
         return payload["NBest"][0].get("Display", "").strip()
@@ -355,6 +358,18 @@ def _audio_to_pcm16_16k_mono(audio_path: str) -> bytes:
     audio, _ = librosa.load(audio_path, sr=16000, mono=True)
     audio = np.clip(audio, -1.0, 1.0)
     return (audio * 32767.0).astype("<i2").tobytes()
+
+
+def _audio_to_wav_pcm16_16k_mono(audio_path: str) -> bytes:
+    """Normalise input before Azure's short-audio endpoint validates it."""
+    pcm_audio = _audio_to_pcm16_16k_mono(audio_path)
+    buffer = io.BytesIO()
+    with wave.open(buffer, "wb") as wav_file:
+        wav_file.setnchannels(1)
+        wav_file.setsampwidth(2)
+        wav_file.setframerate(16000)
+        wav_file.writeframes(pcm_audio)
+    return buffer.getvalue()
 
 
 def _extract_iflytek_text(payload: dict[str, object], join_with_space: bool) -> str:
