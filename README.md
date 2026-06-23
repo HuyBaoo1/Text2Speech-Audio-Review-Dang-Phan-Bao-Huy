@@ -65,13 +65,13 @@ Dữ liệu thu studio sạch; target hiện tại là 2546 audio có ground tru
 | 1 | ElevenLabs `scribe_v2` | 2546/2546 | 0.1233 | 0.0450 | Tốt nhất trên tập này |
 | 2 | Gemini `gemini-3.5-flash` | 2546/2546 | 0.1650 | 0.0645 | Đủ coverage, có thể so sánh trực tiếp |
 | 3 | Gemini `gemini-3.1-flash-lite` | 2546/2546 | 0.1702 | 0.0660 | Đủ coverage, có thể so sánh trực tiếp |
-| 4 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | 0.1764 | 0.0684 | Đủ coverage, có thể so sánh trực tiếp |
-| 5 | Groq `whisper-large-v3` | 2546/2546 | 0.2026 | 0.0861 | Đủ coverage, có thể so sánh trực tiếp |
-| 6 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Đủ coverage, có thể so sánh trực tiếp |
-| 7 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | Đủ coverage, có thể so sánh trực tiếp; 121 output rỗng |
-| 8 | Gemini `gemini-2.5-flash` | 2546/2546 | 0.2161 | 0.1119 | Đủ coverage, có thể so sánh trực tiếp; 53 output rỗng |
+| 4 | Gemini `gemini-2.5-pro` | 2546/2546 | 0.1727 | 0.0705 | Đủ coverage, có thể so sánh trực tiếp |
+| 5 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | 0.1764 | 0.0684 | Đủ coverage, có thể so sánh trực tiếp |
+| 6 | Groq `whisper-large-v3` | 2546/2546 | 0.2026 | 0.0861 | Đủ coverage, có thể so sánh trực tiếp |
+| 7 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Đủ coverage, có thể so sánh trực tiếp |
+| 8 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | Đủ coverage, có thể so sánh trực tiếp; 121 output rỗng |
+| 9 | Gemini `gemini-2.5-flash` | 2546/2546 | 0.2161 | 0.1119 | Đủ coverage, có thể so sánh trực tiếp; 53 output rỗng |
 | - | Azure `azure-short-audio` | 1679/2546 | 0.2369 | 0.1016 | Partial; thiếu 867 mẫu, 867 API errors |
-| - | Gemini `gemini-2.5-pro` | 1174/2546 | 0.1611 | 0.0632 | Partial; thiếu 1372 mẫu |
 | - | OpenAI `gpt-4o-transcribe` | 883/2546 | 0.1750 | 0.0649 | Partial; thiếu 1663 mẫu, 14 API errors |
 | - | OpenAI `gpt-realtime-2` | 453/2546 | 0.2151 | 0.0931 | Partial; thiếu 2093 mẫu, 2093 API errors |
 
@@ -109,7 +109,7 @@ Studio results:
 | Model | Scope | Scored | Empty | WER | CER | Ghi chú |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | `gemini-3.5-flash` | Studio 300 | 298/300 | 0 | **0.1670** | **0.0618** | 2 timeout errors |
-| `gemini-2.5-pro` | Studio partial | 89/90 | 0 | 0.1745 | 0.0638 | Quá chậm, dừng checkpoint |
+| `gemini-2.5-pro` | Studio full | 2544/2546 | 0 | 0.1727 | 0.0705 | Hoàn tất; 2 ground-truth annotation-only không chấm WER/CER |
 | `gemini-3.1-flash-lite` | Studio 300 | 300/300 | 0 | 0.1757 | 0.0652 | Lite tốt, ổn định |
 | `gemini-2.5-flash` | Studio full | 2546/2546 | 53 | 0.2161 | 0.1119 | Chạy full nhưng nhiều empty |
 
@@ -117,10 +117,10 @@ matched_audio results:
 
 | Model | Rows | Empty | WER | CER |
 | --- | ---: | ---: | ---: | ---: |
-| `gemini-3.5-flash` | 31 | 0 | **0.1636** | 0.0806 |
-| `gemini-2.5-pro` | 31 | 0 | 0.1680 | 0.0809 |
-| `gemini-3.1-flash-lite` | 31 | 0 | 0.1738 | **0.0794** |
-| `gemini-2.5-flash` | 31 | 1 | 0.2057 | 0.1149 |
+| `gemini-3.5-flash` | 35 | 0 | **0.1628** | 0.0793 |
+| `gemini-2.5-pro` | 35 | 0 | 0.1646 | 0.0788 |
+| `gemini-3.1-flash-lite` | 35 | 0 | 0.1718 | **0.0778** |
+| `gemini-2.5-flash` | 35 | 3 | 0.2483 | 0.1631 |
 
 Skipped Gemini aliases:
 
@@ -129,7 +129,7 @@ Skipped Gemini aliases:
 | `gemini-3` | Skipped | API returned 404: model not found for `generateContent` |
 | `gemini-3.1-pro` | Skipped | API returned 404: model not found for `generateContent` |
 
-Kết luận ngắn: trong nhóm Gemini, `gemini-3.5-flash` đang tốt nhất trên Studio 300 và matched_audio. `gemini-2.5-pro` cho kết quả tốt nhưng throughput quá chậm để chạy full studio trong quota/thời gian hiện tại. `gemini-2.5-flash` chạy full được nhưng WER/CER và empty output kém hơn các model mới.
+Kết luận ngắn: trong nhóm Gemini, `gemini-3.5-flash` dẫn đầu trên matched_audio; `gemini-2.5-pro` đã hoàn tất Studio full với WER 0.1727/CER 0.0705, nhưng chậm hơn đáng kể. `gemini-2.5-flash` chạy full được nhưng WER/CER và empty output kém hơn các model mới.
 
 
 
