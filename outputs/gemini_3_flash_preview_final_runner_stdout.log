@@ -1,1 +1,4 @@
 START gemini_3_flash_preview: D:\TTS-audio\venv\Scripts\python.exe scripts/run_asr_evaluation.py --folder audio_samples/studio --provider gemini --model gemini-3-flash-preview --ground-truth data/ground_truth_studio --quality-csv outputs/studio_full_quality_report.csv --limit 0 --language Vietnamese --output-csv outputs\studio_full_asr_eval_gemini_3_flash_preview.csv --output-jsonl outputs\studio_full_asr_eval_gemini_3_flash_preview.jsonl --resume --checkpoint-every 0 --max-retries 5 --retry-delay 3 --request-delay 0 --only-ground-truth
+DONE gemini_3_flash_preview: exit=0
+Wrote outputs\gemini_3_flash_preview_studio_summary.csv
+Wrote outputs\gemini_3_flash_preview_studio.md

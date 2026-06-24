@@ -42,6 +42,48 @@ CANDIDATES: list[Candidate] = [
 ]
 
 
+# Short, model-specific conclusions for the two operating conditions.  Runtime
+# coverage/error details are appended automatically by ``table`` below.
+NOTES: dict[str, dict[str, str]] = {
+    "matched": {
+        "ElevenLabs `scribe_v2`": "Chất lượng cao trên audio nhiễu",
+        "Gemini `gemini-3.5-flash`": "Gemini tốt nhất trên audio nhiễu",
+        "Gemini `gemini-3-flash-preview`": "Kết quả mạnh, ngay sau nhóm Gemini dẫn đầu",
+        "Gemini `gemini-3.1-flash-lite`": "Ổn định, CER tốt nhất nhóm Gemini full",
+        "Gemini `gemini-3.1-pro-preview`": "Điểm tạm thời rất tốt, chưa đủ coverage",
+        "Gemini `gemini-2.5-flash`": "Sai nhiều hơn và có output rỗng",
+        "Gemini `gemini-2.5-flash-lite`": "Chưa chạy benchmark",
+        "Gemini `gemini-2.5-pro`": "Chất lượng sát Gemini 3.5 Flash",
+        "OpenAI `gpt-4o-mini-transcribe`": "Baseline ổn định, chất lượng khá",
+        "OpenAI `gpt-4o-transcribe`": "Chưa đủ coverage do quota",
+        "OpenAI `gpt-realtime-2`": "Chưa đủ coverage do quota",
+        "Groq `whisper-large-v3`": "CER tốt hơn Turbo, nhưng WER kém hơn trên noise",
+        "Groq `whisper-large-v3-turbo`": "Lựa chọn Groq tốt hơn trên audio nhiễu",
+        "Deepgram `nova-3`": "Nhiều lỗi hơn và có output rỗng",
+        "Azure `azure-short-audio`": "Bị quota/API error, chưa đủ dữ liệu",
+    },
+    "studio": {
+        "ElevenLabs `scribe_v2`": "Tốt nhất toàn bảng, ưu tiên độ chính xác",
+        "Gemini `gemini-3.5-flash`": "Gemini tốt nhất đã chạy full",
+        "Gemini `gemini-3-flash-preview`": "Chất lượng rất mạnh, đứng sau top 3 Gemini",
+        "Gemini `gemini-3.1-flash-lite`": "Ổn định, sát Gemini 3.5 Flash",
+        "Gemini `gemini-3.1-pro-preview`": "Chưa chạy benchmark",
+        "Gemini `gemini-2.5-flash`": "Chạy full nhưng nhiều output rỗng",
+        "Gemini `gemini-2.5-flash-lite`": "Chưa chạy benchmark",
+        "Gemini `gemini-2.5-pro`": "Chất lượng tốt nhưng throughput chậm",
+        "OpenAI `gpt-4o-mini-transcribe`": "Baseline production ổn định",
+        "OpenAI `gpt-4o-transcribe`": "Điểm partial tốt, nhưng thiếu coverage",
+        "OpenAI `gpt-realtime-2`": "Thiếu coverage lớn do quota",
+        "Groq `whisper-large-v3`": "Groq chính xác nhất trên Studio",
+        "Groq `whisper-large-v3-turbo`": "Gần V3, hợp khi ưu tiên tốc độ",
+        "Deepgram `nova-3`": "WER ổn nhưng CER cao và nhiều output rỗng",
+        "Azure `azure-short-audio`": "Bị quota/API error, chưa đủ dữ liệu",
+        "Qwen3-ASR `1.7B`": "Tốt nhất trong hai bản Qwen, không output rỗng",
+        "Qwen3-ASR `0.6B`": "Nhẹ hơn nhưng kém bản 1.7B",
+    },
+}
+
+
 def ground_truth_stems(directory: str) -> set[str]:
     return {
         item.stem
@@ -116,7 +158,7 @@ def table(dataset: str, title: str, description: str, stems: set[str]) -> str:
         "| ---: | --- | ---: | ---: | ---: | --- |",
     ]
     for rank, row in enumerate(complete, start=1):
-        note = "Tốt nhất trên tập này" if rank == 1 else "Đủ coverage, có thể so sánh trực tiếp"
+        note = NOTES.get(dataset, {}).get(str(row["label"]), "Đủ coverage, có thể so sánh trực tiếp")
         if row["empty"]:
             note += f"; {row['empty']} output rỗng"
         lines.append(
@@ -127,7 +169,8 @@ def table(dataset: str, title: str, description: str, stems: set[str]) -> str:
         wer = "-" if row["wer"] is None else f"{float(row['wer']):.4f}"
         cer = "-" if row["cer"] is None else f"{float(row['cer']):.4f}"
         missing = target - int(row["completed"])
-        detail = f"Partial; thiếu {missing} mẫu"
+        detail = NOTES.get(dataset, {}).get(str(row["label"]), "Chưa đủ coverage")
+        detail += f"; thiếu {missing} mẫu"
         if row["errors"]:
             detail += f", {row['errors']} API errors"
         lines.append(f"| - | {row['label']} | {row['completed']}/{target} | {wer} | {cer} | {detail} |")
