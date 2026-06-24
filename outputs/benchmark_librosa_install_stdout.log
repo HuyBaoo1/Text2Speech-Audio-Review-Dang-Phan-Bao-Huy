@@ -1,0 +1,49 @@
+Collecting librosa
+  Obtaining dependency information for librosa from https://files.pythonhosted.org/packages/b5/ba/c63c5786dfee4c3417094c4b00966e61e4a63efecee22cb7b4c0387dda83/librosa-0.11.0-py3-none-any.whl.metadata
+  Using cached librosa-0.11.0-py3-none-any.whl.metadata (8.7 kB)
+Requirement already satisfied: audioread>=2.1.9 in d:\tts-audio\venv\lib\site-packages (from librosa) (3.1.0)
+Collecting numba>=0.51.0 (from librosa)
+  Obtaining dependency information for numba>=0.51.0 from https://files.pythonhosted.org/packages/db/9e/3c679b2ee078425b9e99a91e44f8d132a6830d8ccce5227bc5e9181aeed8/numba-0.65.1-cp312-cp312-win_amd64.whl.metadata
+  Using cached numba-0.65.1-cp312-cp312-win_amd64.whl.metadata (3.0 kB)
+Requirement already satisfied: numpy>=1.22.3 in d:\tts-audio\venv\lib\site-packages (from librosa) (2.4.6)
+Requirement already satisfied: scipy>=1.6.0 in d:\tts-audio\venv\lib\site-packages (from librosa) (1.17.1)
+Collecting scikit-learn>=1.1.0 (from librosa)
+  Obtaining dependency information for scikit-learn>=1.1.0 from https://files.pythonhosted.org/packages/83/a4/c8e67227c680e2259c8864ae72ff48b06e16a6f51253a22167aa02a8aa4e/scikit_learn-1.9.0-cp312-cp312-win_amd64.whl.metadata
+  Using cached scikit_learn-1.9.0-cp312-cp312-win_amd64.whl.metadata (11 kB)
+Requirement already satisfied: joblib>=1.0 in d:\tts-audio\venv\lib\site-packages (from librosa) (1.5.3)
+Requirement already satisfied: decorator>=4.3.0 in d:\tts-audio\venv\lib\site-packages (from librosa) (5.3.1)
+Collecting soundfile>=0.12.1 (from librosa)
+  Obtaining dependency information for soundfile>=0.12.1 from https://files.pythonhosted.org/packages/ed/97/b39c18ac1df45e755ca22b8b00e872929da5d107998a207a5e4ac831bfda/soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata
+  Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl.metadata (18 kB)
+Collecting pooch>=1.1 (from librosa)
+  Obtaining dependency information for pooch>=1.1 from https://files.pythonhosted.org/packages/2a/2d/d4bf65e47cea8ff2c794a600c4fd1273a7902f268757c531e0ee9f18aa58/pooch-1.9.0-py3-none-any.whl.metadata
+  Using cached pooch-1.9.0-py3-none-any.whl.metadata (10 kB)
+Requirement already satisfied: soxr>=0.3.2 in d:\tts-audio\venv\lib\site-packages (from librosa) (1.1.0)
+Requirement already satisfied: typing_extensions>=4.1.1 in d:\tts-audio\venv\lib\site-packages (from librosa) (4.15.0)
+Collecting lazy_loader>=0.1 (from librosa)
+  Obtaining dependency information for lazy_loader>=0.1 from https://files.pythonhosted.org/packages/8a/a1/8d812e53a5da1687abb10445275d41a8b13adb781bbf7196ddbcf8d88505/lazy_loader-0.5-py3-none-any.whl.metadata
+  Using cached lazy_loader-0.5-py3-none-any.whl.metadata (5.9 kB)
+Requirement already satisfied: msgpack>=1.0 in d:\tts-audio\venv\lib\site-packages (from librosa) (1.1.2)
+Requirement already satisfied: packaging in d:\tts-audio\venv\lib\site-packages (from lazy_loader>=0.1->librosa) (26.2)
+Requirement already satisfied: llvmlite<0.48,>=0.47.0dev0 in d:\tts-audio\venv\lib\site-packages (from numba>=0.51.0->librosa) (0.47.0)
+Requirement already satisfied: platformdirs>=2.5.0 in d:\tts-audio\venv\lib\site-packages (from pooch>=1.1->librosa) (4.10.0)
+Requirement already satisfied: requests>=2.19.0 in d:\tts-audio\venv\lib\site-packages (from pooch>=1.1->librosa) (2.34.2)
+Requirement already satisfied: narwhals>=2.0.1 in d:\tts-audio\venv\lib\site-packages (from scikit-learn>=1.1.0->librosa) (2.22.1)
+Requirement already satisfied: threadpoolctl>=3.5.0 in d:\tts-audio\venv\lib\site-packages (from scikit-learn>=1.1.0->librosa) (3.6.0)
+Collecting cffi>=1.0 (from soundfile>=0.12.1->librosa)
+  Obtaining dependency information for cffi>=1.0 from https://files.pythonhosted.org/packages/f8/ed/13bd4418627013bec4ed6e54283b1959cf6db888048c7cf4b4c3b5b36002/cffi-2.0.0-cp312-cp312-win_amd64.whl.metadata
+  Using cached cffi-2.0.0-cp312-cp312-win_amd64.whl.metadata (2.6 kB)
+Requirement already satisfied: pycparser in d:\tts-audio\venv\lib\site-packages (from cffi>=1.0->soundfile>=0.12.1->librosa) (3.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in d:\tts-audio\venv\lib\site-packages (from requests>=2.19.0->pooch>=1.1->librosa) (3.4.7)
+Requirement already satisfied: idna<4,>=2.5 in d:\tts-audio\venv\lib\site-packages (from requests>=2.19.0->pooch>=1.1->librosa) (3.18)
+Requirement already satisfied: urllib3<3,>=1.26 in d:\tts-audio\venv\lib\site-packages (from requests>=2.19.0->pooch>=1.1->librosa) (2.7.0)
+Requirement already satisfied: certifi>=2023.5.7 in d:\tts-audio\venv\lib\site-packages (from requests>=2.19.0->pooch>=1.1->librosa) (2026.5.20)
+Using cached librosa-0.11.0-py3-none-any.whl (260 kB)
+Using cached lazy_loader-0.5-py3-none-any.whl (8.0 kB)
+Using cached numba-0.65.1-cp312-cp312-win_amd64.whl (2.8 MB)
+Using cached pooch-1.9.0-py3-none-any.whl (67 kB)
+Using cached scikit_learn-1.9.0-cp312-cp312-win_amd64.whl (8.2 MB)
+Using cached soundfile-0.14.0-py2.py3-none-win_amd64.whl (1.0 MB)
+Using cached cffi-2.0.0-cp312-cp312-win_amd64.whl (183 kB)
+Installing collected packages: numba, lazy_loader, cffi, soundfile, scikit-learn, pooch, librosa
+Successfully installed cffi-2.0.0 lazy_loader-0.5 librosa-0.11.0 numba-0.65.1 pooch-1.9.0 scikit-learn-1.9.0 soundfile-0.14.0

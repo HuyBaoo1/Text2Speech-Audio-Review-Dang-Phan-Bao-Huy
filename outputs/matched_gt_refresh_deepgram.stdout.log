@@ -1,0 +1,14 @@
+
+=== deepgram:nova-3 ===
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 31 deduped rows, skipping 31 completed files
+-qtA_qX2okw_57.wav: Ra khỏi kịch bản. Cái thứ hai đó là kỹ năng quan sát. Kỹ năng quan sát luôn là kỹ năng mà khi mà đi làm chúng ta phải lu
+Checkpoint: 32 rows written after source index 19
+-qtA_qX2okw_58.wav: Không phải là thứ trưởng mà ngoại giao đang được nhắc tới trong danh sách mà là một người thứ trưởng khác và mình ngay l
+Checkpoint: 33 rows written after source index 20
+-qtA_qX2okw_59.wav: Mình xem thực sự mình cập nhật cho nên mình may mắn là cái việc thay đổi của mình rất là nhanh mình biết rằng đây không 
+Checkpoint: 34 rows written after source index 21
+-qtA_qX2okw_61.wav: Sự chung không phải là một lợi ích chung thì có thể là chúng ta sẽ không được bằng cái việc năng lượng xuất phát từ trái
+Checkpoint: 35 rows written after source index 22
+Wrote outputs/combined_matched_asr_eval_deepgram_nova3.csv
+Wrote outputs/combined_matched_asr_eval_deepgram_nova3.jsonl

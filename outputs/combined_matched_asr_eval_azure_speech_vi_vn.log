@@ -1,0 +1,69 @@
+Running ASR on 31 audio files from audio_samples/matched_audio
+Resume enabled: loaded 0 deduped rows, skipping 0 completed files
+-Yg0ClzBn2k_0.wav: Vinuni sẽ đi sâu vào các trường đại học và học viện tại Việt Nam, cung cấp những thông tin bổ ích, hy vọng có thể hỗ trợ
+Checkpoint: 1 rows written after source index 1
+-Yg0ClzBn2k_143.wav: Xin mời tới đây nhìn logo của trường, chúng ta lại cảm nhận sự hoàng gia tràn ngập không khí rồi bây giờ chúng ta sẽ cùn
+Checkpoint: 2 rows written after source index 2
+-Yg0ClzBn2k_35.wav: Và chị đã hiểu là tại sao trường đại học ngoại thương vẫn luôn nằm trong luôn luôn nằm trong những top đầu?
+Checkpoint: 3 rows written after source index 3
+-Yg0ClzBn2k_40.wav: Ê nhưng mà trị để giải quyết thì chị giải thích dạ 2 giám thị 13 của chị là được cộng thêm 1,5 điểm học sinh giỏi quốc g
+Checkpoint: 4 rows written after source index 4
+-Yg0ClzBn2k_48.wav: Nó đã vào đây là đã giỏi rồi, sao lại cộng thêm về săn chỉ nữa?
+Checkpoint: 5 rows written after source index 5
+-Yg0ClzBn2k_62.wav: Đi trêu nhá, chị trêu nhá chị yêu media i love media AI love it dialer xiaomi mi AI love you till i love i love i love i
+Checkpoint: 6 rows written after source index 6
+-Yg0ClzBn2k_69.wav: 5 vừa rồi thì em không dừng lại ở con số 4 5 mà nó sống cảm mến rồi bởi vì em cố gắng làm thật nhiều tín trong 10 5 đấy 
+Checkpoint: 7 rows written after source index 7
+-Yg0ClzBn2k_93.wav: Nhưng mà chị thấy hầu như là nam sinh đúng không cô? Nữ sinh là ít ào tại ngày xưa kinh tế thì là sẽ nhiều nam với chị.
+Checkpoint: 8 rows written after source index 8
+-aCDck13cRI_14.wav: ERROR: HTTPError: 400 Client Error: Bad Request for url: https://southeastasia.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=vi-VN
+Checkpoint: 9 rows written after source index 9
+-aCDck13cRI_30.wav: Tháng sau, mình phải giao tiếp với một khách hàng người thái và mình cần biết tiếng thái thì nó sẽ là một động lực rất l
+Checkpoint: 10 rows written after source index 10
+-aCDck13cRI_39.wav: Cái Xem nào trong buổi ngày hôm nay thì mình đã học được 30 từ vựng thông dụng, 15 câu giao tiếp cơ bản cách giới thiệu 
+Checkpoint: 11 rows written after source index 11
+-aCDck13cRI_54.wav: ERROR: HTTPError: 400 Client Error: Bad Request for url: https://southeastasia.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=vi-VN
+Checkpoint: 12 rows written after source index 12
+-aCDck13cRI_59.wav: Quay trở lại cái sự khởi đầu khá là thuận lợi cho việc học ngoại ngữ bắt đầu từ số không đầu tiên là mình sẽ học những c
+Checkpoint: 13 rows written after source index 13
+-aCDck13cRI_60.wav: Và mình nói được cái ngôn ngữ đấy, mình cảm thấy rất sung sướng và đấy chính là cái tiền đề, động lực để mình học những 
+Checkpoint: 14 rows written after source index 14
+-aCDck13cRI_61.wav: Việc thứ 3 đó là học ngữ pháp học ngữ pháp thì mình cũng không cần học hết ngữ pháp. Mình chỉ cần Xem là những cái ngữ p
+Checkpoint: 15 rows written after source index 15
+-aCDck13cRI_62.wav: Cái thứ 4 chúng ta cố gắng thâm nhập vào cái văn hóa của họ bằng cách là Xem phim nhiều hơn, nghe nhạc nhiều hơn à Xem Y
+Checkpoint: 16 rows written after source index 16
+-aCDck13cRI_63.wav: Mình cũng cảm thấy khó khăn như mọi người sẽ là một cái quá trình rất là dài và không phải là kiểu mình học bây giờ. Ngà
+Checkpoint: 17 rows written after source index 17
+-fMWmwnjfMg_100.wav: ERROR: HTTPError: 400 Client Error: Bad Request for url: https://southeastasia.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=vi-VN
+Checkpoint: 18 rows written after source index 18
+04T8nmsFN58_11.wav: ERROR: HTTPError: 400 Client Error: Bad Request for url: https://southeastasia.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=vi-VN
+Checkpoint: 19 rows written after source index 19
+04T8nmsFN58_20.wav: ERROR: HTTPError: 400 Client Error: Bad Request for url: https://southeastasia.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=vi-VN
+Checkpoint: 20 rows written after source index 20
+04T8nmsFN58_23.wav: Chọn truyện muốn vào ấy ạ, thế thì em cũng có một cái bí kíp offline nào hay là bí kíp viết luận. Nó được gọi là xuất ph
+Checkpoint: 21 rows written after source index 21
+04T8nmsFN58_27.wav: Thì chị thấy cái đấy cũng là một cái tên gọi tích cực mà mọi người muốn dành tặng. Nhưng mà chị cũng rất tò mò không biế
+Checkpoint: 22 rows written after source index 22
+04T8nmsFN58_30.wav: Trao luôn luôn có một cái tính cố gắng, cái sự cố gắng rất là lớn trong công việc và trong học tập nữa thì chị rất là tò
+Checkpoint: 23 rows written after source index 23
+04T8nmsFN58_65.wav: Người ta đang có một ngày tồi tệ và người ta cần chút điều đấy lên ai đấy thôi cũng không sao anh OK, cái việc đấy ạ, cư
+Checkpoint: 24 rows written after source index 24
+04jhP_1G24M_10.wav: Đấy là ôn tập ngắt quãng giúp chúng ta nhớ lâu hơn sâu hơn và không bị dồn vào một ngày nói chung là nó sẽ rất là tốt ch
+Checkpoint: 25 rows written after source index 25
+04jhP_1G24M_11.wav: Cái quý 4 rồi thì nó cũng tương tự nó chỉ thêm 1 bước là phleek, đó là cái bước chúng ta suy ngẫm lại và liên kết những 
+Checkpoint: 26 rows written after source index 26
+04jhP_1G24M_13.wav: Tất cả các slide mà thầy cô đã cho lần này thì mình vừa đọc và mình vừa test nút lại mình vừa viết lại những cái ý, chín
+Checkpoint: 27 rows written after source index 27
+04jhP_1G24M_15.wav: Trả lời một cách ngắn gọn lại và lúc đấy thì mình cũng sẽ gạch chân những cái từ khóa chính trong cái câu trả lời đó.
+Checkpoint: 28 rows written after source index 28
+04jhP_1G24M_16.wav: Mình cũng gạch chân những cái từ khóa chính trong cái phần mình check nốt mình viết, ghi chú. Và cuối cùng sau khi mình 
+Checkpoint: 29 rows written after source index 29
+04jhP_1G24M_77.wav: ERROR: HTTPError: 400 Client Error: Bad Request for url: https://southeastasia.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=vi-VN
+Checkpoint: 30 rows written after source index 30
+04jhP_1G24M_78.wav: Phải thừa nhận rằng có những lúc học không ra kết quả gì nhưng chính lúc đó mình đang học cách kiên nhẫn và không bỏ cuộ
+Checkpoint: 31 rows written after source index 31
+Wrote outputs\combined_matched_asr_eval_azure_speech_vi_vn.csv
+Wrote outputs\combined_matched_asr_eval_azure_speech_vi_vn.jsonl
+
+[2026-06-22T03:16:27+00:00] START D:\TTS-audio\venv\Scripts\python.exe scripts/run_asr_evaluation.py --folder audio_samples/matched_audio --provider azure --model azure-short-audio --ground-truth data/ground_truth --quality-csv outputs/quality_report.csv --limit 0 --language vi-VN --output-csv outputs\combined_matched_asr_eval_azure_speech_vi_vn.csv --output-jsonl outputs\combined_matched_asr_eval_azure_speech_vi_vn.jsonl --resume --checkpoint-every 1 --max-retries 5 --retry-delay 3 --request-delay 0 --only-ground-truth
+[2026-06-22T03:18:35+00:00] EXIT 0

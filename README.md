@@ -43,13 +43,16 @@ Dữ liệu internet/YouTube có noise và tạp âm; target hiện tại là 35
 | 1 | Gemini `gemini-3.5-flash` | 35/35 | 0.1628 | 0.0793 | Tốt nhất trên tập này |
 | 2 | Gemini `gemini-2.5-pro` | 35/35 | 0.1646 | 0.0788 | Đủ coverage, có thể so sánh trực tiếp |
 | 3 | Gemini `gemini-3.1-flash-lite` | 35/35 | 0.1718 | 0.0778 | Đủ coverage, có thể so sánh trực tiếp |
-| 4 | ElevenLabs `scribe_v2` | 35/35 | 0.1790 | 0.0935 | Đủ coverage, có thể so sánh trực tiếp |
-| 5 | OpenAI `gpt-4o-mini-transcribe` | 35/35 | 0.1933 | 0.1193 | Đủ coverage, có thể so sánh trực tiếp |
-| 6 | Groq `whisper-large-v3-turbo` | 35/35 | 0.2195 | 0.1157 | Đủ coverage, có thể so sánh trực tiếp |
-| 7 | Groq `whisper-large-v3` | 35/35 | 0.2258 | 0.1091 | Đủ coverage, có thể so sánh trực tiếp |
-| 8 | Gemini `gemini-2.5-flash` | 35/35 | 0.2483 | 0.1631 | Đủ coverage, có thể so sánh trực tiếp; 3 output rỗng |
-| 9 | Deepgram `nova-3` | 35/35 | 0.2804 | 0.1850 | Đủ coverage, có thể so sánh trực tiếp; 2 output rỗng |
+| 4 | Gemini `gemini-3-flash-preview` | 35/35 | 0.1789 | 0.0888 | Đủ coverage, có thể so sánh trực tiếp |
+| 5 | ElevenLabs `scribe_v2` | 35/35 | 0.1790 | 0.0935 | Đủ coverage, có thể so sánh trực tiếp |
+| 6 | OpenAI `gpt-4o-mini-transcribe` | 35/35 | 0.1933 | 0.1193 | Đủ coverage, có thể so sánh trực tiếp |
+| 7 | Groq `whisper-large-v3-turbo` | 35/35 | 0.2195 | 0.1157 | Đủ coverage, có thể so sánh trực tiếp |
+| 8 | Groq `whisper-large-v3` | 35/35 | 0.2258 | 0.1091 | Đủ coverage, có thể so sánh trực tiếp |
+| 9 | Gemini `gemini-2.5-flash` | 35/35 | 0.2483 | 0.1631 | Đủ coverage, có thể so sánh trực tiếp; 3 output rỗng |
+| 10 | Deepgram `nova-3` | 35/35 | 0.2804 | 0.1850 | Đủ coverage, có thể so sánh trực tiếp; 2 output rỗng |
 | - | Azure `azure-short-audio` | 25/35 | 0.2587 | 0.1323 | Partial; thiếu 10 mẫu, 10 API errors |
+| - | Gemini `gemini-2.5-flash-lite` | 0/35 | - | - | Partial; thiếu 35 mẫu |
+| - | Gemini `gemini-3.1-pro-preview` | 31/35 | 0.1465 | 0.0681 | Partial; thiếu 4 mẫu |
 | - | OpenAI `gpt-4o-transcribe` | 31/35 | 0.5210 | 0.4633 | Partial; thiếu 4 mẫu, 4 API errors |
 | - | OpenAI `gpt-realtime-2` | 31/35 | 0.3904 | 0.2911 | Partial; thiếu 4 mẫu, 4 API errors |
 
@@ -63,15 +66,20 @@ Dữ liệu thu studio sạch; target hiện tại là 2546 audio có ground tru
 | Rank | Model | Coverage | WER | CER | Kết luận |
 | ---: | --- | ---: | ---: | ---: | --- |
 | 1 | ElevenLabs `scribe_v2` | 2546/2546 | 0.1233 | 0.0450 | Tốt nhất trên tập này |
-| 2 | Gemini `gemini-3.5-flash` | 2546/2546 | 0.1650 | 0.0645 | Đủ coverage, có thể so sánh trực tiếp |
-| 3 | Gemini `gemini-3.1-flash-lite` | 2546/2546 | 0.1702 | 0.0660 | Đủ coverage, có thể so sánh trực tiếp |
-| 4 | Gemini `gemini-2.5-pro` | 2546/2546 | 0.1727 | 0.0705 | Đủ coverage, có thể so sánh trực tiếp |
-| 5 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | 0.1764 | 0.0684 | Đủ coverage, có thể so sánh trực tiếp |
-| 6 | Groq `whisper-large-v3` | 2546/2546 | 0.2026 | 0.0861 | Đủ coverage, có thể so sánh trực tiếp |
-| 7 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Đủ coverage, có thể so sánh trực tiếp |
-| 8 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | Đủ coverage, có thể so sánh trực tiếp; 121 output rỗng |
+| 2 | Gemini `gemini-3.5-flash` | 2546/2546 | 0.1650 | 0.0645 | Gemini tốt nhất đã chạy full; cân bằng tốt giữa chất lượng và vận hành|
+| 3 | Gemini `gemini-3.1-flash-lite` | 2546/2546 | 0.1702 | 0.0660 | Ổn định, chất lượng sát Gemini 3.5 Flash; phù hợp khi ưu tiên model nhẹ hơn |
+| 4 | Gemini `gemini-2.5-pro` | 2546/2546 | 0.1727 | 0.0705 | Chất lượng tốt nhưng throughput chậm; chỉ nên dùng khi không gấp về thời gian |
+| 5 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | 0.1764 | 0.0684 | Baseline full-coverage đáng tin cậy, chất lượng tốt và dễ chọn cho production |
+| 6 | Groq `whisper-large-v3` | 2546/2546 | 0.2026 | 0.0861 | Lựa chọn Groq tốt nhất về độ chính xác |
+| 7 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 |Chất lượng rất gần V3; phù hợp hơn khi ưu tiên tốc độ/chi phí |
+| 8 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER ổn nhưng CER cao và có nhiều output rỗng; cần hậu kiểm; 121 output rỗng |
 | 9 | Gemini `gemini-2.5-flash` | 2546/2546 | 0.2161 | 0.1119 | Đủ coverage, có thể so sánh trực tiếp; 53 output rỗng |
-| - | Azure `azure-short-audio` | 1679/2546 | 0.2369 | 0.1016 | Partial; thiếu 867 mẫu, 867 API errors |
+| 10 | Qwen3-ASR `1.7B` | 2546/2546 | 0.2165 | 0.0809 |Tốt nhất trong hai bản Qwen; CER khá tốt, không có output rỗng |
+| 11 | Qwen3-ASR `0.6B` | 2546/2546 | 0.2266 | 0.0900 | Bản gọn hơn nhưng chất lượng giảm rõ so với 1.7B |
+| - | Azure `azure-short-audio` | 1833/2546 | 0.2398 | 0.1039 | Partial; thiếu 713 mẫu, 713 API errors |
+| - | Gemini `gemini-2.5-flash-lite` | 0/2546 | - | - | Partial; thiếu 2546 mẫu |
+| - | Gemini `gemini-3-flash-preview` | 1269/2546 | 0.1578 | 0.0588 | Partial; thiếu 1277 mẫu, 3 API errors |
+| - | Gemini `gemini-3.1-pro-preview` | 0/2546 | - | - | Partial; thiếu 2546 mẫu |
 | - | OpenAI `gpt-4o-transcribe` | 883/2546 | 0.1750 | 0.0649 | Partial; thiếu 1663 mẫu, 14 API errors |
 | - | OpenAI `gpt-realtime-2` | 453/2546 | 0.2151 | 0.0931 | Partial; thiếu 2093 mẫu, 2093 API errors |
 

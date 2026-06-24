@@ -1,0 +1,56 @@
+
+=== gemini:gemini-3.5-flash ===
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 31 deduped rows, skipping 31 completed files
+-qtA_qX2okw_57.wav: ra khỏi kịch bản. Cái thứ hai đó là kỹ năng quan sát. Kỹ năng quan sát luôn là một kỹ năng mà khi mà đi làm chúng ta phả
+Checkpoint: 32 rows written after source index 19
+-qtA_qX2okw_58.wav: Đó không phải là thứ trưởng bộ ngoại giao được nhắc tới trong cái cái danh sách mà là một người thứ trưởng khác và mình 
+Checkpoint: 33 rows written after source index 20
+-qtA_qX2okw_59.wav: là mình xem tự sự mình cập nhật cho nên mình may mắn là cái việc này thay đổi của mình rất là nhanh, mình biết được rằng
+Checkpoint: 34 rows written after source index 21
+-qtA_qX2okw_61.wav: sự chung ấy, không phải là một cái lợi ích chung ấy, thì có thể là chúng ta sẽ ờ đó, có thể nó sẽ không được bằng cái vi
+Checkpoint: 35 rows written after source index 22
+Wrote outputs/matched_asr_eval_gemini_3_5_flash.csv
+Wrote outputs/matched_asr_eval_gemini_3_5_flash.jsonl
+
+=== gemini:gemini-3.1-flash-lite ===
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 31 deduped rows, skipping 31 completed files
+-qtA_qX2okw_57.wav: ra khỏi kịch bản. Cái thứ hai đó là kỹ năng quan sát. Kỹ năng quan sát luôn là một kỹ năng mà khi mà đi làm chúng ta phả
+Checkpoint: 32 rows written after source index 19
+-qtA_qX2okw_58.wav: đó không phải là thứ trưởng bộ ngoại giao đơn được nhắc tới trong cái cái danh sách mà là một người thứ trưởng khác và m
+Checkpoint: 33 rows written after source index 20
+-qtA_qX2okw_59.wav: là mình xem thử sự mình cập nhật. Cho nên mình may mắn là cái việc này thay đổi của mình rất là nhanh. Mình biết được rằ
+Checkpoint: 34 rows written after source index 21
+-qtA_qX2okw_61.wav: sự chung ấy, không phải là một cái lợi ích chung ấy thì có thể là chúng ta sẽ ờ đó, có thể nó sẽ không được bằng cái việ
+Checkpoint: 35 rows written after source index 22
+Wrote outputs/matched_asr_eval_gemini_3_1_flash_lite.csv
+Wrote outputs/matched_asr_eval_gemini_3_1_flash_lite.jsonl
+
+=== gemini:gemini-2.5-flash ===
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 31 deduped rows, skipping 31 completed files
+-qtA_qX2okw_57.wav: ra khỏi kịch bản. Cái thứ hai đó là kỹ năng quan sát. Kỹ năng quan sát luôn là một kỹ năng mà khi mà đi làm chúng ta phả
+Checkpoint: 32 rows written after source index 19
+-qtA_qX2okw_58.wav: 
+Checkpoint: 33 rows written after source index 20
+-qtA_qX2okw_59.wav: 
+Checkpoint: 34 rows written after source index 21
+-qtA_qX2okw_61.wav: sự chung ấy không phải là một cái lợi ích chung ấy thì có thể là chúng ta sẽ đó có thể nó sẽ không được bằng cái việc nă
+Checkpoint: 35 rows written after source index 22
+Wrote outputs/matched_asr_eval_gemini_2_5_flash.csv
+Wrote outputs/matched_asr_eval_gemini_2_5_flash.jsonl
+
+=== gemini:gemini-2.5-pro ===
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 31 deduped rows, skipping 31 completed files
+-qtA_qX2okw_57.wav: ra khỏi kịch bản. Cái thứ hai đó là kỹ năng quan sát. Kỹ năng quan sát luôn là một kỹ năng mà khi mà đi làm chúng ta phả
+Checkpoint: 32 rows written after source index 19
+-qtA_qX2okw_58.wav: Đó không phải là thứ trưởng bộ ngoại giao đang được nhắc tới trong cái cái danh sách mà là một người thứ trưởng khác và 
+Checkpoint: 33 rows written after source index 20
+-qtA_qX2okw_59.wav: và mình xem thời sự mình cập nhật nhưng mà mình may mắn là cái việc đấy thay đổi của mình rất là nhanh. Mình biết được r
+Checkpoint: 34 rows written after source index 21
+-qtA_qX2okw_61.wav: sự chung ấy, không phải là một cái lợi ích chung ấy, thì có thể là chúng ta sẽ ờ đó, có thể nó sẽ không được bằng cái vi
+Checkpoint: 35 rows written after source index 22
+Wrote outputs/matched_asr_eval_gemini_2_5_pro.csv
+Wrote outputs/matched_asr_eval_gemini_2_5_pro.jsonl

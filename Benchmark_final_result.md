@@ -1,110 +1,62 @@
 ﻿# Benchmark Final Result
 
-## Verdict
+## Kết Luận Nhanh
 
-- **Chọn chính:** `elevenlabs:scribe_v2` nếu quota/chi phí cho phép; `openai:gpt-4o-mini-transcribe` là lựa chọn ổn định full-coverage
-  - ElevenLabs studio: **WER 0.1233**, **CER 0.0450**
-  - ElevenLabs chạy được `2544/2546` file scoreable, `2` file còn lại chỉ có annotation `<...>` sau khi strip
-  - Empty output trên Studio 300: `0`
-- **Model ổn định tốt nhất:** `openai:gpt-4o-mini-transcribe`
-  - Studio full: **WER 0.1764**, **CER 0.0684**
-  - Chạy đủ `2546/2546` file studio
-  - Không có empty output trong Studio 300
-- **Backup tốt nhất:** `groq:whisper-large-v3-turbo`
-  - Studio full: **WER 0.2053**, **CER 0.0909**
-  - Chạy đủ `2546/2546` file studio
-  - Không có empty output trong Studio 300
-- **Chưa chọn làm model chính:** Deepgram, Gemini, Azure, iFLYTEK
-  - Deepgram/Gemini có nhiều empty output hơn
-  - Azure có WER cao hơn và lỗi API nhiều trong full run
-  - iFLYTEK chưa benchmark được vì lỗi auth `401 apikey not found`
+- **Model nên chọn:** `openai:gpt-4o-mini-transcribe`
+  - Tốt nhất trên cả `matched_audio` và `studio`.
+  - Studio full: **WER 0.1764**, **CER 0.0684**, `2546/2546` file thành công.
+- **Model backup/free-quota tốt nhất:** `groq:whisper-large-v3-turbo`
+  - Studio full: **WER 0.2053**, **CER 0.0909**, `2546/2546` file thành công.
+- **Không dùng làm model chính lúc này:** `deepgram:nova-3`, `gemini:gemini-2.5-flash`, `iflytek:iat-niche`.
+  - Deepgram/Gemini có nhiều output rỗng hơn trên Studio 300.
 
-Ghi chú: khi tính WER/CER, ground-truth đã bỏ qua annotation dạng `<...>`.
+## Dataset Đã Đánh Giá
 
-## Dataset
+| Folder                        | Audio | Ground truth | Vai trò                             |
+| ---: | --- | --- | ---: | ---: | ---: | --- |
+| `audio_samples/matched_audio` | 2277  | 32           | Dữ liệu internet/YouTube ban đầu    |
+| `audio_samples/studio`        | 2548  | 2546         | Dữ liệu sạch chính để so sánh model |
 
-| Dataset | Audio | Ground truth | Mục đích |
-| --- | ---: | ---: | --- |
-| `matched_audio` | 2277 | 32 | Dữ liệu internet/YouTube ban đầu |
-| `studio` | 2548 | 2546 | Dữ liệu sạch chính để chọn model |
+Ghi chú scoring: các annotation dạng `<...>` trong ground-truth đã được bỏ qua trước khi tính WER/CER.
 
-## 1. Studio Full
+## Studio Full Benchmark
 
-Bảng quan trọng nhất vì dùng gần như toàn bộ ground-truth studio.
+Đây là bảng quan trọng nhất vì dùng gần như toàn bộ ground-truth studio.
 
-| Rank | Model | Coverage | WER | CER | Kết luận |
-| ---: | --- | ---: | ---: | ---: | --- |
-| 1 | ElevenLabs `scribe_v2` | 2544/2546 | **0.1233** | **0.0450** | Best ASR quality |
-| 2 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | 0.1764 | 0.0684 | Best stable full-coverage |
-| 3 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Best backup |
-| 4 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER ổn, CER kém hơn |
-| 5 | Gemini `gemini-2.5-flash` | 1619/2546 | 0.2096 | 0.1094 | Chưa chạy full |
-| 6 | Azure `azure-short-audio` | 1632/2546 | 0.2361 | 0.1011 | Nhiều lỗi API |
+| Rank | Provider | Model | Coverage | WER | CER | Ghi chú |
+| ---: | --- | --- | ---: | ---: | ---: | --- |
+| 1 | OpenAI | `gpt-4o-mini-transcribe` | 2546/2546 | **0.1764** | **0.0684** | Best overall |
+| 2 | Groq | `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Best backup/cost-sensitive |
+| 3 | Deepgram | `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER gần Groq, CER kém hơn |
+| 4 | Gemini | `gemini-2.5-flash` | 1619/2546 | 0.2096 | 0.1094 | Partial run, chưa full |
 
-## 2. Studio 300
+## matched_audio Benchmark
 
-Bảng này dùng để nhìn nhanh empty output và so sánh cùng một tập 300 file.
+Tập này nhỏ hơn và nhiều tính “internet/noisy” hơn, dùng để sanity-check trên dữ liệu YouTube ban đầu.
 
-| Rank | Model | Empty | WER | CER |
-| ---: | --- | ---: | ---: | ---: |
-| 1 | ElevenLabs `scribe_v2` | **0** | **0.1316** | **0.0431** |
-| 2 | OpenAI `gpt-4o-mini-transcribe` | **0** | 0.1814 | 0.0668 |
-| 3 | Groq `whisper-large-v3-turbo` | **0** | 0.2135 | 0.0851 |
-| 4 | Deepgram `nova-3` | 21 | 0.2259 | 0.1286 |
-| 5 | Gemini `gemini-2.5-flash` | 8 | 0.2346 | 0.1256 |
+| Rank | Provider | Model | Rows | WER | CER | Empty |
+| ---: | --- | --- | ---: | ---: | ---: | ---: |
+| 1 | OpenAI | `gpt-4o-mini-transcribe` | 29 | **0.2044** | 0.1295 | 0 |
+| 2 | Groq | `whisper-large-v3-turbo` | 29 | 0.2234 | **0.1158** | 0 |
+| 3 | Deepgram | `nova-3` | 29 | 0.2982 | 0.2010 | 2 |
+| 4 | Local | `vinai/PhoWhisper-small` | 11 | 0.4317 | 0.2207 | 0 |
 
-Quality nhanh của Studio 300:
+Common subset 11 file:
 
-- PASS: `16/300`
-- REVIEW: `284/300`
-- Duration TB: `8.85s`
-- SNR TB: `50.00 dB`
-- Silence ratio TB: `0.408`
+- OpenAI: WER `0.2878`, CER `0.1842`
+- Groq: WER `0.3077`, CER `0.1841`
+- PhoWhisper-small: WER `0.4317`, CER `0.2207`
+- Deepgram: WER `0.4700`, CER `0.3531`
 
-## 3. matched_audio
 
-Tập này nhỏ hơn, dùng để kiểm tra thêm trên dữ liệu internet/YouTube.
+## Quyết Định Đề Xuất
 
-| Rank | Model | Rows | WER | CER | Empty |
-| ---: | --- | ---: | ---: | ---: | ---: |
-| 1 | OpenAI `gpt-4o-mini-transcribe` | 29 | **0.2044** | 0.1295 | 0 |
-| 2 | Groq `whisper-large-v3-turbo` | 29 | 0.2234 | **0.1158** | 0 |
-| 3 | Deepgram `nova-3` | 29 | 0.2982 | 0.2010 | 2 |
-| 4 | Local `vinai/PhoWhisper-small` | 11 | 0.4317 | 0.2207 | 0 |
-
-## iFLYTEK
-
-- Model: `iflytek:iat-niche`
-- Đã thử: `1200` file studio đầu
-- Thành công: `0`
-- Lỗi: `401 Unauthorized`, `apikey not found`
-- Kết luận: chưa thể so sánh WER/CER cho iFLYTEK cho tới khi key/endpoint đúng service.
-
-## ElevenLabs
-
-- Model: `elevenlabs:scribe_v2`
-- Thành công: `2544/2546` file studio scoreable
-- Không score: `2` file có ground-truth chỉ là annotation `<sigh>` sau khi strip
-- Empty scored hypotheses: `0`
-- WER: `0.1233`
-- CER: `0.0450`
-- Kết luận: chất lượng transcript tốt nhất hiện tại trên studio, nhưng cần cân nhắc quota/chi phí khi dùng làm pipeline chính.
-
-## Final Recommendation
-
-- Dùng **ElevenLabs `scribe_v2`** khi ưu tiên chất lượng transcript và quota/chi phí cho phép.
-- Dùng **OpenAI `gpt-4o-mini-transcribe`** làm lựa chọn ổn định, dễ vận hành.
-- Dùng **Groq `whisper-large-v3-turbo`** làm model backup hoặc lựa chọn tiết kiệm hơn.
-- Luôn filter trước khi đưa transcript vào dataset TTS:
-  - empty output
+- Dùng **OpenAI `gpt-4o-mini-transcribe`** để tạo transcript chính cho pipeline TTS.
+- Dùng **Groq `whisper-large-v3-turbo`** làm baseline/backup rẻ hơn.
+- Luôn filter trước khi đưa vào dataset TTS:
+  - empty hypothesis
   - WER/CER cao bất thường
-  - audio nhiều silence/noise/music
+  - nhiều silence/noise/music
   - transcript có annotation hoặc text không phải lời thoại
+- Chưa nên quyết production chỉ bằng WER/CER; nên thêm manual spot-check, latency, cost/hour, và domain-specific intent/slot accuracy.
 
-## Artifacts
-
-- `outputs/studio_full_benchmark_checkpoint_state.md`
-- `outputs/studio_300_benchmark_summary.md`
-- `outputs/initial_audio_samples_evaluation.md`
-- `outputs/studio_1200_iflytek_evaluation_result.md`
-- `outputs/studio_full_azure_elevenlabs_evaluation_result.md`

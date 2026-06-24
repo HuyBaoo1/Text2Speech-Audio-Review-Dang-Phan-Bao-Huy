@@ -1,0 +1,24 @@
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 31 deduped rows, skipping 25 completed files
+-aCDck13cRI_14.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 31 rows written after source index 9
+-aCDck13cRI_54.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 31 rows written after source index 12
+-fMWmwnjfMg_100.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 31 rows written after source index 18
+-qtA_qX2okw_57.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 32 rows written after source index 19
+-qtA_qX2okw_58.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 33 rows written after source index 20
+-qtA_qX2okw_59.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 34 rows written after source index 21
+-qtA_qX2okw_61.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 35 rows written after source index 22
+04T8nmsFN58_11.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 35 rows written after source index 23
+04T8nmsFN58_20.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 35 rows written after source index 24
+04jhP_1G24M_77.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 35 rows written after source index 34
+Wrote outputs/combined_matched_asr_eval_azure_speech_vi_vn.csv
+Wrote outputs/combined_matched_asr_eval_azure_speech_vi_vn.jsonl

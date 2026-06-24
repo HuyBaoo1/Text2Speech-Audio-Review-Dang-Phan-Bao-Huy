@@ -1,0 +1,32 @@
+
+=== openai:gpt-4o-mini-transcribe ===
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 100 deduped rows, skipping 100 completed files
+Wrote outputs/asr_eval_openai.csv
+Wrote outputs/asr_eval_openai.jsonl
+
+=== openai:gpt-4o-transcribe ===
+
+=== openai-realtime:gpt-realtime-2 ===
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 31 deduped rows, skipping 31 completed files
+-qtA_qX2okw_57.wav: ERROR: RuntimeError: OpenAI Realtime failed: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+Checkpoint: 32 rows written after source index 19
+-qtA_qX2okw_58.wav: ERROR: RuntimeError: OpenAI Realtime failed: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+Checkpoint: 33 rows written after source index 20
+-qtA_qX2okw_59.wav: ERROR: RuntimeError: OpenAI Realtime failed: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+Checkpoint: 34 rows written after source index 21
+-qtA_qX2okw_61.wav: ERROR: RuntimeError: OpenAI Realtime failed: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+Checkpoint: 35 rows written after source index 22
+Wrote outputs/matched_openai_parallel_asr_eval_gpt_realtime_2.csv
+Wrote outputs/matched_openai_parallel_asr_eval_gpt_realtime_2.jsonl
+rows=100
+ground_truth_matched=35
+wer_avg=0.1933
+wer_min=0.0238
+wer_max=0.6400
+cer_avg=0.1193
+cer_min=0.0134
+cer_max=0.4828
+Wrote outputs/combined_matched_asr_eval_openai_gpt_4o_mini_scored.csv
+Wrote outputs/combined_matched_asr_eval_openai_gpt_4o_mini_scored.jsonl

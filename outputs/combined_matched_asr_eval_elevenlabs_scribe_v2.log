@@ -1,0 +1,71 @@
+Running ASR on 31 audio files from audio_samples/matched_audio
+Resume enabled: loaded 0 deduped rows, skipping 0 completed files
+-Yg0ClzBn2k_0.wav: BeUni, series khám phá các trường đại học và học viện tại Việt Nam. Cung cấp những thông tin bổ ích, hy vọng có thể hỗ t
+Checkpoint: 1 rows written after source index 1
+-Yg0ClzBn2k_143.wav: Chỉ mới tới đây nhìn logo của trường chúng ta đã cảm nhận sự hoàng gia tràn ngập không khí rồi. Bây giờ chúng ta sẽ cùng
+Checkpoint: 2 rows written after source index 2
+-Yg0ClzBn2k_35.wav: Chị đã hiểu là tại sao trường Đại học Ngoại thương vẫn luôn nằm trong, luôn luôn nằm trong những top đầu
+Checkpoint: 3 rows written after source index 3
+-Yg0ClzBn2k_40.wav: retry 1/5 after 3.0s (ConnectionError)
+-Yg0ClzBn2k_40.wav: Ê nhưng mà chị để giải thích thì chị giải thích là hai tám hai mười ba của chị là được cộng thêm một phẩy năm điểm học s
+Checkpoint: 4 rows written after source index 4
+-Yg0ClzBn2k_48.wav: Đó, đã vào đây là đã giỏi rồi, sao lại còn quay về săn chỉ nữa?
+Checkpoint: 5 rows written after source index 5
+-Yg0ClzBn2k_62.wav: Chị chia sẻ với nhau, chị chia sẻ với nhau. Chị yêu media. I love media. I love media. I love Facebook. I love TikTok. I
+Checkpoint: 6 rows written after source index 6
+-Yg0ClzBn2k_69.wav: Năm vừa rồi thì em không dừng lại ở con số bốn lăm là nó... xáo mấy. Xáo mấy là bởi vì em cố gắng làm thật nhiều tiền tr
+Checkpoint: 7 rows written after source index 7
+-Yg0ClzBn2k_93.wav: retry 1/5 after 3.0s (ConnectionError)
+-Yg0ClzBn2k_93.wav: Nhưng mà chị thấy hầu như là nam sinh đúng không? Chứ nữ sinh là ít. Vâng, tại ngành kinh tế thì là sẽ nhiều nam ấy chị
+Checkpoint: 8 rows written after source index 8
+-aCDck13cRI_14.wav: Mình hiểu rồi. Tức là ví dụ như sẽ là kiểu lịch sự, khó thôi, khá
+Checkpoint: 9 rows written after source index 9
+-aCDck13cRI_30.wav: Tháng sau mình phải giao tiếp với một khách hàng người Thái và mình cần biết tiếng Thái thì nó sẽ là một động lực rất lớ
+Checkpoint: 10 rows written after source index 10
+-aCDck13cRI_39.wav: Để xem nào. Trong buổi ngày hôm nay thì mình đã học được ba mươi từ vựng thông dụng, mười lăm câu giao tiếp cơ bản, cách
+Checkpoint: 11 rows written after source index 11
+-aCDck13cRI_54.wav: Nói chung là học từ nào là phải nói từ đấy và kể cả mình có sai đi nữa. Cho nên là mình xin phép được xin lỗi các bạn nà
+Checkpoint: 12 rows written after source index 12
+-aCDck13cRI_59.wav: Great job! Cái sự khởi đầu khá là thuận lợi cho việc học ngoại ngữ bắt đầu từ số không. Đầu tiên mình sẽ học những cái c
+Checkpoint: 13 rows written after source index 13
+-aCDck13cRI_60.wav: Và mình nói được cái ngôn ngữ đấy mình cảm thấy rất sung sướng và đấy chính là cái tiền đề, động lực để mình học những t
+Checkpoint: 14 rows written after source index 14
+-aCDck13cRI_61.wav: Việc thứ ba đó là học ngữ pháp. Học ngữ pháp thì mình cũng không cần học hết ngữ pháp, mình chỉ cần xem là những cái ngữ
+Checkpoint: 15 rows written after source index 15
+-aCDck13cRI_62.wav: Cái thứ tư, chúng ta cố gắng thâm nhập vào cái văn hóa của họ bằng cách là xem phim nhiều hơn, nghe nhạc nhiều hơn, à, x
+Checkpoint: 16 rows written after source index 16
+-aCDck13cRI_63.wav: Mình cũng cảm thấy khó khăn như mọi người. Sẽ là một cái quá trình rất rất là dài và không phải là kiểu mình học bây giờ
+Checkpoint: 17 rows written after source index 17
+-fMWmwnjfMg_100.wav: Và ở cạnh mấy đứa mình cũng hạnh phúc. Hạnh phúc vì có thêm trách nhiệm, có thêm sự vô tư và thật nhiều nụ cười. Đứa trẻ
+Checkpoint: 18 rows written after source index 18
+04T8nmsFN58_11.wav: Và đây là phần Quick Q&A. Trong thang điểm từ một tới mười, bây giờ em hãy chấm điểm từng mức độ khi mà em đi du học nhé
+Checkpoint: 19 rows written after source index 19
+04T8nmsFN58_20.wav: Essay mình viết này nọ nữa ấy ạ. Em có thể kể lại cho mọi người là cái hành trình mà em apply vào trường như thế nào khô
+Checkpoint: 20 rows written after source index 20
+04T8nmsFN58_23.wav: Chọn trường mình muốn vào ấy ạ. Ừm. Thế thì em có một cái bí kíp apply nào hay bí kíp viết luận nó được gọi là xuất phát
+Checkpoint: 21 rows written after source index 21
+04T8nmsFN58_27.wav: Thì chị thấy cái đấy cũng là một cái tên gọi tích cực mà mọi người muốn dành tặng. Nhưng mà chị cũng rất tò mò không biế
+Checkpoint: 22 rows written after source index 22
+04T8nmsFN58_30.wav: Trao luôn luôn có một cái tình cố gắng, cái sự cố gắng rất là lớn trong công việc và trong học tập nữa. Thì chị rất là t
+Checkpoint: 23 rows written after source index 23
+04T8nmsFN58_65.wav: Người ta đang có một ngày tồi tệ và người ta cần trút điều đấy lên ai đấy thôi. Cũng không sao, anh ok với việc đấy ạ. Ê
+Checkpoint: 24 rows written after source index 24
+04jhP_1G24M_10.wav: Là ôn tập ngắt quãng giúp chúng ta nhớ lâu hơn, sâu hơn và không bị dồn vào một ngày. Nói chung là nó sẽ rất là tốt cho 
+Checkpoint: 25 rows written after source index 25
+04jhP_1G24M_11.wav: PQ4R thì nó cũng tương tự, nó chỉ thêm một bước là reflect. Đó là cái bước chúng ta suy ngẫm lại và liên kết những gì đa
+Checkpoint: 26 rows written after source index 26
+04jhP_1G24M_13.wav: Cả các slide mà thầy cô đã cho. Lần này thì mình vừa đọc và mình vừa take note lại, mình vừa viết lại những cái ý chính,
+Checkpoint: 27 rows written after source index 27
+04jhP_1G24M_15.wav: Trả lời một cách ngắn gọn lại. Và lúc đấy thì mình cũng sẽ gạch chân những cái từ khóa chính trong cái câu trả lời đó
+Checkpoint: 28 rows written after source index 28
+04jhP_1G24M_16.wav: Mình cũng gạch chân những cái từ khóa chính trong cái phần mình check note, mình viết ghi chú. Và cuối cùng, sau khi mìn
+Checkpoint: 29 rows written after source index 29
+04jhP_1G24M_77.wav: Chưa dừng lại tại đó thì sau khi chúng ta thực hành, chúng ta sẽ được AI chấm chữa, đưa ra những cái feedback đó là chún
+Checkpoint: 30 rows written after source index 30
+04jhP_1G24M_78.wav: Phải thừa nhận rằng có những lúc học không ra kết quả gì, nhưng chính lúc đó mình đang học cách kiên nhẫn và không bỏ cu
+Checkpoint: 31 rows written after source index 31
+Wrote outputs\combined_matched_asr_eval_elevenlabs_scribe_v2.csv
+Wrote outputs\combined_matched_asr_eval_elevenlabs_scribe_v2.jsonl
+
+[2026-06-22T03:16:27+00:00] START D:\TTS-audio\venv\Scripts\python.exe scripts/run_asr_evaluation.py --folder audio_samples/matched_audio --provider elevenlabs --model scribe_v2 --ground-truth data/ground_truth --quality-csv outputs/quality_report.csv --limit 0 --language vie --output-csv outputs\combined_matched_asr_eval_elevenlabs_scribe_v2.csv --output-jsonl outputs\combined_matched_asr_eval_elevenlabs_scribe_v2.jsonl --resume --checkpoint-every 1 --max-retries 5 --retry-delay 3 --request-delay 0 --only-ground-truth
+[2026-06-22T03:18:14+00:00] EXIT 0

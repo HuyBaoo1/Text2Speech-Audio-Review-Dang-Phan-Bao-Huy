@@ -1,0 +1,74 @@
+Running ASR on 2546 audio files from audio_samples/studio
+Resume enabled: loaded 2546 deduped rows, skipping 1679 completed files
+16052026_omni_Vi-ai_03_chunk006.wav: Thứ 3, thẻ cầu thủ 4 chase.
+Checkpoint: 2546 rows written after source index 58
+16052026_omni_Vi-ai_04_chunk010.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 93
+16052026_omni_Vi-ai_10_chunk014.wav: Bộ sưu tập truyện cổ tích nổi tiếng mà xmindrgn đã minh họa vào 5 1911 là người đẹp ngủ trong trường và cái chuyện cổ tí
+Checkpoint: 2546 rows written after source index 248
+16052026_omni_Vi-ai_10_chunk017.wav: Bạn có thể nói rõ hơn giúp mình Xem từ họ ở đây là đang ám chỉ 2 0 ạ. Có phải bạn đang hỏi về một phát minh hay sự kiện 
+Checkpoint: 2546 rows written after source index 251
+16052026_omni_Vi-ai_11_chunk015.wav: Ừm thỉnh thoảng cảm thấy sợ hãi là điều bình thường thôi. Em ah điều gì đang làm? Bạn lo lắng vậy chia sẻ ra một chút đi
+Checkpoint: 2546 rows written after source index 280
+16052026_omni_Vi-ai_18_chunk018.wav: Minh chỉ là một trợ lý ảo thôi nên không có cơ thể hay cảm xúc đâu ạ. Nhưng nếu bạn có câu hỏi nào hoặc cần hỗ trợ điều 
+Checkpoint: 2546 rows written after source index 481
+16052026_omni_Vi-ai_20_chunk001.wav: Điều quan trọng là bạn cần giải quyết mọi vấn đề pháp lý một cách trực tiếp bằng cách tìm kiếm sự 4 vấn pháp lý phù hợp.
+Checkpoint: 2546 rows written after source index 515
+16052026_omni_Vi-ai_27_chunk006.wav: Minh Đức tiếc khi biết bạn đang cảm thấy như vậy nhưng mình không thể giúp bạn thực hiện điều đó được. Điều quan trọng l
+Checkpoint: 2546 rows written after source index 696
+16052026_omni_Vi-ai_27_chunk015.wav: Bức họa nổi tiếng của stander dali với hình ảnh những chiếc đồng hồ tan chảy trong một khung cảnh như trong mơ có tên là
+Checkpoint: 2546 rows written after source index 705
+16052026_omni_Vi-ai_28_chunk014.wav: Tất nhiên rồi bạn muốn nghe cụ thể về những lựa chọn nào bạn đã nghĩ về nhà hàng địa điểm du lịch hay một thứ gì đó khác
+Checkpoint: 2546 rows written after source index 732
+16052026_omni_Vi-ai_29_chunk002.wav: Ấn tượng la mã cổ đại thường bao gồm các nguyên liệu như oliu, dầu, oliu nho, rượu vang, cá và bánh mì. Họ cũng sử dụng 
+Checkpoint: 2546 rows written after source index 744
+16052026_omni_Vi-ai_30_chunk017.wav: Mình không rõ ai đang là quản lý ca đêm tại holiday inn hiện nay ạ. Tốt nhất là bạn nên liên hệ trực tiếp với chi nhánh 
+Checkpoint: 2546 rows written after source index 785
+16052026_omni_Vi-ai_32_chunk000.wav: Nghe chừng cô ấy đã có một khoảng thời gian tuyệt vời tại những buổi hòa nhạc đó nhỉ? Hqua mình vào đám đông moskvitch l
+Checkpoint: 2546 rows written after source index 828
+19052026_omni_Vi-ai_63_chunk026.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1638
+19052026_omni_Vi-ai_64_chunk002.wav: Đúng rồi, nếu bạn chưa rõ điều gì thì họ giáo viên là một ý kiến rất hay đó. Thầy cô luôn ở đó để giúp bạn hiểu bài mà. 
+Checkpoint: 2546 rows written after source index 1642
+19052026_omni_Vi-ai_64_chunk004.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1644
+19052026_omni_Vi-ai_64_chunk006.wav: Không có chi đâu, bạn mình rất vui vì đã giúp bạn tìm hiểu thêm được điều mới. Nếu bạn còn thắc mắc nào khác hoặc cần hỗ
+Checkpoint: 2546 rows written after source index 1646
+19052026_omni_Vi-ai_64_chunk008.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1648
+19052026_omni_Vi-ai_64_chunk009.wav: Mình luôn sẳn sàng cung cấp thông tin hoặc hướng dẫn mà bạn kernek.
+Checkpoint: 2546 rows written after source index 1649
+19052026_omni_Vi-ai_64_chunk011.wav: Bạn có thể cho mình thêm 1 chút thông tin hoặc nói rõ là bạn đang quan tâm đến điều gì ở California hay không. Dù là về 
+Checkpoint: 2546 rows written after source index 1651
+19052026_omni_Vi-ai_64_chunk012.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1652
+19052026_omni_Vi-ai_64_chunk013.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1653
+19052026_omni_Vi-ai_64_chunk015.wav: Ưm, những câu đùa về các vấn đề nghiêm trọng dù quyền phụ nữ có thể gây tổn thương và không phù hợp đâu, chúng mình hãy 
+Checkpoint: 2546 rows written after source index 1655
+19052026_omni_Vi-ai_64_chunk016.wav: Ồ, có vẻ như bạn đang thấy băn khoăn hoặc muốn tìm hiểu thêm thông tin bạn hát, bạn có thể gì cho mình biết cụ thể là bạ
+Checkpoint: 2546 rows written after source index 1656
+19052026_omni_Vi-ai_64_chunk018.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1658
+19052026_omni_Vi-ai_64_chunk020.wav: Bạn có thể cho mình thêm chi tiết về thứ bạn cần mình gửi hay không. Dù là sách, phim ảnh, nhà hàng hay bất cứ điều gì k
+Checkpoint: 2546 rows written after source index 1660
+19052026_omni_Vi-ai_64_chunk021.wav: Đã opsidian là loại đá núi lửa nổi tiếng với bề mặt nhãn như tuổi teen và thường được dùng để chế tạo các công cụ vũ khí
+Checkpoint: 2546 rows written after source index 1661
+19052026_omni_Vi-ai_64_chunk022.wav: Cúm dạ được chứ? Bình trước sẳn lòng giúp bạn đây. Bạn có thể cho mình biết bạn đang tìm công thức nấu món gì hay không 
+Checkpoint: 2546 rows written after source index 1662
+19052026_omni_Vi-ai_65_chunk000.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1665
+19052026_omni_Vi-ai_65_chunk001.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1666
+19052026_omni_Vi-ai_65_chunk002.wav: Tọa độ 36 độ 17 phút 35 giây, p. 6 độ 15 phút 19 giây t. Chỉ đến một địa điểm ở miền nam Tây Ban Nha, cụ thể là gần thàn
+Checkpoint: 2546 rows written after source index 1667
+19052026_omni_Vi-ai_65_chunk003.wav: Anh ấy đã không hoàn thành bài tập như **** đợi bạn ạ.
+Checkpoint: 2546 rows written after source index 1668
+19052026_omni_Vi-ai_65_chunk004.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1669
+19052026_omni_Vi-ai_65_chunk005.wav: ERROR: RuntimeError: Azure transcription failed with HTTP 400: "Quota exceeded. Cid: "
+Checkpoint: 2546 rows written after source index 1670
+19052026_omni_Vi-ai_65_chunk007.wav: Ôi tuyệt quá à? Cái bộ phim hành động từ sức lôi cuốn với những cảnh quay trang đầy năng lượng và câu chuyện kịch tính.
+Checkpoint: 2546 rows written after source index 1672
+19052026_omni_Vi-ai_65_chunk008.wav: Bạn có bộ phim hành động yêu thích nào hay không chia sẻ với mình nha?
+Checkpoint: 2546 rows written after source index 1673

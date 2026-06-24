@@ -15,8 +15,8 @@ README = ROOT / "README.md"
 
 class Candidate(TypedDict):
     label: str
-    studio: str
-    matched: str
+    studio: str | None
+    matched: str | None
 
 
 # These are the models that have benchmark checkpoints for both datasets.  A
@@ -24,8 +24,13 @@ class Candidate(TypedDict):
 CANDIDATES: list[Candidate] = [
     {"label": "ElevenLabs `scribe_v2`", "studio": "studio_full_asr_eval_elevenlabs_scribe_v2.csv", "matched": "combined_matched_asr_eval_elevenlabs_scribe_v2.csv"},
     {"label": "Gemini `gemini-3.5-flash`", "studio": "studio_full_asr_eval_gemini_3_5_flash.csv", "matched": "matched_asr_eval_gemini_3_5_flash.csv"},
+    {"label": "Gemini `gemini-3-flash-preview`", "studio": "studio_full_asr_eval_gemini_3_flash_preview.csv", "matched": "matched_asr_eval_gemini_3_flash_preview.csv"},
     {"label": "Gemini `gemini-3.1-flash-lite`", "studio": "studio_full_asr_eval_gemini_3_1_flash_lite.csv", "matched": "matched_asr_eval_gemini_3_1_flash_lite.csv"},
+    {"label": "Gemini `gemini-3.1-pro-preview`", "studio": "studio_full_asr_eval_gemini_3_1_pro_preview.csv", "matched": "matched_asr_eval_gemini_3_1_pro_preview.csv"},
     {"label": "Gemini `gemini-2.5-flash`", "studio": "studio_full_asr_eval_gemini_2_5_flash.csv", "matched": "matched_asr_eval_gemini_2_5_flash.csv"},
+    {"label": "Gemini `gemini-2.5-flash-lite`", "studio": "studio_full_asr_eval_gemini_2_5_flash_lite.csv", "matched": "matched_asr_eval_gemini_2_5_flash_lite.csv"},
+    {"label": "Qwen3-ASR `0.6B`", "studio": "studio_full_asr_eval_qwen3_asr_0_6b.csv", "matched": None},
+    {"label": "Qwen3-ASR `1.7B`", "studio": "studio_full_asr_eval_qwen3_asr_1_7b.csv", "matched": None},
     {"label": "Gemini `gemini-2.5-pro`", "studio": "studio_full_asr_eval_gemini_2_5_pro.csv", "matched": "matched_asr_eval_gemini_2_5_pro.csv"},
     {"label": "OpenAI `gpt-4o-mini-transcribe`", "studio": "studio_full_asr_eval_openai_gpt_4o_mini.csv", "matched": "combined_matched_asr_eval_openai_gpt_4o_mini_scored.csv"},
     {"label": "OpenAI `gpt-4o-transcribe`", "studio": "openai_parallel_asr_eval_gpt_4o_transcribe.csv", "matched": "matched_openai_parallel_asr_eval_gpt_4o_transcribe.csv"},
@@ -55,7 +60,9 @@ def prefer_row(current: dict[str, str] | None, candidate: dict[str, str]) -> dic
     return current
 
 
-def scoped_rows(filename: str, stems: set[str]) -> list[dict[str, str]]:
+def scoped_rows(filename: str | None, stems: set[str]) -> list[dict[str, str]]:
+    if filename is None:
+        return []
     path = ROOT / "outputs" / filename
     if not path.exists():
         return []
@@ -92,7 +99,11 @@ def summarize(candidate: Candidate, dataset: str, stems: set[str]) -> dict[str, 
 
 
 def table(dataset: str, title: str, description: str, stems: set[str]) -> str:
-    results = [summarize(candidate, dataset, stems) for candidate in CANDIDATES]
+    results = [
+        summarize(candidate, dataset, stems)
+        for candidate in CANDIDATES
+        if candidate[dataset] is not None  # type: ignore[literal-required]
+    ]
     complete = sorted((row for row in results if row["full"]), key=lambda row: (float(row["wer"]), float(row["cer"])))
     partial = sorted((row for row in results if not row["full"]), key=lambda row: str(row["label"]))
     target = len(stems)
