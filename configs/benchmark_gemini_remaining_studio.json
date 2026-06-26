@@ -1,0 +1,40 @@
+{
+  "description": "Full Studio benchmark for the remaining Gemini ASR models.",
+  "dataset_folder": "audio_samples/studio",
+  "ground_truth": "data/ground_truth_studio",
+  "quality_csv": "outputs/studio_full_quality_report.csv",
+  "limit": 0,
+  "only_ground_truth": true,
+  "language": "Vietnamese",
+  "output_dir": "outputs",
+  "output_prefix": "studio_full_asr_eval",
+  "checkpoint_every": 0,
+  "max_workers": 1,
+  "provider_concurrency": {"gemini": 1},
+  "max_retries": 5,
+  "retry_delay": 3,
+  "state_json": "gemini_remaining_studio_state.json",
+  "summary_csv": "gemini_remaining_studio_summary.csv",
+  "summary_md": "gemini_remaining_studio.md",
+  "readme_marker": "DO_NOT_UPDATE_README",
+  "models": [
+    {
+      "name": "gemini_2_5_flash_lite",
+      "label": "Gemini `gemini-2.5-flash-lite`",
+      "provider": "gemini",
+      "model": "gemini-2.5-flash-lite",
+      "required_env": "GEMINI_API_KEY",
+      "concurrency_group": "gemini",
+      "language": "Vietnamese"
+    },
+    {
+      "name": "gemini_3_1_pro_preview",
+      "label": "Gemini `gemini-3.1-pro-preview`",
+      "provider": "gemini",
+      "model": "gemini-3.1-pro-preview",
+      "required_env": "GEMINI_API_KEY",
+      "concurrency_group": "gemini",
+      "language": "Vietnamese"
+    }
+  ]
+}

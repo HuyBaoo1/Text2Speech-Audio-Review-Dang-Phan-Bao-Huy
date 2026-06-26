@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "D:\TTS-audio\scripts\run_openai_parallel_benchmark.py", line 317, in <module>
+    main()
+  File "D:\TTS-audio\scripts\run_openai_parallel_benchmark.py", line 313, in main
+    summarize(config, update_readme_file=not args.no_update_readme)
+  File "D:\TTS-audio\scripts\run_openai_parallel_benchmark.py", line 232, in summarize
+    metrics = ranked([read_metrics(config, item, target) for item in config["models"]])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\TTS-audio\scripts\run_openai_parallel_benchmark.py", line 142, in read_metrics
+    rows = list(csv.DictReader(handle))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\AppData\Local\Programs\Python\Python312\Lib\csv.py", line 116, in __next__
+    row = next(self.reader)
+          ^^^^^^^^^^^^^^^^^
+_csv.Error: field larger than field limit (131072)

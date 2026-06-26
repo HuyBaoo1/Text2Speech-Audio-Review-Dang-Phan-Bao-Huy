@@ -1,0 +1,52 @@
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 0 deduped rows, skipping 0 completed files
+-Yg0ClzBn2k_0.wav: retry 1/5 after 3.0s (ReadTimeout)
+-Yg0ClzBn2k_0.wav: retry 2/5 after 6.0s (ReadTimeout)
+-Yg0ClzBn2k_0.wav: retry 3/5 after 12.0s (ReadTimeout)
+-Yg0ClzBn2k_0.wav: retry 4/5 after 24.0s (ReadTimeout)
+-Yg0ClzBn2k_0.wav: retry 5/5 after 48.0s (ReadTimeout)
+-Yg0ClzBn2k_0.wav: Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, Uni, 
+-Yg0ClzBn2k_143.wav: retry 1/5 after 3.0s (RuntimeError)
+-Yg0ClzBn2k_143.wav: Chị mời tới đây nhìn logo của trường chúng ta đã cảm nhận sự hoành tráng tràn ngập không khí rồi. Bây giờ chúng ta sẽ cù
+-Yg0ClzBn2k_35.wav: Chị ấy hiểu là tại sao trường này học ngoại thương vẫn luôn nằm trong, luôn luôn nằm trong những top đầu
+-Yg0ClzBn2k_40.wav: Ê, nhưng mà chị để giải thích thì chị giải thích. Dạ. Hai sáu phẩy mười ba của chị là được cộng thêm một phẩy năm điểm h
+-Yg0ClzBn2k_48.wav: Nó đã vào đây là đã rõ rồi, sao lại cộng thêm người săn chỉ
+-Yg0ClzBn2k_62.wav: Chị trêu nhé, chị trêu nhé. Chị yêu Media, I love Media, I love Media. We all love Media. I love you too. I love I love 
+-Yg0ClzBn2k_69.wav: Năm vừa rồi thì em không dừng lại ở con số 45 mà nó 6 mấy. 6 mấy là bởi vì em cố gắng lấp thật nhiều tín cho 15 đấy đúng
+-Yg0ClzBn2k_93.wav: Nhưng mà chị thấy hầu như là nam sinh đúng không? Nữ sinh là ít ạ. Vâng tại ngày xưa kinh tế thì là sẽ nhiều nam ấy chị.
+-aCDck13cRI_14.wav: Tôi hiểu rồi, tức là ví dụ như, xin lỗi, kiểu lịch sử, là khó thốt.
+-aCDck13cRI_30.wav: Tháng sau mình phải giao tiếp với một khách hàng người Thái ở mình cần biết tiếng Thái thì nó sẽ là một động lực rất lớn
+-aCDck13cRI_39.wav: Để xem nào, trong buổi ngày hôm nay thì mình đã học được 30 từ vựng thông dụng, 15 câu giao tiếp cơ bản, cách giới thiệu
+-aCDck13cRI_54.wav: Nói chung là học từng nào là phải nói từng đấy và kể cả mình có sai đi nữa thì cho nên là mình xin phép được xin lỗi các
+-aCDck13cRI_59.wav: Tuyệt vời. Cái sự khởi đầu khá là thuận lợi cho việc học ngoại ngữ bắt đầu từ số không. Đầu tiên mình sẽ học những cái c
+-aCDck13cRI_60.wav: tầm mình nói được cái ngôn ngữ đấy mình cảm thấy rất sung sướng và đấy chính là cái tiền đề động lực để mình học những t
+-aCDck13cRI_61.wav: việc thứ ba đó là học ngữ pháp. học ngữ pháp thì mình cũng không cần học hết ngữ pháp, mình chỉ cần xem là những cái ngữ
+-aCDck13cRI_62.wav: Cái thứ tư chúng ta cố gắng thâm nhập vào cái văn hóa của họ bằng cách là xem phim nhiều hơn nghe nhạc nhiều hơn xem You
+-aCDck13cRI_63.wav: Mình cũng cảm thấy khó khăn nhưng mọi người sẽ là một quá trình rất rất là dài và không phải là kiểu mình học bây giờ ng
+-fMWmwnjfMg_100.wav: Và ở cạnh mấy đứa, mình cũng hạnh phúc, hạnh phúc vì có thêm trách nhiệm, có thêm sự vô tư và thật nhiều nụ cười. Đứa tr
+-qtA_qX2okw_57.wav: ra khỏi kịch bản. Cái thứ hai đó là kỹ năng quan sát. Kỹ năng quan sát luôn là một kỹ năng mà khi mà đi làm chúng ta phả
+-qtA_qX2okw_58.wav: Đó không phải là thứ trưởng của ngoại giao được nhắc tới trong cái cái danh sách mà là một người thứ trưởng khác và mình
+-qtA_qX2okw_59.wav: Và mình xem thực sự mình cập nhật. Nên mình may mắn là cái việc đấy thay đổi của mình rất là nhanh. Mình biết rằng là à 
+-qtA_qX2okw_61.wav: sự chung ấy, không phải là một cái lợi ích chung ấy, thì có thể là chúng ta sẽ ờ đó, có thể nó sẽ không được bằng cái vi
+04T8nmsFN58_11.wav: Và đây là phần Quick Q&A. Trong thang điểm từ 1 tới 10, bây giờ em hãy chấm điểm từng mức độ khi mà em đi du học nhé.
+04T8nmsFN58_20.wav: retry 1/5 after 3.0s (RuntimeError)
+04T8nmsFN58_20.wav: FC mình viết này nọ nữa à? Em có thể kể lại cho mọi người là cái hành trình mà em apply vào trường như thế nào không? Ki
+04T8nmsFN58_23.wav: chọn trường mình muốn vào ấy ạ. Ừ thế thì em cũng có một cái bí kíp apply nào hay bí kíp viết luận nó được gọi là xuất p
+04T8nmsFN58_27.wav: Khi chị thấy cái đấy cũng là một cái tên gọi tích cực mà mọi người muốn dành tặng, nhưng mà chị cũng rất tò mò không biế
+04T8nmsFN58_30.wav: retry 1/5 after 3.0s (RuntimeError)
+04T8nmsFN58_30.wav: trao luôn luôn có một cái tình cố gắng, cái sự cố gắng rất là lớn trong công việc và trong học tập nữa. thì chị rất là t
+04T8nmsFN58_65.wav: retry 1/5 after 3.0s (RuntimeError)
+04T8nmsFN58_65.wav: retry 2/5 after 6.0s (RuntimeError)
+04T8nmsFN58_65.wav: Người ta đang có một ngày tồi tệ và người ta cần chút điều đấy lên ai đấy thôi. Cũng không sao, em ok với việc đấy ạ. Em
+04jhP_1G24M_10.wav: là ôn tập ngắt quãng giúp chúng ta nhớ lâu hơn, sâu hơn và không bị dồn vào một ngày. Nói chung là nó sẽ rất là tốt cho 
+04jhP_1G24M_11.wav: PQ4R thì nó cũng tương tự, nó chỉ thêm một bước là reflect đó là kiến thức chúng ta suy ngẫm lại và liên kết những gì đa
+04jhP_1G24M_13.wav: tất cả các slide mà thầy cô đã cho. Lần này thì mình vừa đọc và mình vừa take note lại, mình vừa viết lại những cái ý ch
+04jhP_1G24M_15.wav: trả lời một cách ngắn gọn lại và lúc đấy thì mình cũng sẽ gạch chân những cái từ khóa chính trong cái câu trả lời đó
+04jhP_1G24M_16.wav: Mình cũng gạch chân những cái từ khóa chính trong cái phần mình check note, mình viết ghi chú và cuối cùng sau khi mình 
+04jhP_1G24M_77.wav: chưa dừng lại đó thì sau khi chúng ta thực hành chúng ta sẽ được AI chấm chữa, đưa ra những cái feedback đó là chúng ta 
+04jhP_1G24M_78.wav: Phải thừa nhận rằng có những lúc học không ra kết quả gì, nhưng chính lúc đó mình đang học cách kiên nhẫn và không bỏ cu
+Wrote outputs\matched_asr_eval_gemini_2_5_flash_lite.csv
+Wrote outputs\matched_asr_eval_gemini_2_5_flash_lite.jsonl
+
+[2026-06-24T07:53:15+00:00] START D:\TTS-audio\venv\Scripts\python.exe scripts/run_asr_evaluation.py --folder audio_samples/matched_audio --provider gemini --model gemini-2.5-flash-lite --ground-truth data/ground_truth --quality-csv outputs/quality_report.csv --limit 0 --language Vietnamese --output-csv outputs\matched_asr_eval_gemini_2_5_flash_lite.csv --output-jsonl outputs\matched_asr_eval_gemini_2_5_flash_lite.jsonl --resume --checkpoint-every 0 --max-retries 5 --retry-delay 3 --request-delay 0 --only-ground-truth
+[2026-06-24T08:16:12+00:00] EXIT 0

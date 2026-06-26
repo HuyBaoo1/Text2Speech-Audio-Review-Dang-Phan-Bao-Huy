@@ -55,21 +55,19 @@ Dữ liệu thu studio sạch; target hiện tại là 2546 audio có ground tru
 | 1 | ElevenLabs `scribe_v2` | 2546/2546 | 0.1233 | 0.0450 | Tốt nhất toàn bảng, ưu tiên độ chính xác |
 | 2 | Gemini `gemini-3.5-flash` | 2546/2546 | 0.1650 | 0.0645 | Gemini tốt nhất đã chạy full |
 | 3 | Gemini `gemini-3.1-flash-lite` | 2546/2546 | 0.1702 | 0.0660 | Ổn định, sát Gemini 3.5 Flash |
-| 4 | Gemini `gemini-3-flash-preview` | 2546/2546 | 0.1789 | 0.0888 | chất lượng rất mạnh, đứng sau top 3 Gemini; tốt hơn Gemini 2.5 Pro và OpenAI mini trên WER |
-| 5 | Gemini `gemini-2.5-pro` | 2546/2546 | 0.1727 | 0.0705 | Chất lượng tốt nhưng throughput chậm |
-| 6 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | 0.1764 | 0.0684 | Baseline production ổn định |
-| 7 | Groq `whisper-large-v3` | 2546/2546 | 0.2026 | 0.0861 | Groq chính xác nhất trên Studio |
-| 8 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Gần V3, hợp khi ưu tiên tốc độ |
-| 9 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER ổn nhưng CER cao và nhiều output rỗng; 121 output rỗng |
-| 10 | Gemini `gemini-2.5-flash` | 2546/2546 | 0.2161 | 0.1119 | Chạy full nhưng nhiều output rỗng; 53 output rỗng |
-| 11 | Qwen3-ASR `1.7B` | 2546/2546 | 0.2165 | 0.0809 | Tốt nhất trong hai bản Qwen, không output rỗng |
-| 12 | Qwen3-ASR `0.6B` | 2546/2546 | 0.2266 | 0.0900 | Nhẹ hơn nhưng kém bản 1.7B |
-| 13 | Azure `azure-short-audio` | 1914/2546 | 0.2408 | 0.1047 | Bị quota/API error, chưa đủ dữ liệu; thiếu 632 mẫu, 632 API errors |
+| 4 | Gemini `gemini-3-flash-preview` | 2545/2546 | 0.1714 | 0.0702 | Điểm tạm thời rất mạnh, chờ timeout cuối; thiếu 1 mẫu, 1 API errors |
+| 5 | Gemini `gemini-3-flash-preview` | 2546/2546 | 0.1789 | 0.0888 | chất lượng rất mạnh, đứng sau top 3 Gemini; tốt hơn Gemini 2.5 Pro và OpenAI mini trên WER |
+| 6 | Gemini `gemini-2.5-pro` | 2546/2546 | 0.1727 | 0.0705 | Chất lượng tốt nhưng throughput chậm |
+| 7 | OpenAI `gpt-4o-mini-transcribe` | 2546/2546 | 0.1764 | 0.0684 | Baseline production ổn định |
+| 8 | Groq `whisper-large-v3` | 2546/2546 | 0.2026 | 0.0861 | Groq chính xác nhất trên Studio |
+| 9 | Groq `whisper-large-v3-turbo` | 2546/2546 | 0.2053 | 0.0909 | Gần V3, hợp khi ưu tiên tốc độ |
+| 10 | Deepgram `nova-3` | 2546/2546 | 0.2063 | 0.1104 | WER ổn nhưng CER cao và nhiều output rỗng; 121 output rỗng |
+| 11 | Gemini `gemini-2.5-flash` | 2546/2546 | 0.2161 | 0.1119 | Chạy full nhưng nhiều output rỗng; 53 output rỗng |
+| 12 | Qwen3-ASR `1.7B` | 2546/2546 | 0.2165 | 0.0809 | Tốt nhất trong hai bản Qwen, không output rỗng |
+| 13 | Qwen3-ASR `0.6B` | 2546/2546 | 0.2266 | 0.0900 | Nhẹ hơn nhưng kém bản 1.7B |
+| 14 | Azure `azure-short-audio` | 1914/2546 | 0.2408 | 0.1047 | Bị quota/API error, chưa đủ dữ liệu; thiếu 632 mẫu, 632 API errors |
 | - | Gemini `gemini-2.5-flash-lite` | 0/2546 | - | - | Chưa chạy benchmark; thiếu 2546 mẫu |
-| - | Gemini `gemini-3-flash-preview` | 2545/2546 | 0.1714 | 0.0702 | Điểm tạm thời rất mạnh, chờ timeout cuối; thiếu 1 mẫu, 1 API errors |
 | - | Gemini `gemini-3.1-pro-preview` | 0/2546 | - | - | Chưa chạy benchmark; thiếu 2546 mẫu |
-| - | OpenAI `gpt-4o-transcribe` | 883/2546 | 0.1750 | 0.0649 | Điểm partial tốt, nhưng thiếu coverage; thiếu 1663 mẫu, 14 API errors |
-| - | OpenAI `gpt-realtime-2` | 453/2546 | 0.2151 | 0.0931 | Thiếu coverage lớn do quota; thiếu 2093 mẫu, 2093 API errors |
 
 Kết luận ngắn: ElevenLabs `scribe_v2` có WER thấp nhất trong các model hoàn tất trên tập này.
 

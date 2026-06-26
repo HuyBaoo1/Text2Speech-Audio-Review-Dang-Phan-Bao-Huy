@@ -1,0 +1,11 @@
+Running ASR on 35 audio files from audio_samples/matched_audio
+Resume enabled: loaded 31 deduped rows, skipping 31 completed files
+-qtA_qX2okw_57.wav: ra khỏi kịch bản. Cái thứ hai đó là kỹ năng quan sát. Kỹ năng quan sát luôn là một kỹ năng mà khi mà đi làm chúng ta phả
+-qtA_qX2okw_58.wav: Đó không phải là thứ trưởng bộ ngoại giao đang được nhắc tới trong cái cái danh sách mà là một người thứ trưởng khác và 
+-qtA_qX2okw_59.wav: Là mình xem thời sự mình cập nhật cho nên mình may mắn là cái việc thay đổi của mình rất là nhanh. Mình biết được rằng l
+-qtA_qX2okw_61.wav: sự chung ấy, không phải là một cái lợi ích chung ấy, thì có thể là chúng ta sẽ ờ đó, có thể nó sẽ không được bằng cái vi
+Wrote outputs\matched_asr_eval_gemini_3_1_pro_preview.csv
+Wrote outputs\matched_asr_eval_gemini_3_1_pro_preview.jsonl
+
+[2026-06-24T08:16:12+00:00] START D:\TTS-audio\venv\Scripts\python.exe scripts/run_asr_evaluation.py --folder audio_samples/matched_audio --provider gemini --model gemini-3.1-pro-preview --ground-truth data/ground_truth --quality-csv outputs/quality_report.csv --limit 0 --language Vietnamese --output-csv outputs\matched_asr_eval_gemini_3_1_pro_preview.csv --output-jsonl outputs\matched_asr_eval_gemini_3_1_pro_preview.jsonl --resume --checkpoint-every 0 --max-retries 5 --retry-delay 3 --request-delay 0 --only-ground-truth
+[2026-06-24T08:17:08+00:00] EXIT 0
