@@ -18,6 +18,9 @@ audio_samples/
 outputs/*.csv
 outputs/*.json
 outputs/*.jsonl
+outputs/*.log
+outputs/*.pid
+outputs/*.md
 outputs/*openai_parallel_asr_eval_*.log
 outputs/*openai_parallel_benchmark.md
 outputs/*openai_parallel_benchmark_runner_*.log
@@ -42,6 +45,9 @@ outputs/gemini_2_5_pro_progress_monitor.pid
 outputs/gemini_2_5_pro_progress_monitor_*.log
 outputs/gemini_2_5_pro_readme_update.log
 outputs/gemini_2_5_pro_readme_update.pid
+outputs/*retry*.log
+outputs/*retry*.pid
+outputs/*.retry_backup_*
 outputs/azure_checkpoint_retry.pid
 outputs/azure_checkpoint_retry_*.log
 outputs/combined_matched_missing.md

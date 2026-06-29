@@ -18,7 +18,13 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 # Some ASR hypotheses are longer than csv's conservative 128 KiB default.
 # They are valid transcripts and must not prevent benchmark summarisation.
-csv.field_size_limit(sys.maxsize)
+_csv_limit = sys.maxsize
+while True:
+    try:
+        csv.field_size_limit(_csv_limit)
+        break
+    except OverflowError:
+        _csv_limit //= 10
 AUDIO_SUFFIXES = {".wav", ".mp3", ".m4a", ".flac", ".ogg", ".webm"}
 KEY_ALIASES = {
     "OPENAI_API_KEY": ("OPENAI_API_KEY", "OPEN_API_KEY"),

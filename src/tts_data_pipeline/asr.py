@@ -254,7 +254,7 @@ def transcribe_gemini_api(
         f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
         params={"key": api_key},
         json=payload,
-        timeout=180,
+        timeout=float(os.getenv("GEMINI_REQUEST_TIMEOUT", "180")),
     )
     if response.status_code >= 400:
         raise RuntimeError(f"Gemini transcription failed with HTTP {response.status_code}: {response.text[:300]}")
